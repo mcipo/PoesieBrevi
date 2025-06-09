@@ -8,7 +8,7 @@ public class loginControllerTest {
 
     private LoginController loginController;
     private final String testEmail = "m@email.com";//"emailCorretta@email.com"; //email esistente
-    private final String correctPassword = "12345";
+    private final String correctPassword = "1234";
     private final String wrongPassword = "passwordSbagliata";
     private final String nonExistentEmail = "emailSbagliata@email.com";
 
