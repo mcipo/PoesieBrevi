@@ -1,6 +1,5 @@
-package shared;
+package boundary;
 
-import boundary.LoginFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
