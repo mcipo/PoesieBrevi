@@ -1,0 +1,229 @@
+package boundary;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.SQLException;
+
+import controller.PoesiaController;
+import database.DAO.CommentoDAO;
+import entity.Poesia;
+import entity.User;
+
+/// FINITO
+public class PoesiaDisplayPanel extends JPanel {
+    private final Poesia poesia;
+    private final User currentUser;
+    private boolean commentiVisibili = false;
+    private CommentoPanel commentiPanel = null;
+
+    public PoesiaDisplayPanel(Poesia poesia, User currentUser) {
+        this.poesia = poesia;
+        this.currentUser = currentUser;
+
+        initialize();
+    }
+
+    private void initialize() {
+        setLayout(new BorderLayout());
+        setMaximumSize(new Dimension(UIUtils.CONTENT_WIDTH - 60, 1000));
+        setBackground(Color.WHITE);
+
+        JPanel poesiaPanel = creaMainPoesiaPanel();
+
+        add(poesiaPanel, BorderLayout.CENTER);
+    }
+
+    private JPanel creaMainPoesiaPanel() {
+        JPanel poesiaPanel = new JPanel();
+        poesiaPanel.setLayout(new BorderLayout(0, 5));
+        poesiaPanel.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(UIUtils.BORDER_COLOR, 1),
+                BorderFactory.createEmptyBorder(12, 15, 12, 15)));
+        poesiaPanel.setBackground(Color.WHITE);
+
+        poesiaPanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                poesiaPanel.setBorder(BorderFactory.createCompoundBorder(
+                        BorderFactory.createLineBorder(UIUtils.BORDER_SELECTED, 1),
+                        BorderFactory.createEmptyBorder(12, 15, 12, 15)));
+                poesiaPanel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                poesiaPanel.setBorder(BorderFactory.createCompoundBorder(
+                        BorderFactory.createLineBorder(UIUtils.BORDER_COLOR, 1),
+                        BorderFactory.createEmptyBorder(12, 15, 12, 15)));
+            }
+        });
+
+        poesiaPanel.add(creaHeaderPanel(), BorderLayout.NORTH);
+
+        poesiaPanel.add(createContentPanel(), BorderLayout.CENTER);
+
+        poesiaPanel.add(createFooterPanel(), BorderLayout.SOUTH);
+
+        return poesiaPanel;
+    }
+
+    private JPanel creaHeaderPanel() {
+        JPanel headerPanel = new JPanel(new BorderLayout());
+        headerPanel.setOpaque(false);
+
+        JLabel titleLabel = UIUtils.titolo(poesia.getTitolo(), 0, 0, 16);
+        headerPanel.add(titleLabel, BorderLayout.WEST);
+
+        String autoreUsername = "utente";
+        try {
+            PoesiaController controller = new PoesiaController();
+            autoreUsername = controller.getUsernameByUserId(poesia.getAutoreID());
+        } catch (Exception e) {
+
+        }
+        JLabel autoreLabel = new JLabel("di " + autoreUsername);
+        autoreLabel.setFont(new Font(UIUtils.FONT, Font.ITALIC, 14));
+        headerPanel.add(autoreLabel, BorderLayout.EAST);
+
+        return headerPanel;
+    }
+
+    private JScrollPane createContentPanel() {
+        JTextArea contentArea = new JTextArea(poesia.getContenuto());
+        contentArea.setEditable(false);
+        contentArea.setLineWrap(true);
+        contentArea.setWrapStyleWord(true);
+        contentArea.setBackground(new Color(255, 255, 255));
+        contentArea.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(UIUtils.BORDER_COLOR),
+                BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+        contentArea.setFont(new Font(UIUtils.FONT, Font.PLAIN, 14));
+
+        JScrollPane contentScroll = new JScrollPane(contentArea);
+        contentScroll.setBorder(null);
+
+        return contentScroll;
+    }
+
+    private JPanel createFooterPanel() {
+        JPanel footerPanel = new JPanel(new BorderLayout());
+        footerPanel.setOpaque(false);
+
+        JPanel infoPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        infoPanel.setOpaque(false);
+
+        Font smallFont = new Font(UIUtils.FONT, Font.ITALIC, 10);
+        Color lightTextColor = new Color(150, 150, 150);
+
+        if (poesia.getDataCreazione() != null) {
+            String formattedDate = UIUtils.formatDateCompact(poesia.getDataCreazione());
+            JLabel dataLabel = new JLabel(formattedDate);
+            dataLabel.setFont(smallFont);
+            dataLabel.setForeground(lightTextColor);
+            infoPanel.add(dataLabel);
+        }
+
+        if (poesia.getTags() != null && !poesia.getTags().isEmpty()) {
+            JLabel tagsLabel = new JLabel(" | Tags: " + String.join(", ", poesia.getTags()));
+            tagsLabel.setFont(smallFont);
+            tagsLabel.setForeground(lightTextColor);
+            infoPanel.add(tagsLabel);
+        }
+
+        footerPanel.add(infoPanel, BorderLayout.WEST);
+        footerPanel.add(createInteractionPanel(), BorderLayout.EAST);
+
+        return footerPanel;
+    }
+
+    private JPanel createInteractionPanel() {
+        JPanel interactionPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        interactionPanel.setOpaque(false);
+
+        try {
+            JButton cuoreButton = getCuoreButton();
+
+            JButton commentoButton = getCommentoButton();
+
+            interactionPanel.add(cuoreButton);
+            interactionPanel.add(commentoButton);
+        } catch (Exception e) {
+            JLabel errorLabel = new JLabel("Errore caricamento interazioni");
+            errorLabel.setFont(new Font(UIUtils.FONT, Font.ITALIC, 12));
+            interactionPanel.add(errorLabel);
+        }
+
+        return interactionPanel;
+    }
+
+    private JButton getCommentoButton() throws SQLException {
+        CommentoDAO commentoDAO = new CommentoDAO();
+        int numCommenti = commentoDAO.getCommentiByPoesiaId(poesia.getId()).size();
+
+        JButton commentButton = new JButton("\uDBC0\uDF24 Commenti (" + numCommenti + ")");
+        commentButton.setFont(new Font(UIUtils.FONT, Font.BOLD, 14));
+        commentButton.setBorderPainted(false);
+        commentButton.setContentAreaFilled(false);
+        commentButton.setFocusPainted(false);
+        commentButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        commentButton.setForeground(UIUtils.TEXT_COLOR);
+        commentButton.addActionListener(_ -> toggleCommentsPanel(commentButton, numCommenti, currentUser));
+        return commentButton;
+    }
+
+    private JButton getCuoreButton() {
+        PoesiaController controller = new PoesiaController();
+        int numCuori = controller.getNumCuori(poesia.getId());
+        boolean isCuore = controller.hasUserCuorePoesia(poesia.getId(), currentUser.getId());
+
+        JButton cuoreButton = new JButton((isCuore ? "\uDBC0\uDEB5" : "\uDBC0\uDEB4") + numCuori);
+        cuoreButton.setFont(new Font(UIUtils.FONT, Font.BOLD, 14));
+        cuoreButton.setBorderPainted(false);
+        cuoreButton.setContentAreaFilled(false);
+        cuoreButton.setFocusPainted(false);
+        cuoreButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        cuoreButton.setForeground(isCuore ? Color.red : UIUtils.TEXT_COLOR);
+        cuoreButton.addActionListener(_ -> handleCuoreButtonClick(cuoreButton, poesia.getId()));
+        return cuoreButton;
+    }
+
+    private void toggleCommentsPanel(JButton commentButton, int numCommenti, User user) {
+        commentiVisibili = !commentiVisibili;
+        if (commentiVisibili) {
+            if (commentiPanel == null) {
+                commentiPanel = new CommentoPanel(poesia.getId(), user);
+            }
+            add(commentiPanel, BorderLayout.SOUTH);
+        } else if (commentiPanel != null) {
+            remove(commentiPanel);
+        }
+
+        commentButton.setText("\uDBC0\uDF24 " + (commentiVisibili ? "Nascondi" : "Commenti (" + numCommenti + ")"));
+
+        revalidate();
+        repaint();
+    }
+
+    private void handleCuoreButtonClick(JButton cuoreButton, int poesiaId) {
+        try {
+            PoesiaController controller = new PoesiaController();
+            boolean success = controller.toggleCuore(poesiaId, currentUser.getId());
+
+            if (success) {
+                int newNumCuori = controller.getNumCuori(poesiaId);
+                boolean userHasCuore = controller.hasUserCuorePoesia(poesiaId, currentUser.getId());
+
+                cuoreButton.setText((userHasCuore ? "\uDBC0\uDEB5" : "\uDBC0\uDEB4") + newNumCuori);
+                cuoreButton.setForeground(userHasCuore ? Color.red : UIUtils.TEXT_COLOR);
+            }
+        } catch (Exception e) {
+
+        }
+    }
+
+    public Poesia getPoesia() {
+        return poesia;
+    }
+}
