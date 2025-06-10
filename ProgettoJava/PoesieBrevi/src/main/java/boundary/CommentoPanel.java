@@ -14,9 +14,15 @@ import entity.User;
 
 /// Va gestito il BCDE creando CommentoDAO
 public class CommentoPanel extends JPanel {
+    /**
+     * ID della poesia che l'utente sta commentando
+     */
     private final int poesiaId;
     private final JPanel commentiListPanel;
     private final JScrollPane scrollPane;
+    /**
+     * ID dell'utente che sta scrivendo il commento
+     */
     private final User currentUser;
 
     private static final String UTENTEDEFAULT = "utente";
@@ -50,8 +56,12 @@ public class CommentoPanel extends JPanel {
         caricaCommenti();
     }
 
+    /**
+     * Funzione che permette di caricare i commenti e di mostrarli nell'interfaccia creando per ogni commento un panel
+     */
     private void caricaCommenti() {
         try {
+            /// Va spostato in PoesiaController
             CommentoDAO commentoDAO = new CommentoDAO();
             List<Commento> commenti = commentoDAO.getCommentiByPoesiaId(poesiaId);
 
@@ -85,7 +95,6 @@ public class CommentoPanel extends JPanel {
         JPanel addCommentPanel = new JPanel(new BorderLayout());
         addCommentPanel.setOpaque(false);
         addCommentPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
-
 
         JTextField commentField = UIUtils.textField("Scrivi il tuo commento", 0, 0);
 
@@ -151,7 +160,6 @@ public class CommentoPanel extends JPanel {
         JLabel usernameLabel = new JLabel(username);
         usernameLabel.setFont(new Font(UIUtils.FONT, Font.BOLD, 12));
         panel.add(usernameLabel, BorderLayout.NORTH);
-        /// RISCRIVERE SENZA HTML
         JLabel commentTextLabel = new JLabel( commento.getTesto());
         commentTextLabel.setFont(new Font(UIUtils.FONT, Font.PLAIN, 12));
         panel.add(commentTextLabel, BorderLayout.CENTER);
