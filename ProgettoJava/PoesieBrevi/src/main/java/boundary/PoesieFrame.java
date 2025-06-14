@@ -115,7 +115,7 @@ public class PoesieFrame extends JFrame {
         JTextField titleField = UIUtils.CreaPoesiaTextField(labelWidth + 10, y, fieldWidth, height);
         panel.add(titleField);
 
-        y += height + 10;
+        y += height + 10; //60
 
         JLabel contentLabel = UIUtils.label("Contenuto: ", 10, y, 14, labelWidth, height);
         panel.add(contentLabel);
@@ -133,7 +133,7 @@ public class PoesieFrame extends JFrame {
         contentScroll.setBorder(null);
         panel.add(contentScroll);
 
-        y += 150 + 20;
+        y += 150 + 20; //130
 
         JLabel tagsLabel = UIUtils.label("Tags: ", 10, y, 14, labelWidth, height);
         panel.add(tagsLabel);
@@ -142,7 +142,7 @@ public class PoesieFrame extends JFrame {
         tagsField.setToolTipText("Inserisci i tag separati da virgola (es. amore, natura, vita)");
         panel.add(tagsField);
 
-        y += height + 20;
+        y += height + 20; //150
 
         JLabel rcccoltaLabel = UIUtils.label("Raccolta: ", 10, y, 14);
         panel.add(rcccoltaLabel);
@@ -164,27 +164,17 @@ public class PoesieFrame extends JFrame {
         //raccoltaCombo.setBorder(BorderFactory.createLineBorder(UIUtils.BORDER_COLOR, 1));
         panel.add(raccoltaCombo);
 
-        y += height + 20;
+        y += height + 20; //170
 
         JPanel newRaccoltaPanel = nuovaRaccoltaPanel(fieldWidth);
-        newRaccoltaPanel.setBounds(10, y, contentWidth - 40, 100);
+        newRaccoltaPanel.setBounds(10, y, contentWidth - 70, 100);
         newRaccoltaPanel.setVisible(false);
         panel.add(newRaccoltaPanel);
 
         JTextField newCollectionTitleField = (JTextField) findComponentByName(newRaccoltaPanel, "nuovaRaccoltaTitle");
         JTextField newCollectionDescField = (JTextField) findComponentByName(newRaccoltaPanel, "nuovaRaccoltaDesc");
 
-        raccoltaCombo.addItemListener(e -> {
-            if (e.getStateChange() == ItemEvent.SELECTED) {
-                String selectedItem = (String) raccoltaCombo.getSelectedItem();
-                newRaccoltaPanel.setVisible("-- Crea nuova raccolta --".equals(selectedItem));
-            }
-        });
-
-        y += (newRaccoltaPanel.isVisible() ? 100 : 0) + 20;
-
         JCheckBox visibleCheckbox = new JCheckBox("Poesia pubblica");
-        visibleCheckbox.setBounds(labelWidth + 10, y, fieldWidth, height);
         visibleCheckbox.setSelected(true);
         visibleCheckbox.setOpaque(false);
         panel.add(visibleCheckbox);
@@ -192,8 +182,31 @@ public class PoesieFrame extends JFrame {
         y += height + 20;
 
         JButton pubblicaButton = UIUtils.bottone("Pubblica Poesia", Font.PLAIN, 14);
-        pubblicaButton.setBounds((contentWidth - 150) / 2, y, 150, 40);
         panel.add(pubblicaButton);
+
+        int finalY = y;
+        Runnable updateYPosition = () ->{
+            int yAttuale = finalY;
+            if (newRaccoltaPanel.isVisible()) {
+                yAttuale += 60;
+            }
+            visibleCheckbox.setBounds(labelWidth + 10, yAttuale, fieldWidth, height);
+            yAttuale += 20;
+            pubblicaButton.setBounds((contentWidth - 150) / 2, yAttuale, 150, 40);
+            panel.revalidate();
+            panel.repaint();
+        };
+
+        updateYPosition.run();
+
+        raccoltaCombo.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                String selectedItem = (String) raccoltaCombo.getSelectedItem();
+                boolean shouldBeVisible = "-- Crea nuova raccolta --".equals(selectedItem);
+                newRaccoltaPanel.setVisible(shouldBeVisible);
+                updateYPosition.run();
+            }
+        });
 
         pubblicaButton.addActionListener(e -> {
             if (PubblicaPoesia(titleField, contentArea, tagsField, visibleCheckbox,
@@ -210,27 +223,29 @@ public class PoesieFrame extends JFrame {
 
     private JPanel nuovaRaccoltaPanel(int fieldWidth) {
         JPanel nuovaRaccoltaPanel = new JPanel(null);
+        nuovaRaccoltaPanel.setBackground(Color.WHITE);
         nuovaRaccoltaPanel.setBorder(BorderFactory.createTitledBorder(
                 BorderFactory.createLineBorder(UIUtils.BORDER_COLOR), "Nuova Raccolta"));
 
         int height = 30;
 
-        JLabel nuovaRaccoltaTitleLabel = UIUtils.label("Nuova Raccolta: ", 10, 20, 14);
-        nuovaRaccoltaTitleLabel.setBounds(10, 20, 70, height);
+
+        JLabel nuovaRaccoltaTitleLabel = UIUtils.label("Titolo Raccolta: ", 10, 20, 14);
+        nuovaRaccoltaTitleLabel.setBounds(10, 20, 100, height);
         nuovaRaccoltaPanel.add(nuovaRaccoltaTitleLabel);
 
-        JTextField nuovaRaccoltaTitleField = new JTextField();
+        JTextField nuovaRaccoltaTitleField = UIUtils.textField("", 0, 0);
         nuovaRaccoltaTitleField.setName("nuovaRaccoltaTitle");
-        nuovaRaccoltaTitleField.setBounds(80, 20, fieldWidth - 70, height);
+        nuovaRaccoltaTitleField.setBounds(150, 20, fieldWidth - 100, height);
         nuovaRaccoltaPanel.add(nuovaRaccoltaTitleField);
 
-        JLabel nuovaRaccoltaDescLabel = new JLabel("Descrizione:");
-        nuovaRaccoltaDescLabel.setBounds(10, 20 + height + 10, 70, height);
+        JLabel nuovaRaccoltaDescLabel = UIUtils.label("Descrizione: ", 10, 20, 14);
+        nuovaRaccoltaDescLabel.setBounds(10, 20 + height + 10, 100, height);
         nuovaRaccoltaPanel.add(nuovaRaccoltaDescLabel);
 
-        JTextField nuovaRaccoltaDescField = new JTextField();
+        JTextField nuovaRaccoltaDescField = UIUtils.textField("", 0, 0);
         nuovaRaccoltaDescField.setName("nuovaRaccoltaDesc");
-        nuovaRaccoltaDescField.setBounds(80, 20 + height + 10, fieldWidth - 70, height);
+        nuovaRaccoltaDescField.setBounds(150, 20 + height + 10, fieldWidth - 100, height);
         nuovaRaccoltaPanel.add(nuovaRaccoltaDescField);
 
         return nuovaRaccoltaPanel;
