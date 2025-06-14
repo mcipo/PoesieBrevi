@@ -7,7 +7,6 @@ import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 
 import controller.PoesiaController;
-import database.DAO.CommentoDAO;
 import entity.Poesia;
 import entity.User;
 
@@ -159,8 +158,8 @@ public class PoesiaDisplayPanel extends JPanel {
     }
 
     private JButton getCommentoButton() throws SQLException {
-        CommentoDAO commentoDAO = new CommentoDAO();
-        int numCommenti = commentoDAO.getCommentiByPoesiaId(poesia.getId()).size();
+        PoesiaController controller = new PoesiaController();
+        int numCommenti = controller.getNumCommenti(poesia.getId());
 
         JButton commentButton = new JButton("\uDBC0\uDF24 Commenti (" + numCommenti + ")");
         commentButton.setFont(new Font(UIUtils.FONT, Font.BOLD, 14));
@@ -223,7 +222,4 @@ public class PoesiaDisplayPanel extends JPanel {
         }
     }
 
-    public Poesia getPoesia() {
-        return poesia;
-    }
 }

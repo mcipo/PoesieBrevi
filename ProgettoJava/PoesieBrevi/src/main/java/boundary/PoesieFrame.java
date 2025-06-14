@@ -9,7 +9,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
 
-//Finito
 public class PoesieFrame extends JFrame {
 
     private final User currentUser;

@@ -9,10 +9,9 @@ import java.util.List;
 
 import controller.PoesiaController;
 import entity.Commento;
-import database.DAO.CommentoDAO;
 import entity.User;
 
-/// Va gestito il BCDE creando CommentoDAO
+/// Finito
 public class CommentoPanel extends JPanel {
     /**
      * ID della poesia che l'utente sta commentando
@@ -24,8 +23,6 @@ public class CommentoPanel extends JPanel {
      * ID dell'utente che sta scrivendo il commento
      */
     private final User currentUser;
-
-    private static final String UTENTEDEFAULT = "utente";
 
     public CommentoPanel(int poesiaId, User currentUser) {
         this.poesiaId = poesiaId;
@@ -61,10 +58,8 @@ public class CommentoPanel extends JPanel {
      */
     private void caricaCommenti() {
         try {
-            /// Va spostato in PoesiaController
-            CommentoDAO commentoDAO = new CommentoDAO();
-            List<Commento> commenti = commentoDAO.getCommentiByPoesiaId(poesiaId);
-
+            PoesiaController poesiaController = new PoesiaController();
+            List<Commento> commenti = poesiaController.getCommenti(poesiaId);
 
             commentiListPanel.removeAll();
 
@@ -118,7 +113,8 @@ public class CommentoPanel extends JPanel {
             String contenuto = commentField.getText().trim();
             if (!contenuto.isEmpty()) {
                 Commento nuovoCommento = new Commento(0, poesiaId, currentUser.getId(), contenuto, new java.util.Date());
-                boolean success = salvaCommento(nuovoCommento);
+                PoesiaController poesiaController = new PoesiaController();
+                boolean success = poesiaController.salvaCommento(nuovoCommento);
 
                 if (success) {
                     JPanel newCommentPanel = creaPanelSingoloCommento(nuovoCommento);
@@ -173,23 +169,13 @@ public class CommentoPanel extends JPanel {
         return panel;
     }
 
-    private boolean salvaCommento(Commento nuovoCommento) {
-        CommentoDAO commentoDAO = new CommentoDAO();
-        try {
-            commentoDAO.addCommento(nuovoCommento);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
     private String getUsernameById(int userId) {
         try {
             PoesiaController controller = new PoesiaController();
             return controller.getUsernameByUserId(userId);
 
         } catch (Exception e) {
-            return UTENTEDEFAULT;
+            return "UTENTEDEFAULT";
         }
     }
 }

@@ -1,11 +1,9 @@
 package controller;
 
-import database.DAO.PoesiaDAO;
-import database.DAO.RaccoltaDAO;
-import database.DAO.CuoreDAO;
-import database.DAO.ProfiloDAO;
+import database.DAO.*;
 import entity.*;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -96,7 +94,28 @@ public class PoesiaController {
     public int getNumCuori(int poesiaId) {
         return cuoreDAO.getNumCuori(poesiaId);
     }
-    
+
+    public int getNumCommenti(int poesiaId) throws SQLException {
+        CommentoDAO commentoDAO = new CommentoDAO();
+        int numCommenti = commentoDAO.getCommentiByPoesiaId(poesiaId).size();
+        return numCommenti;
+    }
+
+    public List<Commento> getCommenti(int poesiaId) throws SQLException {
+        CommentoDAO commentoDAO = new CommentoDAO();
+        List<Commento> commenti = commentoDAO.getCommentiByPoesiaId(poesiaId);
+        return commenti;
+    }
+
+    public boolean salvaCommento(Commento nuovoCommento) {
+        CommentoDAO commentoDAO = new CommentoDAO();
+        try {
+            commentoDAO.addCommento(nuovoCommento);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
     public boolean hasUserCuorePoesia(int poesiaId, int userId) {
 
