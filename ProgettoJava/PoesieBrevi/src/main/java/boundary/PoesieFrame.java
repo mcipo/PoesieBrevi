@@ -160,7 +160,6 @@ public class PoesieFrame extends JFrame {
         }
 
         raccoltaCombo.setBounds(labelWidth + 10, y, fieldWidth, height);
-        //raccoltaCombo.setBorder(BorderFactory.createLineBorder(UIUtils.BORDER_COLOR, 1));
         panel.add(raccoltaCombo);
 
         y += height + 20; //170
@@ -184,6 +183,10 @@ public class PoesieFrame extends JFrame {
         panel.add(pubblicaButton);
 
         int finalY = y;
+        /**
+         * Definiamo un Runnable che ci permette di aggiornare la UI dinamicamente quando viene selezionata la "creazione
+         * veloce della raccolta" andando ad abbassare la posizione di "pubblicaButton" e visibleCheckboc"
+         */
         Runnable updateYPosition = () ->{
             int yAttuale = finalY;
             if (newRaccoltaPanel.isVisible()) {

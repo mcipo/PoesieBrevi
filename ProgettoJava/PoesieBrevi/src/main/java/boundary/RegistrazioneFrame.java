@@ -146,7 +146,7 @@ public class RegistrazioneFrame extends JFrame {
                     return;
                 }
                 
-                if(!validaEmail(email)) {
+                if(!UIUtils.validaEmail(email)) {
                     JOptionPane.showMessageDialog(RegistrazioneFrame.this, 
                         "Inserisci un indirizzo email valido", 
                         "Errore", 
@@ -180,10 +180,6 @@ public class RegistrazioneFrame extends JFrame {
                 }
             }
 
-            private boolean validaEmail(String email) {
-                String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
-                return email.matches(emailRegex);
-            }
         });
         
         loginLabel.addMouseListener(new java.awt.event.MouseAdapter() {

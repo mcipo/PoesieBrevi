@@ -105,7 +105,7 @@ public class LoginFrame extends JFrame {
                     JOptionPane.showMessageDialog(LoginFrame.this, "Per favore, inserisci email e password.", "Errore", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                if(!validaEmail(email)) {
+                if(!UIUtils.validaEmail(email)) {
                     JOptionPane.showMessageDialog(LoginFrame.this, "Inserisci un indirizzo email valido", "Errore di login", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
@@ -130,21 +130,6 @@ public class LoginFrame extends JFrame {
                             "Errore di sistema", JOptionPane.ERROR_MESSAGE);
                     ex.printStackTrace();
                 }
-            }
-
-            /**
-             * Verifica se l'email inserita è in un formato corretto, nello specifico
-             * - "^[a-zA-Z0-9_+&*-]" indica che l'email deve iniziare con uno o più caratteri alfanumerici
-             * - "(?:\.[a-zA-Z0-9_+&*-]+)" indica che opzionalmente può contenenere un punto che divide dei caratteri validi
-             * - "@" indica che l'email deve contenenre @ per essere valida
-             * - "(?:[a-zA-Z0-9-]+\.)" indica che il dominio deve contenere una o più parole separate da punti
-             * - "[a-zA-Z]{2,7}" indica che, essendo un dominio di primo livello deve avere tra le 2 e le 7 lettere
-
-             * Per farlo si stabilisce il pattern (specificato sopra) e tramite il metodo .matches() della classe String si verifica se l'email inserita rispetta il pattern
-             */
-            private boolean validaEmail(String email) {
-                String emailPattern = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
-                return email.matches(emailPattern);
             }
         });
 
