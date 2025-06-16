@@ -87,12 +87,14 @@ public class LoginFrame extends JFrame {
 
         add(mainPanel);
 
-        centerContentPanel();
+        UIUtils.centerContentPanel(getWidth(), getHeight(), contentPanel);
+        repaint();
 
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-                centerContentPanel();
+                UIUtils.centerContentPanel(getWidth(), getHeight(), contentPanel);
+                repaint();
             }
         });
 
@@ -148,13 +150,5 @@ public class LoginFrame extends JFrame {
                 System.out.println("Registrazione Cliccata");
             }
         });
-    }
-
-
-    private void centerContentPanel() {
-        int x = (getWidth() - UIUtils.CONTENT_WIDTH) / 2;
-        int y = (getHeight() - UIUtils.CONTENT_HEIGHT) / 2;
-        contentPanel.setBounds(x, y, UIUtils.CONTENT_WIDTH, UIUtils.CONTENT_HEIGHT);
-        repaint();
     }
 }
