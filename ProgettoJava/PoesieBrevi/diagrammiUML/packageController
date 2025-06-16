@@ -1,0 +1,60 @@
+@startuml
+package controller {
+  class LoginController {
+    + {static} autenticaUtente(String email, String password): User
+    + {static} esisteUtente(String email): boolean
+    + {static} verificaCredenziali(String email, String password): boolean
+    + {static} isAdmin(String email, String password): boolean
+  }
+
+  class RegistrazioneController {
+    + {static} creaUtenteInMemoria(String nome, String cognome, String email,
+String password, boolean isAdmin): User
+    + {static} salvaUtente(User user): boolean
+    + {static} esisteUtente(String email): boolean
+  }
+
+  class PoesiaController {
+    + {static} creaPoesia(String titolo, String contenuto, String tags,
+boolean visibile, int autoreId, int raccoltaId): boolean
+    + {static} creaRaccolta(String titolo, String descrizione, int autoreId): int
+    + {static} getRaccolteUtente(int autoreId): List<Raccolta>
+    + {static} getPoesieByAutore(int autoreId): List<Poesia>
+    + {static} getUltimePoesiePerFeed(int userId, int limit): List<Poesia>
+    + {static} getUsernameByUserId(int userId): String
+    + {static} getNumCuori(int poesiaId): int
+    + {static} getNumCommenti(int poesiaId): int
+    + {static} getCommenti(int poesiaId): List<Commento>
+    + {static} salvaCommento(Commento nuovoCommento): boolean
+    + {static} hasUserCuorePoesia(int poesiaId, int userId): boolean
+    + {static} toggleCuore(int poesiaId, int userId): boolean
+  }
+
+  class ProfiloController {
+    - {static} IMG_DIRECTORY: String
+    + {static} validaDatiProfilo(String username, String bio, Date dataNascita): boolean
+    + {static} salvaModificheProfilo(User user, Profilo profilo): boolean
+    + {static} caricaProfilo(User user): Profilo
+  }
+
+  LoginController ..> database.DAO.UserDAO
+  LoginController ..> entity.User
+
+  RegistrazioneController ..> database.DAO.UserDAO
+  RegistrazioneController ..> entity.User
+  RegistrazioneController ..> entity.Profilo
+
+  PoesiaController ..> database.DAO.PoesiaDAO
+  PoesiaController ..> database.DAO.RaccoltaDAO
+  PoesiaController ..> database.DAO.ProfiloDAO
+  PoesiaController ..> database.DAO.CuoreDAO
+  PoesiaController ..> database.DAO.CommentoDAO
+  PoesiaController ..> entity.Poesia
+  PoesiaController ..> entity.Raccolta
+  PoesiaController ..> entity.Commento
+
+  ProfiloController ..> database.DAO.ProfiloDAO
+  ProfiloController ..> entity.User
+  ProfiloController ..> entity.Profilo
+}
+@enduml
