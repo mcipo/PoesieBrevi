@@ -7,13 +7,34 @@ import javax.swing.plaf.basic.BasicTabbedPaneUI;
 import java.awt.*;
 import java.awt.event.*;
 
-/// Finito bisogna vedere i metodi overridden
+/**
+ * Frame principale dell'applicazione che mostra la schermata home dell'utente.
+ * Include un header con il benvenuto e il pulsante per accedere al profilo,
+ * e un pannello a schede (tabbed pane) con feed, poesie personali e raccolte dell'utente.
+ */
 public class HomeFrame extends JFrame {
 
+    /**
+     * Utente attualmente loggato nell'applicazione.
+     */
     private final User currentUser;
+    
+    /**
+     * Pannello principale che contiene i contenuti della schermata.
+     */
     private JPanel contentPanel;
+    
+    /**
+     * Pannello di sfondo dell'intera finestra.
+     */
     private JPanel mainPanel;
 
+    /**
+     * Costruttore che crea e configura la schermata principale dell'applicazione.
+     * Inizializza i componenti dell'interfaccia e mostra i contenuti personalizzati per l'utente.
+     *
+     * @param user Utente attualmente loggato nell'applicazione.
+     */
     public HomeFrame(User user) {
         this.currentUser = user;
 
@@ -44,6 +65,10 @@ public class HomeFrame extends JFrame {
         });
     }
 
+    /**
+     * Configura il pannello di intestazione con il benvenuto personalizzato e il pulsante per il profilo.
+     * Include il nome dell'utente e un pulsante per accedere alla schermata del profilo.
+     */
     private void setupHeaderPanel() {
         JPanel headerPanel = new JPanel(new BorderLayout());
         headerPanel.setOpaque(false);
@@ -69,6 +94,13 @@ public class HomeFrame extends JFrame {
         contentPanel.add(headerPanel);
     }
 
+    /**
+     * Configura il pannello a schede (tabbed pane) con tre sezioni:
+     * - Feed: mostra le poesie di altri utenti
+     * - Le mie Poesie: mostra le poesie dell'utente corrente
+     * - Le mie Raccolte: mostra le raccolte dell'utente corrente
+     * Personalizza anche l'aspetto visivo delle schede.
+     */
     private void setupTabbedPane() {
         JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
         tabbedPane.setBounds(20, 80, UIUtils.CONTENT_WIDTH - 40, UIUtils.CONTENT_HEIGHT - 100);

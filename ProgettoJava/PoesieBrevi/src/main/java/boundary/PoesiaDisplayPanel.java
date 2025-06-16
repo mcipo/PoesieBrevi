@@ -10,13 +10,38 @@ import controller.PoesiaController;
 import entity.Poesia;
 import entity.User;
 
-/// FINITO
+/**
+ * Panel che visualizza una singola poesia con tutti i suoi dettagli.
+ * Mostra titolo, contenuto, autore e permette di interagire con la poesia
+ * tramite commenti e "cuori" (mi piace).
+ */
 public class PoesiaDisplayPanel extends JPanel {
+    /**
+     * Poesia da visualizzare nel pannello.
+     */
     private final Poesia poesia;
+    
+    /**
+     * Utente corrente che sta visualizzando la poesia.
+     */
     private final User currentUser;
+    
+    /**
+     * Flag che indica se i commenti sono attualmente visibili.
+     */
     private boolean commentiVisibili = false;
+    
+    /**
+     * Pannello che contiene i commenti della poesia.
+     */
     private CommentoPanel commentiPanel = null;
 
+    /**
+     * Costruttore che crea un pannello per visualizzare una poesia.
+     *
+     * @param poesia Poesia da visualizzare.
+     * @param currentUser Utente corrente che sta visualizzando la poesia.
+     */
     public PoesiaDisplayPanel(Poesia poesia, User currentUser) {
         this.poesia = poesia;
         this.currentUser = currentUser;
@@ -24,6 +49,9 @@ public class PoesiaDisplayPanel extends JPanel {
         initialize();
     }
 
+    /**
+     * Inizializza e configura il layout del pannello.
+     */
     private void initialize() {
         setLayout(new BorderLayout());
         setMaximumSize(new Dimension(UIUtils.CONTENT_WIDTH - 60, 1000));
@@ -34,6 +62,12 @@ public class PoesiaDisplayPanel extends JPanel {
         add(poesiaPanel, BorderLayout.CENTER);
     }
 
+    /**
+     * Crea il pannello principale che contiene la poesia.
+     * Include l'header, il contenuto e il footer con i pulsanti di interazione.
+     *
+     * @return Pannello configurato con tutti i componenti della poesia.
+     */
     private JPanel creaMainPoesiaPanel() {
         JPanel poesiaPanel = new JPanel();
         poesiaPanel.setLayout(new BorderLayout(0, 5));
@@ -68,6 +102,11 @@ public class PoesiaDisplayPanel extends JPanel {
         return poesiaPanel;
     }
 
+    /**
+     * Crea il pannello di intestazione che mostra il titolo della poesia e il nome dell'autore.
+     *
+     * @return Pannello di intestazione configurato.
+     */
     private JPanel creaHeaderPanel() {
         JPanel headerPanel = new JPanel(new BorderLayout());
         headerPanel.setOpaque(false);
@@ -88,6 +127,11 @@ public class PoesiaDisplayPanel extends JPanel {
         return headerPanel;
     }
 
+    /**
+     * Crea un pannello di scorrimento che contiene il testo della poesia.
+     *
+     * @return Pannello di scorrimento con il contenuto della poesia.
+     */
     private JScrollPane createContentPanel() {
         JTextArea contentArea = new JTextArea(poesia.getContenuto());
         contentArea.setEditable(false);
@@ -105,6 +149,11 @@ public class PoesiaDisplayPanel extends JPanel {
         return contentScroll;
     }
 
+    /**
+     * Crea il pannello di piè di pagina con le informazioni aggiuntive e i pulsanti di interazione.
+     *
+     * @return Pannello di piè di pagina configurato.
+     */
     private JPanel createFooterPanel() {
         JPanel footerPanel = new JPanel(new BorderLayout());
         footerPanel.setOpaque(false);
@@ -136,6 +185,11 @@ public class PoesiaDisplayPanel extends JPanel {
         return footerPanel;
     }
 
+    /**
+     * Crea il pannello con i pulsanti per interagire con la poesia (commenti e cuori).
+     *
+     * @return Pannello di interazione configurato.
+     */
     private JPanel createInteractionPanel() {
         JPanel interactionPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         interactionPanel.setOpaque(false);
@@ -156,6 +210,12 @@ public class PoesiaDisplayPanel extends JPanel {
         return interactionPanel;
     }
 
+    /**
+     * Crea un pulsante per mostrare/nascondere i commenti della poesia.
+     *
+     * @return Pulsante configurato per gestire i commenti.
+     * @throws SQLException Se si verifica un errore durante il recupero dei commenti.
+     */
     private JButton getCommentoButton() throws SQLException {
 
         int numCommenti = PoesiaController.getNumCommenti(poesia.getId());
@@ -171,6 +231,11 @@ public class PoesiaDisplayPanel extends JPanel {
         return commentButton;
     }
 
+    /**
+     * Crea un pulsante per mettere/rimuovere un "cuore" (mi piace) alla poesia.
+     *
+     * @return Pulsante configurato per gestire i cuori.
+     */
     private JButton getCuoreButton() {
 
         int numCuori = PoesiaController.getNumCuori(poesia.getId());
@@ -187,6 +252,13 @@ public class PoesiaDisplayPanel extends JPanel {
         return cuoreButton;
     }
 
+    /**
+     * Attiva o disattiva la visualizzazione del pannello commenti.
+     *
+     * @param commentButton Il pulsante dei commenti che ha attivato l'azione.
+     * @param numCommenti Il numero di commenti della poesia.
+     * @param user Utente corrente che sta interagendo con la poesia.
+     */
     private void toggleCommentsPanel(JButton commentButton, int numCommenti, User user) {
         commentiVisibili = !commentiVisibili;
         if (commentiVisibili) {
@@ -204,6 +276,12 @@ public class PoesiaDisplayPanel extends JPanel {
         repaint();
     }
 
+    /**
+     * Gestisce il click sul pulsante "cuore" per mettere o rimuovere un mi piace.
+     *
+     * @param cuoreButton Il pulsante del cuore che ha ricevuto il click.
+     * @param poesiaId ID della poesia a cui mettere/rimuovere il mi piace.
+     */
     private void handleCuoreButtonClick(JButton cuoreButton, int poesiaId) {
         try {
 

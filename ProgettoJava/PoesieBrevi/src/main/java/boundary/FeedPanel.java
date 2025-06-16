@@ -8,9 +8,18 @@ import controller.PoesiaController;
 import entity.Poesia;
 import entity.User;
 
-/// Finito
+/**
+ * Panel che visualizza un feed delle ultime poesie pubblicate dagli altri utenti.
+ * Mostra una lista delle poesie più recenti che non appartengono all'utente corrente.
+ */
 public class FeedPanel extends JPanel {
 
+    /**
+     * Costruttore che crea e configura il pannello del feed con le ultime poesie pubblicate.
+     * Recupera le poesie dal controller e le visualizza in ordine cronologico inverso.
+     *
+     * @param currentUser Utente corrente che sta visualizzando il feed.
+     */
     public FeedPanel(User currentUser) {
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
