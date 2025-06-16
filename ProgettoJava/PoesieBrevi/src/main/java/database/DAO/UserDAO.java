@@ -8,10 +8,24 @@ import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Data Access Object per l'entità User.
+ * Questa classe gestisce tutte le operazioni sul database relative agli utenti,
+ * come la ricerca di utenti per email e l'aggiunta di nuovi utenti.
+ */
 public class UserDAO {
 
+    /**
+     * Logger per la registrazione di eventi e errori.
+     */
     private static final Logger LOGGER = Logger.getLogger(UserDAO.class.getName());
 
+    /**
+     * Recupera un utente dal database tramite la sua email.
+     *
+     * @param userEmail L'email dell'utente da cercare.
+     * @return L'oggetto User corrispondente all'email specificata, o null se non trovato.
+     */
     public static User getUserByEmail(String userEmail) {
         String query = "SELECT * FROM users WHERE email = ?";
         try{
@@ -38,6 +52,12 @@ public class UserDAO {
         return null;
     }
 
+    /**
+     * Aggiunge un nuovo utente al database e crea il profilo associato.
+     *
+     * @param user L'oggetto User da salvare nel database.
+     * @return true se l'operazione è completata con successo, false altrimenti.
+     */
     public static boolean addUser(User user) {
         String query = "INSERT INTO users (email, password, nome, cognome, amministratore) VALUES (?, ?, ?, ?, ?)";
         try{

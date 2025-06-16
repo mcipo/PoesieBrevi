@@ -2,12 +2,33 @@ package database;
 
 import java.sql.*;
 
+/**
+ * Classe che gestisce la connessione al database e fornisce metodi per eseguire query SQL.
+ * Implementa un modello di connessione singleton semplificato per tutte le operazioni
+ * di accesso al database nell'applicazione.
+ */
 public class DatabaseConnection {
+    /**
+     * URL di connessione al database MySQL.
+     */
     private static final String URL = "jdbc:mysql://localhost:3306/poesie_brevi_db";
+    
+    /**
+     * Nome utente per la connessione al database.
+     */
     private static final String USER = "claudia";
-    //Inserire la password per l'utente del Database
+    
+    /**
+     * Password per la connessione al database.
+     */
     private static final String PASSWORD = "passwordSicura";
 
+    /**
+     * Stabilisce e restituisce una connessione al database.
+     *
+     * @return Oggetto Connection per interagire con il database.
+     * @throws SQLException Se si verifica un errore durante la connessione.
+     */
     public static Connection getConnection() throws SQLException {
         Connection connection = null;
         try {
@@ -19,6 +40,14 @@ public class DatabaseConnection {
         }
     }
 
+    /**
+     * Esegue una query SQL che restituisce un risultato (SELECT).
+     *
+     * @param query La query SQL da eseguire.
+     * @param params I parametri da inserire nella query preparata.
+     * @return ResultSet contenente i risultati della query.
+     * @throws SQLException Se si verifica un errore durante l'esecuzione della query.
+     */
     public static ResultSet executeQuery(String query, Object... params) throws SQLException {
         Connection connection = getConnection();
         PreparedStatement statement = connection.prepareStatement(query);
@@ -28,6 +57,14 @@ public class DatabaseConnection {
         return statement.executeQuery();
     }
 
+    /**
+     * Esegue una query SQL che modifica il database (INSERT, UPDATE, DELETE).
+     *
+     * @param query La query SQL da eseguire.
+     * @param params I parametri da inserire nella query preparata.
+     * @return Il numero di righe interessate dall'operazione, o -1 in caso di errore.
+     * @throws SQLException Se si verifica un errore durante l'esecuzione della query.
+     */
     public static int executeUpdate(String query, Object... params) throws SQLException {
         int result = -1;
         try (Connection connection = getConnection();
@@ -40,6 +77,15 @@ public class DatabaseConnection {
         return result;
     }
 
+    /**
+     * Esegue una query SQL che modifica il database e restituisce l'ID generato.
+     * Utile per le operazioni di INSERT che generano una chiave primaria auto-incrementata.
+     *
+     * @param query La query SQL da eseguire.
+     * @param params I parametri da inserire nella query preparata.
+     * @return L'ID generato dall'operazione, o -1 in caso di errore.
+     * @throws SQLException Se si verifica un errore durante l'esecuzione della query.
+     */
     public static int executeUpdateConID(String query, Object... params) throws SQLException {
         int nuovoID = -1;
         Connection connection = getConnection();

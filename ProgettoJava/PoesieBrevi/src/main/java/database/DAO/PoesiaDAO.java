@@ -11,10 +11,26 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Data Access Object per l'entità Poesia.
+ * Questa classe gestisce tutte le operazioni sul database relative alle poesie,
+ * come il recupero delle poesie recenti, la ricerca delle poesie di un autore 
+ * e l'aggiunta di nuove poesie.
+ */
 public class PoesiaDAO {
 
+    /**
+     * Logger per la registrazione di eventi e errori.
+     */
     private  static final Logger LOGGER = Logger.getLogger(PoesiaDAO.class.getName());
 
+    /**
+     * Recupera le poesie più recenti per il feed di un utente, escludendo le proprie poesie.
+     *
+     * @param userId L'ID dell'utente che visualizza il feed.
+     * @param limite Il numero massimo di poesie da recuperare.
+     * @return Lista di oggetti Poesia ordinate per data di creazione decrescente.
+     */
     public static List<Poesia> getUltimePoesiePerFeed(int userId, int limite) {
         List<Poesia> poesie = new ArrayList<>();
         String query = "SELECT * FROM poesie WHERE visibile = true AND autore_id != ? ORDER BY data_creazione DESC LIMIT ?";
@@ -48,6 +64,12 @@ public class PoesiaDAO {
     }
     
 
+    /**
+     * Recupera tutte le poesie create da un determinato autore.
+     *
+     * @param autoreId L'ID dell'utente autore delle poesie da recuperare.
+     * @return Lista di oggetti Poesia appartenenti all'autore specificato.
+     */
     public static List<Poesia> getPoesieByAutore(int autoreId) {
         List<Poesia> poesie = new ArrayList<>();
         String query = "SELECT * FROM poesie WHERE autore_id = ? ORDER BY data_creazione DESC";
@@ -79,6 +101,12 @@ public class PoesiaDAO {
         return poesie;
     }
 
+    /**
+     * Aggiunge una nuova poesia al database.
+     *
+     * @param poesia L'oggetto Poesia da salvare nel database.
+     * @return true se l'operazione è completata con successo, false altrimenti.
+     */
     public static boolean addPoesia(Poesia poesia) {
         String query = "INSERT INTO poesie (titolo, contenuto, tag, visibile, data_creazione, autore_id, raccolta_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try{

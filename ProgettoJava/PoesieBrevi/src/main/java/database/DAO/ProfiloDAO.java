@@ -8,9 +8,23 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Data Access Object per l'entità Profilo.
+ * Questa classe gestisce tutte le operazioni sul database relative ai profili degli utenti,
+ * come il recupero, l'aggiornamento e la creazione di profili.
+ */
 public class ProfiloDAO {
+    /**
+     * Logger per la registrazione di eventi e errori.
+     */
     private static final Logger LOGGER = Logger.getLogger(ProfiloDAO.class.getName());
 
+    /**
+     * Recupera il profilo di un utente dato il suo ID.
+     *
+     * @param userId L'ID dell'utente di cui recuperare il profilo.
+     * @return L'oggetto Profilo associato all'utente, o null se non esiste.
+     */
     public static Profilo getProfiloAtID(int userId) {
         String query = "SELECT * FROM user_profiles WHERE user_id = ?";
         try{
@@ -29,6 +43,12 @@ public class ProfiloDAO {
         return null;
     }
 
+    /**
+     * Aggiorna un profilo esistente nel database.
+     *
+     * @param profilo L'oggetto Profilo con i nuovi dati.
+     * @param userId L'ID dell'utente proprietario del profilo.
+     */
     public static void updateProfilo(Profilo profilo, int userId) {
         String query = "UPDATE user_profiles SET username = ?, bio = ?, foto_profilo_path = ?, data_nascita = ? WHERE user_id = ?";
         try{
@@ -42,6 +62,14 @@ public class ProfiloDAO {
         }
     }
 
+    /**
+     * Crea un nuovo profilo nel database.
+     * Se viene rilevato un profilo esistente con lo stesso ID utente,
+     * chiama il metodo updateProfilo per aggiornarlo invece.
+     *
+     * @param profilo L'oggetto Profilo da salvare nel database.
+     * @param userId L'ID dell'utente proprietario del profilo.
+     */
     public static void createProfilo(Profilo profilo, int userId) {
         String query = "INSERT INTO user_profiles (user_id, username, bio, foto_profilo_path, data_nascita) VALUES (?, ?, ?, ?, ?)";
         try {

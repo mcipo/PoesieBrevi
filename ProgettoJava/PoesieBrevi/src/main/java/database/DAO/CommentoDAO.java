@@ -10,11 +10,25 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Data Access Object per l'entità Commento.
+ * Questa classe gestisce tutte le operazioni sul database relative ai commenti,
+ * come l'aggiunta di nuovi commenti e il recupero dei commenti di una poesia.
+ */
 public class CommentoDAO {
 
+    /**
+     * Logger per la registrazione di eventi e errori.
+     */
     private static final Logger LOGGER = Logger.getLogger(CommentoDAO.class.getName());
 
 
+    /**
+     * Aggiunge un nuovo commento al database.
+     *
+     * @param commento L'oggetto Commento da salvare nel database.
+     * @throws SQLException Se si verifica un errore durante l'operazione di inserimento.
+     */
     public static void addCommento(Commento commento) throws SQLException {
         String query = "INSERT INTO commenti (poesia_id, autore_id, contenuto, data_creazione) VALUES (?, ?, ?, ?)";
         try{
@@ -25,6 +39,13 @@ public class CommentoDAO {
 
     }
 
+    /**
+     * Recupera tutti i commenti associati a una determinata poesia.
+     *
+     * @param poesiaId L'ID della poesia di cui recuperare i commenti.
+     * @return Lista di oggetti Commento associati alla poesia specificata.
+     * @throws SQLException Se si verifica un errore durante l'operazione di recupero.
+     */
     public static List<Commento> getCommentiByPoesiaId(int poesiaId) throws SQLException {
         List<Commento> commenti = new ArrayList<>();
         String query = "SELECT * FROM commenti WHERE poesia_id = ?";

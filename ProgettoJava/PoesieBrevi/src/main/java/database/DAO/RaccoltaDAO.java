@@ -9,9 +9,23 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Data Access Object per l'entità Raccolta.
+ * Questa classe gestisce tutte le operazioni sul database relative alle raccolte di poesie,
+ * come la creazione di nuove raccolte e il recupero delle raccolte di un autore.
+ */
 public class RaccoltaDAO {
+    /**
+     * Logger per la registrazione di eventi e errori.
+     */
     private static final Logger LOGGER = Logger.getLogger(RaccoltaDAO.class.getName());
 
+    /**
+     * Aggiunge una nuova raccolta al database.
+     *
+     * @param raccolta L'oggetto Raccolta da salvare nel database.
+     * @return L'ID della raccolta appena creata, o -1 in caso di errore.
+     */
     public static int addRaccolta(Raccolta raccolta) {
         String query = "INSERT INTO raccolte (titolo, descrizione, autore_id) VALUES (?, ?, ?)";
         try{
@@ -23,6 +37,12 @@ public class RaccoltaDAO {
         }
     }
 
+    /**
+     * Recupera tutte le raccolte create da un determinato autore.
+     *
+     * @param autoreId L'ID dell'utente autore delle raccolte da recuperare.
+     * @return Lista di oggetti Raccolta appartenenti all'autore specificato.
+     */
     public static List<Raccolta> getRaccoltaPerAutore(int autoreId) {
         List<Raccolta> raccoltaList = new ArrayList<>();
         String query = "SELECT * FROM raccolte WHERE autore_id = ? ORDER BY id DESC";

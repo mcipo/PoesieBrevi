@@ -11,11 +11,28 @@ import java.nio.file.StandardCopyOption;
 import java.util.Date;
 import java.util.UUID;
 
+/**
+ * Controller che gestisce la logica relativa ai profili utente.
+ * Fornisce funzionalità per la validazione, il salvataggio e il caricamento dei profili,
+ * inclusa la gestione delle immagini del profilo.
+ */
 public class ProfiloController {
     
+    /**
+     * Directory dove vengono salvate le immagini dei profili.
+     */
     private static final String IMG_DIRECTORY = "resources/immagine_profilo/";
     
-
+    /**
+     * Valida i dati del profilo utente secondo le regole di business.
+     * Verifica che l'username sia valido, la biografia non superi i limiti
+     * e che l'utente abbia almeno 13 anni.
+     *
+     * @param username Username dell'utente.
+     * @param bio Biografia dell'utente.
+     * @param dataNascita Data di nascita dell'utente.
+     * @return true se i dati sono validi, false altrimenti.
+     */
     public static boolean validaDatiProfilo(String username, String bio, Date dataNascita) {
         if (username == null || username.trim().isEmpty() || username.length() < 3 || username.length() > 30) {
             return false;
@@ -36,6 +53,15 @@ public class ProfiloController {
     }
     
 
+    /**
+     * Salva le modifiche apportate al profilo di un utente.
+     * Se il profilo contiene una nuova immagine, la copia nella directory appropriata.
+     * Se l'utente non ha un profilo esistente, ne crea uno nuovo.
+     *
+     * @param user Utente proprietario del profilo.
+     * @param profilo Profilo con le modifiche da salvare.
+     * @return true se le modifiche sono state salvate con successo, false altrimenti.
+     */
     public static boolean salvaModificheProfilo(User user, Profilo profilo) {
         if (user == null || profilo == null) {
             return false;
@@ -93,6 +119,13 @@ public class ProfiloController {
     }
     
 
+    /**
+     * Carica il profilo di un utente dal database.
+     * Se l'utente ha già un profilo caricato in memoria, lo restituisce direttamente.
+     *
+     * @param user Utente di cui caricare il profilo.
+     * @return Il profilo dell'utente, o null se non esiste o si verifica un errore.
+     */
     public static Profilo caricaProfilo(User user) {
         if (user == null) {
             return null;
