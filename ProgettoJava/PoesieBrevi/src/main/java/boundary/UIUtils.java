@@ -136,4 +136,39 @@ public class UIUtils {
         return email.matches(emailPattern);
     }
 
+        public static void centerContentPanel(int width, int height, JPanel contentPanel) {
+        int x = (width - UIUtils.CONTENT_WIDTH) / 2;
+        int y = (height - UIUtils.CONTENT_HEIGHT) / 2;
+        contentPanel.setBounds(x, y, UIUtils.CONTENT_WIDTH, UIUtils.CONTENT_HEIGHT);
+    }
+
+    public static void setupMainPanel(JPanel mainPanel, int width, int height) {
+        mainPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.setColor(UIUtils.BACKGROUND_COLOR);
+                g.fillRect(0, 0, width, height);
+            }
+        };
+        mainPanel.setLayout(null);
+    }
+    
+    public static void setupContentPanel(JPanel contentPanel, JPanel mainPanel, int width, int height) {
+        contentPanel = new JPanel(null) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2d.setColor(Color.WHITE);
+                g2d.fillRoundRect(0, 0, width, height, 15, 15);
+                g2d.setColor(UIUtils.BORDER_COLOR);
+                g2d.drawRoundRect(0, 0, width - 1, height - 1, 15, 15);
+            }
+        };
+        contentPanel.setOpaque(false);
+        contentPanel.setBounds(0, 0, UIUtils.CONTENT_WIDTH, UIUtils.CONTENT_HEIGHT);
+        mainPanel.add(contentPanel);
+    }
 }
