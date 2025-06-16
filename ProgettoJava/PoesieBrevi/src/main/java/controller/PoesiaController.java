@@ -116,16 +116,7 @@ public class PoesiaController {
     }
     
 
-    /**
-     * Recupera lo username di un utente dato il suo ID.
-     *
-     * @param userId ID dell'utente.
-     * @return Username dell'utente, o "Sconosciuto" se non trovato.
-     */
-    public static String getUsernameByUserId(int userId) {
-        Profilo profilo = ProfiloDAO.getProfiloAtID(userId);
-        return profilo != null ? profilo.getUsername() : "Sconosciuto";
-    }
+
     
 
     /**

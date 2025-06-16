@@ -117,6 +117,17 @@ public class ProfiloController {
             return false;
         }
     }
+
+    /**
+     * Recupera lo username di un utente dato il suo ID.
+     *
+     * @param userId ID dell'utente.
+     * @return Username dell'utente, o "Sconosciuto" se non trovato.
+     */
+    public static String getUsernameByUserId(int userId) {
+        Profilo profilo = ProfiloDAO.getProfiloAtID(userId);
+        return profilo != null ? profilo.getUsername() : "Sconosciuto";
+    }
     
 
     /**
@@ -143,5 +154,14 @@ public class ProfiloController {
         }
         
         return null;
+    }
+
+    public static Profilo caricaProfilo(int userId) {
+
+        if (userId < 0) {
+            return null;
+        }
+        return ProfiloDAO.getProfiloAtID(userId);
+
     }
 }

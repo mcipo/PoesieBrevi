@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import controller.PoesiaController;
+import controller.ProfiloController;
 import entity.Commento;
 import entity.User;
 
@@ -209,7 +210,7 @@ public class CommentoPanel extends JPanel {
     private String getUsernameById(int userId) {
         try {
 
-            return PoesiaController.getUsernameByUserId(userId);
+            return ProfiloController.getUsernameByUserId(userId);
 
         } catch (Exception e) {
             return "UTENTEDEFAULT";

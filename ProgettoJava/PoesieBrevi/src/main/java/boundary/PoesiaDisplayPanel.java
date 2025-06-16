@@ -7,7 +7,9 @@ import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 
 import controller.PoesiaController;
+import controller.ProfiloController;
 import entity.Poesia;
+import entity.Profilo;
 import entity.User;
 
 /**
@@ -114,16 +116,29 @@ public class PoesiaDisplayPanel extends JPanel {
         JLabel titleLabel = UIUtils.titolo(poesia.getTitolo(), 0, 0, 16);
         headerPanel.add(titleLabel, BorderLayout.WEST);
 
-        String autoreUsername = "utente";
+        Profilo autore = null;
         try {
-            autoreUsername = PoesiaController.getUsernameByUserId(poesia.getAutoreID());
+
+            autore = ProfiloController.caricaProfilo(poesia.getAutoreID());
+
         } catch (Exception e) {
 
         }
-        JLabel autoreLabel = new JLabel("di " + autoreUsername);
-        autoreLabel.setFont(new Font(UIUtils.FONT, Font.ITALIC, 14));
-        headerPanel.add(autoreLabel, BorderLayout.EAST);
+        JPanel autorePanel = new JPanel();
+        autorePanel.setOpaque(false);
+        autorePanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 0));
 
+        JLabel autoreLabel = new JLabel("di " + autore.getUsername());
+        autoreLabel.setFont(new Font(UIUtils.FONT, Font.ITALIC, 14));
+        autorePanel.add(autoreLabel);
+
+        ImageIcon originalIcon = new ImageIcon(autore.getImmagineProfilo());
+        Image scaledImage = originalIcon.getImage().getScaledInstance(16, 16, Image.SCALE_SMOOTH); // Ridimensiona l'immagine
+        ImageIcon scaledIcon = new ImageIcon(scaledImage);
+        JLabel imageLabel = new JLabel(scaledIcon);
+        autorePanel.add(imageLabel);
+
+        headerPanel.add(autorePanel, BorderLayout.EAST);
         return headerPanel;
     }
 
