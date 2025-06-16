@@ -57,7 +57,7 @@ public class RaccolteFrame extends JFrame {
         headerPanel.add(titleLabel, BorderLayout.WEST);
 
         JButton backButton = UIUtils.bottone("Torna alla Home", Font.PLAIN, 14);
-        backButton.addActionListener(e -> {
+        backButton.addActionListener(_ -> {
             dispose();
             new HomeFrame(currentUser).setVisible(true);
         });
@@ -107,7 +107,7 @@ public class RaccolteFrame extends JFrame {
         creaRaccolta.setBounds((UIUtils.CONTENT_WIDTH - 150) / 2, y, 150, 40);
         panel.add(creaRaccolta);
 
-        creaRaccolta.addActionListener(e -> {
+        creaRaccolta.addActionListener(_ -> {
             if (handleCollectionCreation(titleField, descriptionArea)) {
                 dispose();
                 new HomeFrame(currentUser).setVisible(true);
@@ -169,7 +169,7 @@ public class RaccolteFrame extends JFrame {
 
 
         JButton createNewButton = UIUtils.bottone("Crea Nuova Raccolta", Font.PLAIN, 14);
-        createNewButton.addActionListener(e -> {
+        createNewButton.addActionListener(_ -> {
             dispose();
             new RaccolteFrame(currentUser, true).setVisible(true);
         });

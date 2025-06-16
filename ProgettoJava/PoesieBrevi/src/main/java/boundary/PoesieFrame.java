@@ -58,7 +58,7 @@ public class PoesieFrame extends JFrame {
         headerPanel.add(titleLabel, BorderLayout.WEST);
 
         JButton backButton = UIUtils.bottone("Torna alla Home", Font.PLAIN, 14);
-        backButton.addActionListener(e -> {
+        backButton.addActionListener(_ -> {
             dispose();
             new HomeFrame(currentUser).setVisible(true);
         });
@@ -180,7 +180,7 @@ public class PoesieFrame extends JFrame {
             }
         });
 
-        pubblicaButton.addActionListener(e -> {
+        pubblicaButton.addActionListener(_ -> {
             if (PubblicaPoesia(titleField, contentArea, tagsField, visibleCheckbox,
                     raccoltaCombo, newCollectionTitleField, newCollectionDescField)) {
                 resetPoesiaForm(titleField, contentArea, tagsField, raccoltaCombo, newRaccoltaPanel);
@@ -328,7 +328,7 @@ public class PoesieFrame extends JFrame {
         nuovaPoesiaButton.setForeground(Color.BLACK);
         nuovaPoesiaButton.setFocusPainted(false);
         nuovaPoesiaButton.setMargin(new Insets(8, 15, 8, 15));
-        nuovaPoesiaButton.addActionListener(e -> {
+        nuovaPoesiaButton.addActionListener(_ -> {
             dispose();
             new PoesieFrame(currentUser, true).setVisible(true);
         });
