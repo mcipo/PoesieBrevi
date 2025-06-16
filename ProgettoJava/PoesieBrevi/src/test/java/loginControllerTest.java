@@ -6,8 +6,8 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 public class loginControllerTest {
 
-    private final String testEmail = "m@email.com";//"emailCorretta@email.com"; //email esistente
-    private final String correctPassword = "1234";
+    private final String testEmail = "test@prova.com";
+    private final String correctPassword = "password123";
     private final String wrongPassword = "passwordSbagliata";
     private final String nonExistentEmail = "emailSbagliata@email.com";
 
