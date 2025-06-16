@@ -1,80 +1,59 @@
 package database.DAO;
 
+import database.DatabaseConnection;
 import entity.User;
 import entity.Profilo;
-import database.DatabaseConnection;
 
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class UserDAO {
-    private final ProfiloDAO profiloDAO = new ProfiloDAO();
 
-    private Connection connection;
+    private static final Logger LOGGER = Logger.getLogger(UserDAO.class.getName());
 
-    public UserDAO() {
-        try {
-            DatabaseConnection dbConnection = DatabaseConnection.getInstance();
-            this.connection = dbConnection.getConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public User getUserByEmail(String userEmail) {
+    public static User getUserByEmail(String userEmail) {
         String query = "SELECT * FROM users WHERE email = ?";
+        try{
+            ResultSet resultSet = DatabaseConnection.executeQuery(query, userEmail);
+            if (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String email = resultSet.getString("email");
+                String nome = resultSet.getString("nome");
+                String cognome = resultSet.getString("cognome");
+                String password = resultSet.getString("password");
+                boolean amministratore = resultSet.getBoolean("amministratore");
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setString(1, userEmail);
-
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) {
-                    int id = resultSet.getInt("id");
-                    String email = resultSet.getString("email");
-                    String nome = resultSet.getString("nome");
-                    String cognome = resultSet.getString("cognome");
-                    String password = resultSet.getString("password");
-                    boolean amministratore = resultSet.getBoolean("amministratore");
-
-                    Profilo profilo = profiloDAO.getProfiloAtID(id);
-                    if (profilo == null) {
-                        profilo = new Profilo(nome + cognome.charAt(0), "Nessuna biografia", "", null);
-                    }
-                    User user = new User(password, email, nome, cognome, amministratore, profilo);
-                    user.setId(id);
-                    return user;
+                Profilo profilo = ProfiloDAO.getProfiloAtID(id);
+                if (profilo == null) {
+                    profilo = new Profilo(nome + cognome.charAt(0), "Nessuna biografia", "", null);
                 }
+                User user = new User(password, email, nome, cognome, amministratore, profilo);
+                user.setId(id);
+                return user;
             }
         } catch (SQLException e) {
-            System.err.println("Errore durante il recupero dell'utente: " + e.getMessage());
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Errore in getUserByEmail", e);
         }
         return null;
     }
 
-    public boolean addUser(User user) {
+    public static boolean addUser(User user) {
         String query = "INSERT INTO users (email, password, nome, cognome, amministratore) VALUES (?, ?, ?, ?, ?)";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setString(1, user.getEmail());
-            preparedStatement.setString(2, user.getPassword());
-            preparedStatement.setString(3, user.getNome());
-            preparedStatement.setString(4, user.getCognome());
-            preparedStatement.setBoolean(5, user.isAdmin());
-
-            if (preparedStatement.executeUpdate() > 0) {
-                String getIdQuery = "SELECT id FROM users WHERE email = ?";
-                try (PreparedStatement idStatement = connection.prepareStatement(getIdQuery)) {
-                    idStatement.setString(1, user.getEmail());
-                    ResultSet resultSet = idStatement.executeQuery();
-                    if (resultSet.next()) {
-                        int userId = resultSet.getInt("id");
-                        user.setId(userId);
-                        profiloDAO.createProfilo(user.getProfilo(), userId);
-                        return true;
-                    }
+        try{
+            int result = DatabaseConnection.executeUpdate(query,user.getEmail(), user.getPassword(), user.getNome(), user.getCognome(), user.isAdmin());
+            if (result > 0) {
+                String queryID = "SELECT id FROM users WHERE email = ?";
+                ResultSet resultSet = DatabaseConnection.executeQuery(queryID, user.getEmail());
+                if (resultSet.next()) {
+                    int userId = resultSet.getInt("id");
+                    user.setId(userId);
+                    ProfiloDAO.createProfilo(user.getProfilo(), userId);
+                    return true;
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Errore in addUser", e);
         }
         return false;
     }

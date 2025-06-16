@@ -5,24 +5,16 @@ import database.DatabaseConnection;
 
 import java.sql.*;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ProfiloDAO {
-    private Connection connection;
+    private static final Logger LOGGER = Logger.getLogger(ProfiloDAO.class.getName());
 
-    public ProfiloDAO() {
-        try {
-            DatabaseConnection dbConnection = DatabaseConnection.getInstance();
-            this.connection = dbConnection.getConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public Profilo getProfiloAtID(int userId) {
+    public static Profilo getProfiloAtID(int userId) {
         String query = "SELECT * FROM user_profiles WHERE user_id = ?";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setInt(1, userId);
-            ResultSet resultSet = preparedStatement.executeQuery();
+        try{
+            ResultSet resultSet = DatabaseConnection.executeQuery(query, userId);
 
             if (resultSet.next()) {
                 String username = resultSet.getString("username");
@@ -32,49 +24,38 @@ public class ProfiloDAO {
                 return new Profilo(username, bio, fotoProfiloPath, dataNascita);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Errore getting profilo", e);
         }
         return null;
     }
 
-    public void updateProfilo(Profilo profilo, int userId) {
+    public static void updateProfilo(Profilo profilo, int userId) {
         String query = "UPDATE user_profiles SET username = ?, bio = ?, foto_profilo_path = ?, data_nascita = ? WHERE user_id = ?";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setString(1, profilo.getUsername());
-            preparedStatement.setString(2, profilo.getBio());
-            preparedStatement.setString(3, profilo.getImmagineProfilo());
+        try{
+            Date dataNascita = null;
             if (profilo.getDataNascita() != null) {
-                preparedStatement.setDate(4, new java.sql.Date(profilo.getDataNascita().getTime()));
-            } else {
-                preparedStatement.setDate(4, null);
+                dataNascita =  new java.sql.Date(profilo.getDataNascita().getTime());
             }
-            preparedStatement.setInt(5, userId);
-            preparedStatement.executeUpdate();
+            DatabaseConnection.executeUpdate(query, profilo.getUsername(), profilo.getBio(), profilo.getImmagineProfilo(), dataNascita, userId);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Errore updating profilo", e);
         }
     }
 
-    public void createProfilo(Profilo profilo, int userId) {
+    public static void createProfilo(Profilo profilo, int userId) {
         String query = "INSERT INTO user_profiles (user_id, username, bio, foto_profilo_path, data_nascita) VALUES (?, ?, ?, ?, ?)";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setInt(1, userId);
-            System.out.println(profilo.getUsername());
-            preparedStatement.setString(2, profilo.getUsername());
-            preparedStatement.setString(3, profilo.getBio());
-            preparedStatement.setString(4, profilo.getImmagineProfilo());
+        try {
+            Date dataNascita = null;
             if (profilo.getDataNascita() != null) {
-                preparedStatement.setDate(5, new java.sql.Date(profilo.getDataNascita().getTime()));
-            } else {
-                preparedStatement.setDate(5, null);
+                dataNascita =  new java.sql.Date(profilo.getDataNascita().getTime());
             }
-            preparedStatement.executeUpdate();
+            DatabaseConnection.executeUpdate(query, userId, profilo.getUsername(), profilo.getBio(), profilo.getImmagineProfilo(), dataNascita);
         } catch (SQLException e) {
             if (e instanceof SQLIntegrityConstraintViolationException) {
-                System.out.println("Chiave duplicata rilevata, tentativo di aggiornamento del profilo esistente");
+                LOGGER.log(Level.SEVERE, "Errore in createProfilo - chiave duplicata", e);
                 updateProfilo(profilo, userId);
             } else {
-                e.printStackTrace();
+                LOGGER.log(Level.SEVERE, "Errore in createProfilo", e);
             }
         }
     }

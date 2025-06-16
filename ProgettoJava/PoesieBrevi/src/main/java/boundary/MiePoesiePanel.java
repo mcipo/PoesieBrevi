@@ -36,8 +36,8 @@ import entity.User;
             poesieContainer.setBackground(Color.WHITE);
 
             try {
-                PoesiaController controller = new PoesiaController();
-                List<Poesia> poesie = controller.getPoesieByAutore(currentUser.getId());
+
+                List<Poesia> poesie = PoesiaController.getPoesieByAutore(currentUser.getId());
 
                 if (poesie.isEmpty()) {
                     JLabel noPoesie = UIUtils.label("Non hai ancora scritto poesie", 0, 0, 14);

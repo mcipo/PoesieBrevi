@@ -6,28 +6,25 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static org.junit.Assert.*;
 
 public class PoesiaControllerTest {
 
-    private PoesiaController poesiaController;
-    private Connection connection;
+    private static final Logger LOGGER = Logger.getLogger(PoesiaControllerTest.class.getName());
     private final int testUserId = 1;
     private final String testUserEmail = "m@email.com";
     private int poesiaIdCreata;
     private int raccoltaIdCreata;
 
     @Before
-    public void setUp() throws SQLException {
-        poesiaController = new PoesiaController();
-        DatabaseConnection dbConnection = DatabaseConnection.getInstance();
-        this.connection = dbConnection.getConnection();
+    public void setUp() throws SQLException, ClassNotFoundException {
+
 
     }
 
@@ -35,17 +32,19 @@ public class PoesiaControllerTest {
     public void tearDown() throws SQLException {
         if (poesiaIdCreata > 0) {
             String query = "DELETE FROM poesie WHERE id = ?";
-            try (PreparedStatement stmt = connection.prepareStatement(query)) {
-                stmt.setInt(1, poesiaIdCreata);
-                stmt.executeUpdate();
+            int result = DatabaseConnection.executeUpdate(query, poesiaIdCreata);
+            if (result < 0){
+                LOGGER.log(Level.SEVERE, "tearDown - Errore nell'eliminazione della poesie dal DB");
+                return;
             }
             poesiaIdCreata = 0;
         }
         if (raccoltaIdCreata > 0) {
             String query = "DELETE FROM raccolte WHERE id = ?";
-            try (PreparedStatement stmt = connection.prepareStatement(query)) {
-                stmt.setInt(1, raccoltaIdCreata);
-                stmt.executeUpdate();
+            int result = DatabaseConnection.executeUpdate(query, raccoltaIdCreata);
+            if (result < 0){
+                LOGGER.log(Level.SEVERE, "tearDown - Errore nell'eliminazione della raccolta dal DB");
+                return;
             }
             raccoltaIdCreata = 0;
         }
@@ -58,7 +57,7 @@ public class PoesiaControllerTest {
         String tags = "test,junit,poesia";
         boolean visibile = true;
 
-        boolean risultato = poesiaController.creaPoesia(titolo, contenuto, tags, visibile, testUserId, -1);
+        boolean risultato = PoesiaController.creaPoesia(titolo, contenuto, tags, visibile, testUserId, -1);
 
         assertTrue("La creazione di una poesia valida dovrebbe restituire true", risultato);
 
@@ -69,16 +68,14 @@ public class PoesiaControllerTest {
             fail("Errore SQL durante la verifica della poesia creata: " + e.getMessage());
         }
     }
-    private int trovaIdPoesiaPerTitolo(String titolo) throws SQLException {
+    private int trovaIdPoesiaPerTitolo(String titolo) throws SQLException{
         String query = "SELECT id FROM poesie WHERE titolo = ? AND autore_id = ? ORDER BY data_creazione DESC LIMIT 1";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setString(1, titolo);
-            stmt.setInt(2, testUserId);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                return rs.getInt("id");
-            }
+
+        ResultSet result = DatabaseConnection.executeQuery(query, titolo, testUserId);
+        if (result.next()) {
+            return result.getInt("id");
         }
+
         return -1;
     }
 
@@ -88,7 +85,7 @@ public class PoesiaControllerTest {
         String contenuto = "Questa è una poesia di test con titolo vuoto.";
         String tags = "test,junit";
         boolean visibile = true;
-        boolean risultato = poesiaController.creaPoesia(titolo, contenuto, tags, visibile, testUserId, -1);
+        boolean risultato = PoesiaController.creaPoesia(titolo, contenuto, tags, visibile, testUserId, -1);
         assertFalse("La creazione di una poesia con titolo vuoto dovrebbe restituire false", risultato);
     }
 
@@ -99,7 +96,7 @@ public class PoesiaControllerTest {
         String tags = "test,junit";
         boolean visibile = true;
 
-        boolean risultato = poesiaController.creaPoesia(titolo, contenuto, tags, visibile, testUserId, -1);
+        boolean risultato = PoesiaController.creaPoesia(titolo, contenuto, tags, visibile, testUserId, -1);
 
         assertFalse("La creazione di una poesia con contenuto vuoto dovrebbe restituire false", risultato);
     }
@@ -114,7 +111,7 @@ public class PoesiaControllerTest {
         String contenuto = sb.toString();
         String tags = "test,junit";
         boolean visibile = true;
-        boolean risultato = poesiaController.creaPoesia(titolo, contenuto, tags, visibile, testUserId, -1);
+        boolean risultato = PoesiaController.creaPoesia(titolo, contenuto, tags, visibile, testUserId, -1);
         assertFalse("La creazione di una poesia con contenuto troppo lungo dovrebbe restituire false", risultato);
     }
 
@@ -123,7 +120,7 @@ public class PoesiaControllerTest {
         String titolo = "Test Raccolta JUnit";
         String descrizione = "Questa è una raccolta di test creata con JUnit.";
 
-        int raccoltaId = poesiaController.creaRaccolta(titolo, descrizione, testUserId);
+        int raccoltaId = PoesiaController.creaRaccolta(titolo, descrizione, testUserId);
         assertTrue("La creazione di una raccolta valida dovrebbe restituire un ID > 0", raccoltaId > 0);
         raccoltaIdCreata = raccoltaId;
         try {
@@ -135,18 +132,15 @@ public class PoesiaControllerTest {
     }
     private boolean verificaEsistenzaRaccoltaId(int raccoltaId) throws SQLException {
         String query = "SELECT COUNT(*) FROM raccolte WHERE id = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setInt(1, raccoltaId);
-            ResultSet rs = stmt.executeQuery();
-            return rs.next() && rs.getInt(1) > 0;
-        }
+        ResultSet result = DatabaseConnection.executeQuery(query, raccoltaId);
+        return result.next() && result.getInt(1) > 0;
     }
 
     @Test
     public void testCreaRaccoltaConTitoloVuoto() {
         String titolo = "";
         String descrizione = "Questa è una descrizione di test.";
-        int raccoltaId = poesiaController.creaRaccolta(titolo, descrizione, testUserId);
+        int raccoltaId = PoesiaController.creaRaccolta(titolo, descrizione, testUserId);
         assertEquals("La creazione di una raccolta con titolo vuoto dovrebbe restituire -1", -1, raccoltaId);
     }
 
@@ -155,7 +149,7 @@ public class PoesiaControllerTest {
         String titoloRaccolta = "Test Raccolta per Poesie";
         String descrizioneRaccolta = "Raccolta per contenere poesie di test";
 
-        int raccoltaId = poesiaController.creaRaccolta(titoloRaccolta, descrizioneRaccolta, testUserId);
+        int raccoltaId = PoesiaController.creaRaccolta(titoloRaccolta, descrizioneRaccolta, testUserId);
         assertTrue("La creazione della raccolta dovrebbe riuscire", raccoltaId > 0);
         raccoltaIdCreata = raccoltaId;
 
@@ -164,7 +158,7 @@ public class PoesiaControllerTest {
         String tags = "test,raccolta,junit";
         boolean visibile = true;
 
-        boolean risultato = poesiaController.creaPoesia(titoloPoesia, contenutoPoesia, tags, visibile, testUserId, raccoltaId);
+        boolean risultato = PoesiaController.creaPoesia(titoloPoesia, contenutoPoesia, tags, visibile, testUserId, raccoltaId);
         assertTrue("La creazione della poesia in una raccolta dovrebbe riuscire", risultato);
         poesiaIdCreata = trovaIdPoesiaPerTitolo(titoloPoesia);
 
@@ -174,12 +168,10 @@ public class PoesiaControllerTest {
 
     private int recuperaRaccoltaIdPerPoesia(int poesiaId) throws SQLException {
         String query = "SELECT raccolta_id FROM poesie WHERE id = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setInt(1, poesiaId);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                return rs.getInt("raccolta_id");
-            }
+
+        ResultSet result = DatabaseConnection.executeQuery(query, poesiaId);
+        if (result.next()) {
+            return result.getInt("raccolta_id");
         }
         return -1;
     }
@@ -192,7 +184,7 @@ public class PoesiaControllerTest {
         String tags = "test,recupero,junit";
         boolean visibile = true;
 
-        boolean risultatoCreazione = poesiaController.creaPoesia(titolo, contenuto, tags, visibile, testUserId, -1);
+        boolean risultatoCreazione = PoesiaController.creaPoesia(titolo, contenuto, tags, visibile, testUserId, -1);
         assertTrue("La creazione della poesia di test dovrebbe riuscire", risultatoCreazione);
 
         try {
@@ -201,7 +193,7 @@ public class PoesiaControllerTest {
             fail("Errore nel trovare l'ID della poesia creata: " + e.getMessage());
         }
 
-        List<Poesia> poesie = poesiaController.getPoesieByAutore(testUserId);
+        List<Poesia> poesie = PoesiaController.getPoesieByAutore(testUserId);
 
         assertFalse("L'utente dovrebbe avere almeno una poesia", poesie.isEmpty());
 
@@ -221,11 +213,11 @@ public class PoesiaControllerTest {
         String titolo = "Test Raccolta per getRaccolteUtente";
         String descrizione = "Questa raccolta è usata per testare il recupero delle raccolte di un utente.";
 
-        int raccoltaId = poesiaController.creaRaccolta(titolo, descrizione, testUserId);
+        int raccoltaId = PoesiaController.creaRaccolta(titolo, descrizione, testUserId);
         assertTrue("La creazione della raccolta di test dovrebbe riuscire", raccoltaId > 0);
         raccoltaIdCreata = raccoltaId;
 
-        List<Raccolta> raccolte = poesiaController.getRaccolteUtente(testUserId);
+        List<Raccolta> raccolte = PoesiaController.getRaccolteUtente(testUserId);
 
         assertFalse("L'utente dovrebbe avere almeno una raccolta", raccolte.isEmpty());
 
@@ -240,9 +232,5 @@ public class PoesiaControllerTest {
         }
         assertTrue("La raccolta appena creata dovrebbe essere nella lista", trovata);
     }
-
-
-
-
 
 }

@@ -35,8 +35,7 @@ public class MieRaccoltePanel extends JPanel {
         raccolteContainer.setBackground(Color.WHITE);
 
         try {
-            PoesiaController controller = new PoesiaController();
-            List<entity.Raccolta> raccolte = controller.getRaccolteUtente(currentUser.getId());
+            List<entity.Raccolta> raccolte = PoesiaController.getRaccolteUtente(currentUser.getId());
 
             if (raccolte.isEmpty()) {
                 JLabel noRaccolte = new JLabel("Non hai ancora creato raccolte");

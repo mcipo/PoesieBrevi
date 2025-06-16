@@ -8,28 +8,18 @@ import java.util.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class PoesiaDAO {
 
-    private Connection connection;
+    private  static final Logger LOGGER = Logger.getLogger(PoesiaDAO.class.getName());
 
-    public PoesiaDAO() {
-        try {
-            DatabaseConnection dbConnection = DatabaseConnection.getInstance();
-            this.connection = dbConnection.getConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public List<Poesia> getUltimePoesiePerFeed(int userId, int limite) {
+    public static List<Poesia> getUltimePoesiePerFeed(int userId, int limite) {
         List<Poesia> poesie = new ArrayList<>();
         String query = "SELECT * FROM poesie WHERE visibile = true AND autore_id != ? ORDER BY data_creazione DESC LIMIT ?";
-
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setInt(1, userId);
-            preparedStatement.setInt(2, limite);
-            ResultSet resultSet = preparedStatement.executeQuery();
+        try{
+            ResultSet resultSet = DatabaseConnection.executeQuery(query, userId, limite);
 
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
@@ -51,20 +41,18 @@ public class PoesiaDAO {
                 poesie.add(new Poesia(id, titolo, contenuto, tags, visibile, dataCreazione, autoreId, raccoltaId));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE,"Errore in getUltimePoesiePerFeed", e);
         }
 
         return poesie;
     }
     
 
-    public List<Poesia> getPoesieByAutore(int autoreId) {
+    public static List<Poesia> getPoesieByAutore(int autoreId) {
         List<Poesia> poesie = new ArrayList<>();
         String query = "SELECT * FROM poesie WHERE autore_id = ? ORDER BY data_creazione DESC";
-
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setInt(1, autoreId);
-            ResultSet resultSet = preparedStatement.executeQuery();
+        try{
+            ResultSet resultSet = DatabaseConnection.executeQuery(query, autoreId);
 
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
@@ -85,36 +73,27 @@ public class PoesiaDAO {
                 poesie.add(new Poesia(id, titolo, contenuto, tags, visibile, dataCreazione, autoreId, raccoltaId));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE,"Errore in getPoesieByAutore",e);
         }
 
         return poesie;
     }
 
-    public boolean addPoem(Poesia poesia) {
+    public static boolean addPoesia(Poesia poesia) {
         String query = "INSERT INTO poesie (titolo, contenuto, tag, visibile, data_creazione, autore_id, raccolta_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
-
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            String tagsString = poesia.getTags() != null && !poesia.getTags().isEmpty() ? 
-                                String.join(",", poesia.getTags()) : "";
-                                
-            preparedStatement.setString(1, poesia.getTitolo());
-            preparedStatement.setString(2, poesia.getContenuto());
-            preparedStatement.setString(3, tagsString);
-            preparedStatement.setBoolean(4, poesia.getVisibile());
-            preparedStatement.setTimestamp(5, new Timestamp(poesia.getDataCreazione().getTime()));
-            preparedStatement.setInt(6, poesia.getAutoreID());
-            
-            if (poesia.getRaccoltaID() > 0) {
-                preparedStatement.setInt(7, poesia.getRaccoltaID());
-            } else {
-                preparedStatement.setNull(7, java.sql.Types.INTEGER);
+        try{
+            String tagsString = poesia.getTags() != null && !poesia.getTags().isEmpty() ? String.join(",", poesia.getTags()) : "";
+            int raccoltaID = 0;
+            if (poesia.getRaccoltaID() > 0){
+                raccoltaID = poesia.getRaccoltaID();
+            }else{
+                raccoltaID = java.sql.Types.INTEGER;
             }
+            int result = DatabaseConnection.executeUpdate(query, poesia.getTitolo(), poesia.getContenuto(), tagsString, poesia.getVisibile(), new Timestamp(poesia.getDataCreazione().getTime()), poesia.getAutoreID(), raccoltaID);
 
-            return preparedStatement.executeUpdate() > 0;
-
+            return result > 0;
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE,"Errore in addPoesia", e);
         }
 
         return false;

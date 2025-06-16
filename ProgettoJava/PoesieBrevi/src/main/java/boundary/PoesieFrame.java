@@ -146,13 +146,13 @@ public class PoesieFrame extends JFrame {
         JLabel rcccoltaLabel = UIUtils.label("Raccolta: ", 10, y, 14);
         panel.add(rcccoltaLabel);
 
-        PoesiaController controller = new PoesiaController();
+
         JComboBox<String> raccoltaCombo = new JComboBox<>();
         raccoltaCombo.addItem("-- Nessuna Raccolta --");
         raccoltaCombo.addItem("-- Crea nuova raccolta --");
 
         try {
-            controller.getRaccolteUtente(currentUser.getId()).forEach(raccolta ->
+            PoesiaController.getRaccolteUtente(currentUser.getId()).forEach(raccolta ->
                     raccoltaCombo.addItem(raccolta.getId() + ": " + raccolta.getTitolo())
             );
         } catch (Exception e) {
@@ -289,7 +289,7 @@ public class PoesieFrame extends JFrame {
         String raccoltaSelezionata = (String) RaccoltaCombo.getSelectedItem();
 
         try {
-            PoesiaController controller = new PoesiaController();
+
 
             if (raccoltaSelezionata.equals("-- Crea nuova raccolta --")) {
 
@@ -303,7 +303,7 @@ public class PoesieFrame extends JFrame {
                     return false;
                 }
 
-                raccoltaId = controller.creaRaccolta(nuovoTitolo, nuovaDescrizione, currentUser.getId());
+                raccoltaId = PoesiaController.creaRaccolta(nuovoTitolo, nuovaDescrizione, currentUser.getId());
 
                 if (raccoltaId == -1) {
                     JOptionPane.showMessageDialog(this,
@@ -315,7 +315,7 @@ public class PoesieFrame extends JFrame {
                 raccoltaId = Integer.parseInt(raccoltaSelezionata.split(":")[0].trim());
             }
 
-            boolean success = controller.creaPoesia(titolo, contenuto, tags, isVisible,
+            boolean success = PoesiaController.creaPoesia(titolo, contenuto, tags, isVisible,
                     currentUser.getId(), raccoltaId);
 
             if (success) {
@@ -373,8 +373,8 @@ public class PoesieFrame extends JFrame {
         poesieContainer.add(Box.createVerticalStrut(20));
 
         try {
-            PoesiaController controller = new PoesiaController();
-            List<Poesia> poesie = controller.getPoesieByAutore(currentUser.getId());
+
+            List<Poesia> poesie = PoesiaController.getPoesieByAutore(currentUser.getId());
 
             if (poesie.isEmpty()) {
                 JLabel nessunaPoesia = new JLabel("Non hai ancora scritto poesie");

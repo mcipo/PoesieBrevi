@@ -109,12 +109,11 @@ public class LoginFrame extends JFrame {
                     JOptionPane.showMessageDialog(LoginFrame.this, "Inserisci un indirizzo email valido", "Errore di login", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                LoginController loginController = new LoginController();
 
                 try {
-                    if (loginController.esisteUtente(email)) {
-                        if (loginController.verificaCredenziali(email, password)) {
-                            User user = loginController.autenticaUtente(email, password);
+                    if (LoginController.esisteUtente(email)) {
+                        if (LoginController.verificaCredenziali(email, password)) {
+                            User user = LoginController.autenticaUtente(email, password);
                             System.out.println(email + " ha effettuato il login");
                             JOptionPane.showMessageDialog(LoginFrame.this, "Login effettuato con successo!", "Successo", JOptionPane.INFORMATION_MESSAGE);
                             dispose();
@@ -125,7 +124,7 @@ public class LoginFrame extends JFrame {
                     } else {
                         JOptionPane.showMessageDialog(LoginFrame.this, "Email non registrata", "Errore di login", JOptionPane.ERROR_MESSAGE);
                     }
-                } catch (Exception ex) {
+                }catch (Exception ex) {
                     JOptionPane.showMessageDialog(LoginFrame.this, "Errore durante il login: " + ex.getMessage(),
                             "Errore di sistema", JOptionPane.ERROR_MESSAGE);
                     ex.printStackTrace();

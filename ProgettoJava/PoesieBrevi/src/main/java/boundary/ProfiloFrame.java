@@ -170,8 +170,8 @@ public class ProfiloFrame extends JFrame {
 
             Profilo profilo = new Profilo(username, bio, pathImmagineSelezionata, dataNascita);
 
-            ProfiloController profiloController = new ProfiloController();
-            boolean datiValidi = profiloController.validaDatiProfilo(username, bio, dataNascita);
+
+            boolean datiValidi = ProfiloController.validaDatiProfilo(username, bio, dataNascita);
 
             if (!datiValidi) {
                 JOptionPane.showMessageDialog(ProfiloFrame.this,
@@ -189,8 +189,8 @@ public class ProfiloFrame extends JFrame {
             boolean success;
 
             if (nuovoUtente) {
-                RegistrazioneController registrazioneController = new RegistrazioneController();
-                success = registrazioneController.salvaUtente(currentUser);
+
+                success = RegistrazioneController.salvaUtente(currentUser);
 
                 if (success) {
                     JOptionPane.showMessageDialog(ProfiloFrame.this,
@@ -204,7 +204,7 @@ public class ProfiloFrame extends JFrame {
                             "Errore", JOptionPane.ERROR_MESSAGE);
                 }
             } else {
-                success = profiloController.salvaModificheProfilo(currentUser, profilo);
+                success = ProfiloController.salvaModificheProfilo(currentUser, profilo);
 
                 if (success) {
                     JOptionPane.showMessageDialog(ProfiloFrame.this,
@@ -249,8 +249,8 @@ public class ProfiloFrame extends JFrame {
 
     private void caricaDatiProfilo() {
         try {
-            ProfiloController profiloController = new ProfiloController();
-            Profilo profilo = profiloController.caricaProfilo(currentUser);
+
+            Profilo profilo = ProfiloController.caricaProfilo(currentUser);
             
             if (profilo != null) {
                 usernameField.setText(profilo.getUsername());

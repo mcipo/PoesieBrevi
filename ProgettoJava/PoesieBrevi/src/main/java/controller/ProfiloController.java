@@ -1,5 +1,6 @@
 package controller;
 
+import database.DAO.ProfiloDAO;
 import entity.Profilo;
 import entity.User;
 import java.io.File;
@@ -15,7 +16,7 @@ public class ProfiloController {
     private static final String IMG_DIRECTORY = "resources/immagine_profilo/";
     
 
-    public boolean validaDatiProfilo(String username, String bio, Date dataNascita) {
+    public static boolean validaDatiProfilo(String username, String bio, Date dataNascita) {
         if (username == null || username.trim().isEmpty() || username.length() < 3 || username.length() > 30) {
             return false;
         }
@@ -35,7 +36,7 @@ public class ProfiloController {
     }
     
 
-    public boolean salvaModificheProfilo(User user, Profilo profilo) {
+    public static boolean salvaModificheProfilo(User user, Profilo profilo) {
         if (user == null || profilo == null) {
             return false;
         }
@@ -70,17 +71,16 @@ public class ProfiloController {
             }
             
             user.setProfilo(profilo);
-            
-            database.DAO.ProfiloDAO profiloDAO = new database.DAO.ProfiloDAO();
+
             
 
-            Profilo existingProfile = profiloDAO.getProfiloAtID(user.getId());
+            Profilo existingProfile = ProfiloDAO.getProfiloAtID(user.getId());
             if (existingProfile != null) {
 
-                profiloDAO.updateProfilo(profilo, user.getId());
+                ProfiloDAO.updateProfilo(profilo, user.getId());
             } else {
 
-                profiloDAO.createProfilo(profilo, user.getId());
+                ProfiloDAO.createProfilo(profilo, user.getId());
             }
             
             System.out.println("Profilo aggiornato per l'utente ID: " + user.getId());
@@ -93,7 +93,7 @@ public class ProfiloController {
     }
     
 
-    public Profilo caricaProfilo(User user) {
+    public static Profilo caricaProfilo(User user) {
         if (user == null) {
             return null;
         }
@@ -101,9 +101,8 @@ public class ProfiloController {
         if (user.getProfilo() != null) {
             return user.getProfilo();
         }
-        
-        database.DAO.ProfiloDAO profiloDAO = new database.DAO.ProfiloDAO();
-        Profilo profilo = profiloDAO.getProfiloAtID(user.getId());
+
+        Profilo profilo = ProfiloDAO.getProfiloAtID(user.getId());
         
         if (profilo != null) {
             user.setProfilo(profilo);

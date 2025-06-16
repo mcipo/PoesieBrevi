@@ -10,20 +10,9 @@ import java.util.Date;
 import java.util.List;
 
 public class PoesiaController {
-    
-    private final PoesiaDAO poesiaDAO;
-    private final RaccoltaDAO raccoltaDAO;
-    private final CuoreDAO cuoreDAO;
-    private final ProfiloDAO profiloDAO;
-    
-    public PoesiaController() {
-        this.poesiaDAO = new PoesiaDAO();
-        this.raccoltaDAO = new RaccoltaDAO();
-        this.cuoreDAO = new CuoreDAO();
-        this.profiloDAO = new ProfiloDAO();
-    }
 
-    public boolean creaPoesia(String titolo, String contenuto, String tags, boolean visibile, int autoreId, int raccoltaId) {
+
+    public static boolean creaPoesia(String titolo, String contenuto, String tags, boolean visibile, int autoreId, int raccoltaId) {
 
         if (titolo == null || titolo.trim().isEmpty() || contenuto == null || contenuto.trim().isEmpty()) {
             return false;
@@ -54,11 +43,11 @@ public class PoesiaController {
             raccoltaId == -1 ? 0 : raccoltaId
         );
         
-        return poesiaDAO.addPoem(nuovaPoesia);
+        return PoesiaDAO.addPoesia(nuovaPoesia);
     }
     
 
-    public int creaRaccolta(String titolo, String descrizione, int autoreId) {
+    public static int creaRaccolta(String titolo, String descrizione, int autoreId) {
 
         if (titolo == null || titolo.trim().isEmpty()) {
             return -1;
@@ -66,68 +55,65 @@ public class PoesiaController {
         
 
         Raccolta nuovaRaccolta = new Raccolta(0, titolo, descrizione, autoreId);
-        return raccoltaDAO.addRaccolta(nuovaRaccolta);
+        return RaccoltaDAO.addRaccolta(nuovaRaccolta);
     }
     
 
-    public List<Raccolta> getRaccolteUtente(int autoreId) {
-        return raccoltaDAO.getRaccoltaPerAutore(autoreId);
+    public static List<Raccolta> getRaccolteUtente(int autoreId) {
+        return RaccoltaDAO.getRaccoltaPerAutore(autoreId);
     }
     
 
-    public List<Poesia> getPoesieByAutore(int autoreId) {
-        return poesiaDAO.getPoesieByAutore(autoreId);
+    public static List<Poesia> getPoesieByAutore(int autoreId) {
+        return PoesiaDAO.getPoesieByAutore(autoreId);
     }
     
 
-    public List<Poesia> getUltimePoesiePerFeed(int userId, int limit) {
-        return poesiaDAO.getUltimePoesiePerFeed(userId, limit);
+    public static List<Poesia> getUltimePoesiePerFeed(int userId, int limit) {
+        return PoesiaDAO.getUltimePoesiePerFeed(userId, limit);
     }
     
 
-    public String getUsernameByUserId(int userId) {
-        Profilo profilo = profiloDAO.getProfiloAtID(userId);
+    public static String getUsernameByUserId(int userId) {
+        Profilo profilo = ProfiloDAO.getProfiloAtID(userId);
         return profilo != null ? profilo.getUsername() : "Sconosciuto";
     }
     
 
-    public int getNumCuori(int poesiaId) {
-        return cuoreDAO.getNumCuori(poesiaId);
+    public static int getNumCuori(int poesiaId) {
+        return CuoreDAO.getNumCuori(poesiaId);
     }
 
-    public int getNumCommenti(int poesiaId) throws SQLException {
-        CommentoDAO commentoDAO = new CommentoDAO();
-        int numCommenti = commentoDAO.getCommentiByPoesiaId(poesiaId).size();
+    public static int getNumCommenti(int poesiaId) throws SQLException {;
+        int numCommenti = CommentoDAO.getCommentiByPoesiaId(poesiaId).size();
         return numCommenti;
     }
 
-    public List<Commento> getCommenti(int poesiaId) throws SQLException {
-        CommentoDAO commentoDAO = new CommentoDAO();
-        List<Commento> commenti = commentoDAO.getCommentiByPoesiaId(poesiaId);
+    public static List<Commento> getCommenti(int poesiaId) throws SQLException {
+        List<Commento> commenti = CommentoDAO.getCommentiByPoesiaId(poesiaId);
         return commenti;
     }
 
-    public boolean salvaCommento(Commento nuovoCommento) {
-        CommentoDAO commentoDAO = new CommentoDAO();
+    public static boolean salvaCommento(Commento nuovoCommento) {
         try {
-            commentoDAO.addCommento(nuovoCommento);
+            CommentoDAO.addCommento(nuovoCommento);
             return true;
         } catch (Exception e) {
             return false;
         }
     }
 
-    public boolean hasUserCuorePoesia(int poesiaId, int userId) {
+    public static boolean hasUserCuorePoesia(int poesiaId, int userId) {
 
-        return cuoreDAO.hasUserLiked(poesiaId, userId);
+        return CuoreDAO.hasUserLiked(poesiaId, userId);
     }
     
 
-    public boolean toggleCuore(int poesiaId, int userId) {
+    public static boolean toggleCuore(int poesiaId, int userId) {
         if (hasUserCuorePoesia(poesiaId, userId)) {
-            return cuoreDAO.removeCuore(poesiaId, userId);
+            return CuoreDAO.removeCuore(poesiaId, userId);
         } else {
-            return cuoreDAO.addCuore(poesiaId, userId);
+            return CuoreDAO.addCuore(poesiaId, userId);
         }
     }
 }

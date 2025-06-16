@@ -4,13 +4,8 @@ import entity.User;
 import database.DAO.UserDAO;
 
 public class LoginController {
-    private final UserDAO userDAO;
-
-    public LoginController() {
-        this.userDAO = new UserDAO();
-    }
-    public User autenticaUtente(String email, String password) {
-        User user = userDAO.getUserByEmail(email);
+    public static User autenticaUtente(String email, String password) {
+        User user = UserDAO.getUserByEmail(email);
 
         if (user != null && user.getPassword().equals(password)) {
             return user;
@@ -19,16 +14,16 @@ public class LoginController {
         return null;
     }
 
-    public boolean esisteUtente(String email) {
-        return userDAO.getUserByEmail(email) != null;
+    public static boolean esisteUtente(String email) {
+        return UserDAO.getUserByEmail(email) != null;
     }
 
 
-    public boolean verificaCredenziali(String email, String password) {
+    public static boolean verificaCredenziali(String email, String password) {
         return autenticaUtente(email, password) != null;
     }
 
-    public boolean isAdmin(String email, String password) {
+    public static boolean isAdmin(String email, String password) {
         User user = autenticaUtente(email, password);
         return user != null && user.isAdmin();
     }

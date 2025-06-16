@@ -77,8 +77,7 @@ public class PoesiaDisplayPanel extends JPanel {
 
         String autoreUsername = "utente";
         try {
-            PoesiaController controller = new PoesiaController();
-            autoreUsername = controller.getUsernameByUserId(poesia.getAutoreID());
+            autoreUsername = PoesiaController.getUsernameByUserId(poesia.getAutoreID());
         } catch (Exception e) {
 
         }
@@ -158,8 +157,8 @@ public class PoesiaDisplayPanel extends JPanel {
     }
 
     private JButton getCommentoButton() throws SQLException {
-        PoesiaController controller = new PoesiaController();
-        int numCommenti = controller.getNumCommenti(poesia.getId());
+
+        int numCommenti = PoesiaController.getNumCommenti(poesia.getId());
 
         JButton commentButton = new JButton("\uDBC0\uDF24 Commenti (" + numCommenti + ")");
         commentButton.setFont(new Font(UIUtils.FONT, Font.BOLD, 14));
@@ -173,9 +172,9 @@ public class PoesiaDisplayPanel extends JPanel {
     }
 
     private JButton getCuoreButton() {
-        PoesiaController controller = new PoesiaController();
-        int numCuori = controller.getNumCuori(poesia.getId());
-        boolean isCuore = controller.hasUserCuorePoesia(poesia.getId(), currentUser.getId());
+
+        int numCuori = PoesiaController.getNumCuori(poesia.getId());
+        boolean isCuore = PoesiaController.hasUserCuorePoesia(poesia.getId(), currentUser.getId());
 
         JButton cuoreButton = new JButton((isCuore ? "\uDBC0\uDEB5" : "\uDBC0\uDEB4") + numCuori);
         cuoreButton.setFont(new Font(UIUtils.FONT, Font.BOLD, 14));
@@ -207,12 +206,12 @@ public class PoesiaDisplayPanel extends JPanel {
 
     private void handleCuoreButtonClick(JButton cuoreButton, int poesiaId) {
         try {
-            PoesiaController controller = new PoesiaController();
-            boolean success = controller.toggleCuore(poesiaId, currentUser.getId());
+
+            boolean success = PoesiaController.toggleCuore(poesiaId, currentUser.getId());
 
             if (success) {
-                int newNumCuori = controller.getNumCuori(poesiaId);
-                boolean userHasCuore = controller.hasUserCuorePoesia(poesiaId, currentUser.getId());
+                int newNumCuori = PoesiaController.getNumCuori(poesiaId);
+                boolean userHasCuore = PoesiaController.hasUserCuorePoesia(poesiaId, currentUser.getId());
 
                 cuoreButton.setText((userHasCuore ? "\uDBC0\uDEB5" : "\uDBC0\uDEB4") + newNumCuori);
                 cuoreButton.setForeground(userHasCuore ? Color.red : UIUtils.TEXT_COLOR);

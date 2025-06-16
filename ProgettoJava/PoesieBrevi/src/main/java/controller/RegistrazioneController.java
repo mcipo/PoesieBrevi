@@ -5,32 +5,27 @@ import entity.Profilo;
 import database.DAO.UserDAO;
 
 public class RegistrazioneController {
-    private final UserDAO userDAO;
-
-    public RegistrazioneController() {
-        this.userDAO = new UserDAO();
-    }
 
 
-    public User creaUtenteInMemoria(String nome, String cognome, String email, String password, boolean isAdmin) {
+    public static User creaUtenteInMemoria(String nome, String cognome, String email, String password, boolean isAdmin) {
         Profilo profilo = new Profilo("", "", "", null);
 
         return new User(password, email, nome, cognome, isAdmin, profilo);
     }
     
 
-    public boolean salvaUtente(User user) {
+    public static boolean salvaUtente(User user) {
         if (user == null) {
             return false;
         }
-        if (userDAO.getUserByEmail(user.getEmail()) != null) {
+        if (UserDAO.getUserByEmail(user.getEmail()) != null) {
             return false;
         }
         
-        return userDAO.addUser(user);
+        return UserDAO.addUser(user);
     }
 
-    public boolean esisteUtente(String email) {
-        return userDAO.getUserByEmail(email) != null;
+    public static boolean esisteUtente(String email) {
+        return UserDAO.getUserByEmail(email) != null;
     }
 }

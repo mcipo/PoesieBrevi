@@ -58,8 +58,7 @@ public class CommentoPanel extends JPanel {
      */
     private void caricaCommenti() {
         try {
-            PoesiaController poesiaController = new PoesiaController();
-            List<Commento> commenti = poesiaController.getCommenti(poesiaId);
+            List<Commento> commenti = PoesiaController.getCommenti(poesiaId);
 
             commentiListPanel.removeAll();
 
@@ -113,8 +112,7 @@ public class CommentoPanel extends JPanel {
             String contenuto = commentField.getText().trim();
             if (!contenuto.isEmpty()) {
                 Commento nuovoCommento = new Commento(0, poesiaId, currentUser.getId(), contenuto, new java.util.Date());
-                PoesiaController poesiaController = new PoesiaController();
-                boolean success = poesiaController.salvaCommento(nuovoCommento);
+                boolean success = PoesiaController.salvaCommento(nuovoCommento);
 
                 if (success) {
                     JPanel newCommentPanel = creaPanelSingoloCommento(nuovoCommento);
@@ -171,8 +169,8 @@ public class CommentoPanel extends JPanel {
 
     private String getUsernameById(int userId) {
         try {
-            PoesiaController controller = new PoesiaController();
-            return controller.getUsernameByUserId(userId);
+
+            return PoesiaController.getUsernameByUserId(userId);
 
         } catch (Exception e) {
             return "UTENTEDEFAULT";

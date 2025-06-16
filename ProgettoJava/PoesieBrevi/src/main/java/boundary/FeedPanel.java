@@ -24,8 +24,7 @@ public class FeedPanel extends JPanel {
         poesieContainer.setBackground(Color.WHITE);
 
         try {
-            PoesiaController controller = new PoesiaController();
-            List<Poesia> poesie = controller.getUltimePoesiePerFeed(currentUser.getId(), 5);
+            List<Poesia> poesie = PoesiaController.getUltimePoesiePerFeed(currentUser.getId(), 5);
 
             if (poesie.isEmpty()) {
                 JLabel noPoesie = new JLabel("Nessuna poesia disponibile nel feed");

@@ -6,54 +6,28 @@ import database.DatabaseConnection;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class RaccoltaDAO {
+    private static final Logger LOGGER = Logger.getLogger(RaccoltaDAO.class.getName());
 
-    private Connection connection;
-
-    public RaccoltaDAO() {
-        try {
-            DatabaseConnection dbConnection = DatabaseConnection.getInstance();
-            this.connection = dbConnection.getConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public int addRaccolta(Raccolta raccolta) {
+    public static int addRaccolta(Raccolta raccolta) {
         String query = "INSERT INTO raccolte (titolo, descrizione, autore_id) VALUES (?, ?, ?)";
-        try (PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
-            statement.setString(1, raccolta.getTitolo());
-            statement.setString(2, raccolta.getDescrizione());
-            statement.setInt(3, raccolta.getAutoreID());
-            
-            int affectedRows = statement.executeUpdate();
-            if (affectedRows == 0) {
-                return -1;
-            }
-            
-            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    return generatedKeys.getInt(1);
-                } else {
-                    return -1;
-                }
-            }
+        try{
+            int nuovoID = DatabaseConnection.executeUpdateConID(query, raccolta.getTitolo(), raccolta.getDescrizione(), raccolta.getAutoreID());
+            return nuovoID;
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Errore in addRaccolta", e);
             return -1;
         }
     }
 
-    public List<Raccolta> getRaccoltaPerAutore(int autoreId) {
+    public static List<Raccolta> getRaccoltaPerAutore(int autoreId) {
         List<Raccolta> raccoltaList = new ArrayList<>();
         String query = "SELECT * FROM raccolte WHERE autore_id = ? ORDER BY id DESC";
-
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-
-            preparedStatement.setInt(1, autoreId);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
+        try{
+            ResultSet resultSet = DatabaseConnection.executeQuery(query, autoreId);
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
                 String titolo = resultSet.getString("titolo");
@@ -64,7 +38,7 @@ public class RaccoltaDAO {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Errore in getRaccoltaPerAutore", e);
         }
 
         return raccoltaList;

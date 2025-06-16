@@ -160,8 +160,8 @@ public class RaccolteFrame extends JFrame {
         }
 
         try {
-            PoesiaController controller = new PoesiaController();
-            int raccoltaId = controller.creaRaccolta(titolo, descrizione, currentUser.getId());
+
+            int raccoltaId = PoesiaController.creaRaccolta(titolo, descrizione, currentUser.getId());
 
             if (raccoltaId != -1) {
                 JOptionPane.showMessageDialog(this,
@@ -209,8 +209,8 @@ public class RaccolteFrame extends JFrame {
         collectionsContainer.add(Box.createVerticalStrut(20));
 
         try {
-            PoesiaController controller = new PoesiaController();
-            List<entity.Raccolta> raccolte = controller.getRaccolteUtente(currentUser.getId());
+
+            List<entity.Raccolta> raccolte = PoesiaController.getRaccolteUtente(currentUser.getId());
 
             if (raccolte.isEmpty()) {
                 JLabel noCollections = new JLabel("Non hai ancora creato raccolte");

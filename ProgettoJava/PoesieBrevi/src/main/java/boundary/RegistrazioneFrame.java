@@ -18,11 +18,10 @@ public class RegistrazioneFrame extends JFrame {
     private final JCheckBox adminCheckbox;
     private final JPanel contentPanel;
 
-    private final RegistrazioneController controller;
+
 
     public RegistrazioneFrame() {
 
-        controller = new RegistrazioneController();
 
         setTitle("Poesie Brevi - Registrazione");
         setSize(UIUtils.CONTENT_MARGIN_W, UIUtils.CONTENT_MARGIN_H);
@@ -154,7 +153,7 @@ public class RegistrazioneFrame extends JFrame {
                     return;
                 }
                 
-                if (controller.esisteUtente(email)) {
+                if (RegistrazioneController.esisteUtente(email)) {
                     JOptionPane.showMessageDialog(RegistrazioneFrame.this, 
                         "Email già registrata nel sistema", 
                         "Errore", 
@@ -162,7 +161,7 @@ public class RegistrazioneFrame extends JFrame {
                     return;
                 }
                 
-                entity.User nuovoUtente = controller.creaUtenteInMemoria(nome, cognome, email, password, isAdmin);
+                entity.User nuovoUtente = RegistrazioneController.creaUtenteInMemoria(nome, cognome, email, password, isAdmin);
                 
                 if(nuovoUtente != null) {
                     JOptionPane.showMessageDialog(RegistrazioneFrame.this,
