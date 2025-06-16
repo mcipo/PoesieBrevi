@@ -104,8 +104,8 @@ VALUES(1, 'Dante_Alighieri', 'Padre della lingua italiana e autore della Divina 
     (5, 'G_Dannunzio', 'Artista e poeta in cerca della bellezza.', 'resources/immagine_profilo/dannunzio.jpeg', '1863-03-12'),
     (6, 'G_Pascoli', 'Amo raccontare la semplicità della vita.', 'resources/immagine_profilo/pascoli.jpeg', '1855-12-31'),
     (7, 'accountTest', 'Utente di prova per testare il database.', 'resources/immagine_profilo/test.jpeg', '2000-01-01'),
-    (8, 'claudietta', 'Ciao! Mi chiamo Claudia.', 'resources/immagine_profilo/fotoMario.jpeg', '2003-06-24'),
-    (9, 'mariocipo', 'Ciao! Mi chiamo Mario.', 'resources/immagine_profilo/fotoClaudia.jpeg', '2002-06-17')
+    (8, 'claudietta', 'Ciao! Mi chiamo Claudia.', 'resources/immagine_profilo/fotoClaudia.jpeg', '2003-06-24'),
+    (9, 'mariocipo', 'Ciao! Mi chiamo Mario.', 'resources/immagine_profilo/fotoMario.jpeg', '2002-06-17')
 ;
 
 INSERT INTO poesie (titolo, contenuto, autore_id, tag)
