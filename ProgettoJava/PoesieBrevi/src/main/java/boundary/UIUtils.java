@@ -136,14 +136,14 @@ public class UIUtils {
         return email.matches(emailPattern);
     }
 
-        public static void centerContentPanel(int width, int height, JPanel contentPanel) {
+    public static void centerContentPanel(int width, int height, JPanel contentPanel) {
         int x = (width - UIUtils.CONTENT_WIDTH) / 2;
         int y = (height - UIUtils.CONTENT_HEIGHT) / 2;
         contentPanel.setBounds(x, y, UIUtils.CONTENT_WIDTH, UIUtils.CONTENT_HEIGHT);
     }
 
-    public static void setupMainPanel(JPanel mainPanel, int width, int height) {
-        mainPanel = new JPanel() {
+    public static JPanel setupMainPanel(int width, int height) {
+        JPanel mainPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
@@ -152,10 +152,11 @@ public class UIUtils {
             }
         };
         mainPanel.setLayout(null);
+        return mainPanel;
     }
     
-    public static void setupContentPanel(JPanel contentPanel, JPanel mainPanel, int width, int height) {
-        contentPanel = new JPanel(null) {
+    public static JPanel setupContentPanel(JPanel mainPanel, int width, int height) {
+        JPanel contentPanel = new JPanel(null) {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
@@ -170,5 +171,6 @@ public class UIUtils {
         contentPanel.setOpaque(false);
         contentPanel.setBounds(0, 0, UIUtils.CONTENT_WIDTH, UIUtils.CONTENT_HEIGHT);
         mainPanel.add(contentPanel);
+        return contentPanel;
     }
 }

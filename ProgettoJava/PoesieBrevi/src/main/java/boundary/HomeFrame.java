@@ -23,9 +23,9 @@ public class HomeFrame extends JFrame {
         setLocationRelativeTo(null);
         setMinimumSize(new Dimension(800, 700));
 
-        UIUtils.setupMainPanel(mainPanel, getWidth(), getHeight());
+        mainPanel = UIUtils.setupMainPanel(getWidth(), getHeight());
 
-        UIUtils.setupContentPanel(contentPanel, mainPanel, getWidth(), getHeight());
+        contentPanel = UIUtils.setupContentPanel(mainPanel, getWidth(), getHeight());
 
         setupHeaderPanel();
 
