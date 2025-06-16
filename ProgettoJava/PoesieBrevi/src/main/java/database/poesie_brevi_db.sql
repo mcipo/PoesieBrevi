@@ -89,17 +89,24 @@ INSERT INTO users (amministratore, email, password, nome, cognome)
 VALUES (FALSE, 'dante@poeta.it', 'password123', 'Dante', 'Alighieri'),
        (FALSE, 'petrarca@poeta.it', 'password123', 'Francesco', 'Petrarca'),
        (FALSE, 'leopardi@poeta.it', 'password123', 'Giacomo', 'Leopardi'),
-       (FALSE, 'carducci@poeta.it', 'password123', 'Giosue', 'Carducci'),
+       (FALSE, 'carducci@poeta.it', 'password123', 'Giosuè', 'Carducci'),
        (FALSE, 'dannunzio@poeta.it', 'password123', 'Gabriele', 'D''annunzio'),
-       (FALSE, 'pascoli@poeta.it', 'password123', 'Giovanni', 'Pascoli');
+       (FALSE, 'pascoli@poeta.it', 'password123', 'Giovanni', 'Pascoli'),
+       (FALSE, 'test@prova.com', 'password123', 'Test', 'Prova'),
+       (TRUE, 'claudiadeluca@email.com', 'password123', 'Claudia', 'De Luca'),
+       (TRUE, 'mariocipolletta@email.com', 'password123', 'Mario', 'Cipolletta');
 
 INSERT INTO user_profiles (user_id, username, bio, foto_profilo_path, data_nascita)
-VALUES(1, 'Dante_Alighieri', 'Padre della lingua italiana e autore della Divina Commedia.', NULL, '1265-05-21'),
-    (2, 'F_Petrarca', 'Poeta e umanista, autore del Canzoniere.', NULL, '1304-07-20'),
-    (3, 'G_Leopardi', 'Scrivo poesie malinconiche e riflessive.', NULL, '1798-06-29'),
-    (4, 'G_Carducci', 'Letteratura e poesia sono la mia vita.', NULL, '1835-07-27'),
-    (5, 'G_Dannunzio', 'Artista e poeta in cerca della bellezza.', NULL, '1863-03-12'),
-    (6, 'G_Pascoli', 'Amo raccontare la semplicità della vita.', NULL, '1855-12-31');
+VALUES(1, 'Dante_Alighieri', 'Padre della lingua italiana e autore della Divina Commedia.', 'resources/immagine_profilo/danteAlighieri.jpeg', '1265-05-21'),
+    (2, 'F_Petrarca', 'Poeta e umanista, autore del Canzoniere.', 'resources/immagine_profilo/petrarca.jpeg', '1304-07-20'),
+    (3, 'G_Leopardi', 'Scrivo poesie malinconiche e riflessive.', 'resources/immagine_profilo/Leopardi.jpeg', '1798-06-29'),
+    (4, 'G_Carducci', 'Letteratura e poesia sono la mia vita.', 'resources/immagine_profilo/carducci.jpeg', '1835-07-27'),
+    (5, 'G_Dannunzio', 'Artista e poeta in cerca della bellezza.', 'resources/immagine_profilo/dannunzio.jpeg', '1863-03-12'),
+    (6, 'G_Pascoli', 'Amo raccontare la semplicità della vita.', 'resources/immagine_profilo/pascoli.jpeg', '1855-12-31'),
+    (7, 'accountTest', 'Utente di prova per testare il database.', 'resources/immagine_profilo/test.jpeg', '2000-01-01'),
+    (8, 'claudietta', 'Ciao! Mi chiamo Claudia.', 'resources/immagine_profilo/fotoMario.jpeg', '2003-06-24'),
+    (9, 'mariocipo', 'Ciao! Mi chiamo Mario.', 'resources/immagine_profilo/fotoClaudia.jpeg', '2002-06-17')
+;
 
 INSERT INTO poesie (titolo, contenuto, autore_id, tag)
 VALUES('Inferno I', 'Nel mezzo del cammin di nostra vita mi ritrovai per una selva oscura, ché la diritta via era smarrita. Ahi quanto a dir qual era è cosa dura esta selva selvaggia e aspra e forte, che nel pensier rinova la paura!', 1, 'classico, viaggio'),
@@ -132,9 +139,13 @@ VALUES(1, 2, 'Un inizio straordinario e carico di simbolismo.'),
 INSERT INTO cuori (poesia_id, utente_id)
 VALUES(1, 1),
     (2, 3),
+    (2, 5),
     (3, 4),
+    (3, 7),
+    (3, 6),
     (4, 2),
     (5, 5),
+    (5, 7),
     (6, 6),
     (7, 1),
     (8, 2),
@@ -143,3 +154,11 @@ VALUES(1, 1),
     (11, 5),
     (12, 6),
     (12, 1);
+
+INSERT INTO raccolte (titolo, descrizione, autore_id)
+VALUES('Raccolta Classici', 'Una selezione delle poesie più celebri della letteratura italiana.', 1),
+       ('Raccolta Amore e Natura', 'Poesie che celebrano l’amore e la bellezza della natura.', 2),
+       ('Raccolta Riflessioni', 'Riflessioni profonde sulla vita e sull’esistenza.', 3),
+       ('Raccolta Autunno', 'Poesie che catturano l’essenza dell’autunno.', 4),
+       ('Raccolta Infanzia', 'Ricordi d’infanzia e momenti di nostalgia.', 5),
+       ('Raccolta Dolore e Speranza', 'Poesie che esplorano il dolore e la speranza.', 6);
