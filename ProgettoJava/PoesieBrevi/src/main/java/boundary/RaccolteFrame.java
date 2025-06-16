@@ -8,13 +8,36 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
 
+/**
+ * Frame che gestisce sia la creazione di nuove raccolte che la visualizzazione
+ * di tutte le raccolte dell'utente. Il comportamento varia in base al parametro createMode.
+ */
 public class RaccolteFrame extends JFrame {
 
+    /**
+     * Utente corrente che sta utilizzando la finestra.
+     */
     private User currentUser;
+    
+    /**
+     * Pannelli principali dell'interfaccia.
+     */
     private JPanel contentPanel, mainPanel;
+    
+    /**
+     * Flag che determina il comportamento della finestra:
+     * - true: modalità di creazione di una nuova raccolta
+     * - false: modalità di visualizzazione di tutte le raccolte
+     */
     private boolean createMode;
 
-
+    /**
+     * Costruttore che crea e configura la finestra per la creazione o visualizzazione delle raccolte.
+     *
+     * @param user Utente corrente che sta utilizzando l'applicazione.
+     * @param createMode Se true, mostra l'interfaccia per creare una nuova raccolta;
+     *                  se false, mostra la lista delle raccolte esistenti.
+     */
     public RaccolteFrame(User user, boolean createMode) {
         this.currentUser = user;
         this.createMode = createMode;
@@ -48,6 +71,10 @@ public class RaccolteFrame extends JFrame {
         });
     }
 
+    /**
+     * Configura il pannello di intestazione con il titolo appropriato e un pulsante
+     * per tornare alla schermata home.
+     */
     private void setupHeaderPanel() {
         JPanel headerPanel = new JPanel(new BorderLayout());
         headerPanel.setOpaque(false);
@@ -66,6 +93,10 @@ public class RaccolteFrame extends JFrame {
         contentPanel.add(headerPanel);
     }
 
+    /**
+     * Configura il pannello per la creazione di una nuova raccolta.
+     * Include campi per titolo e descrizione della raccolta.
+     */
     private void setupCreaRaccoltaPanel() {
         JPanel panel = new JPanel(null);
         panel.setBackground(Color.WHITE);
@@ -117,6 +148,14 @@ public class RaccolteFrame extends JFrame {
         contentPanel.add(panel);
     }
 
+    /**
+     * Gestisce la creazione di una nuova raccolta.
+     * Verifica la validità dei dati inseriti e li invia al controller.
+     *
+     * @param titleField Campo del titolo della raccolta.
+     * @param descriptionArea Area della descrizione della raccolta.
+     * @return true se la creazione è avvenuta con successo, false altrimenti.
+     */
     private boolean handleCollectionCreation(JTextField titleField, JTextArea descriptionArea) {
         String titolo = titleField.getText().trim();
         String descrizione = descriptionArea.getText().trim();
@@ -151,6 +190,10 @@ public class RaccolteFrame extends JFrame {
         }
     }
 
+    /**
+     * Configura il pannello per la visualizzazione di tutte le raccolte dell'utente.
+     * Recupera le raccolte dal controller e le mostra in una lista scorrevole.
+     */
     private void setupRaccoltaViewPanel() {
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());

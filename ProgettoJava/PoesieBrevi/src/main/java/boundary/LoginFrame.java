@@ -10,13 +10,32 @@ import java.awt.event.ComponentEvent;
 import controller.LoginController;
 import entity.User;
 
-/// Finito solo vedere controllo email
+/**
+ * Frame che gestisce l'interfaccia di login dell'applicazione.
+ * Permette agli utenti di autenticarsi inserendo email e password,
+ * con opzioni per il recupero password e la registrazione di nuovi account.
+ */
 public class LoginFrame extends JFrame {
 
+    /**
+     * Campo di testo per l'inserimento dell'email.
+     */
     private final JTextField emailField;
+    
+    /**
+     * Campo di testo protetto per l'inserimento della password.
+     */
     private final JPasswordField passwordField;
+    
+    /**
+     * Pannello principale che contiene i componenti dell'interfaccia.
+     */
     private final JPanel contentPanel;
 
+    /**
+     * Costruttore che crea e configura la schermata di login dell'applicazione.
+     * Inizializza tutti i componenti dell'interfaccia, gestisce il layout e gli eventi.
+     */
     public LoginFrame() {
 
         setTitle("Poesie Brevi - Login");

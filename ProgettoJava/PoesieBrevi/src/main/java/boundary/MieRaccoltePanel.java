@@ -7,9 +7,20 @@ import java.util.List;
 import controller.PoesiaController;
 import entity.User;
 
-/// Finito
+/**
+ * Panel che visualizza le raccolte create dall'utente corrente.
+ * Permette anche di accedere alle funzionalità di creazione di nuove raccolte
+ * e di visualizzare tutte le raccolte dell'utente.
+ */
 public class MieRaccoltePanel extends JPanel {
 
+    /**
+     * Costruttore che crea e configura il pannello con le raccolte dell'utente.
+     * Recupera le raccolte dal controller e le visualizza in un layout verticale.
+     * Include pulsanti per creare nuove raccolte e visualizzare tutte le raccolte.
+     *
+     * @param currentUser Utente corrente di cui visualizzare le raccolte.
+     */
     public MieRaccoltePanel(User currentUser) {
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
