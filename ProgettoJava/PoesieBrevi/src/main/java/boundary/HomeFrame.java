@@ -23,53 +23,25 @@ public class HomeFrame extends JFrame {
         setLocationRelativeTo(null);
         setMinimumSize(new Dimension(800, 700));
 
-        setupMainPanel();
+        UIUtils.setupMainPanel(mainPanel, getWidth(), getHeight());
 
-        setupContentPanel();
+        UIUtils.setupContentPanel(contentPanel, mainPanel, getWidth(), getHeight());
 
         setupHeaderPanel();
 
         setupTabbedPane();
 
         add(mainPanel);
-        centerContentPanel();
+        UIUtils.centerContentPanel(getWidth(), getHeight(), contentPanel);
+        repaint();
 
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-                centerContentPanel();
+                UIUtils.centerContentPanel(getWidth(), getHeight(), contentPanel);
+                repaint();
             }
         });
-    }
-
-    private void setupMainPanel() {
-        mainPanel = new JPanel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                g.setColor(UIUtils.BACKGROUND_COLOR);
-                g.fillRect(0, 0, getWidth(), getHeight());
-            }
-        };
-        mainPanel.setLayout(null);
-    }
-
-    private void setupContentPanel() {
-        contentPanel = new JPanel(null) {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                Graphics2D g2d = (Graphics2D) g;
-                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                g2d.setColor(Color.WHITE);
-                g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
-                g2d.setColor(UIUtils.BORDER_COLOR);
-                g2d.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 15, 15);
-            }
-        };
-        contentPanel.setOpaque(false);
-        contentPanel.setBounds(0, 0, UIUtils.CONTENT_WIDTH, UIUtils.CONTENT_HEIGHT);
-        mainPanel.add(contentPanel);
     }
 
     private void setupHeaderPanel() {
@@ -138,8 +110,9 @@ public class HomeFrame extends JFrame {
              */
             @Override
             protected void paintTabBorder(Graphics g, int tabPlacement, int tabIndex,
-                                          int x, int y, int w, int h, boolean isSelected) {
-                if (!isSelected) return;
+                    int x, int y, int w, int h, boolean isSelected) {
+                if (!isSelected)
+                    return;
                 g.setColor(UIUtils.ACCENT_COLOR);
                 g.fillRect(x, y + h - 2, w, 2);
             }
@@ -149,7 +122,7 @@ public class HomeFrame extends JFrame {
              */
             @Override
             protected void paintTabBackground(Graphics g, int tabPlacement, int tabIndex,
-                                              int x, int y, int w, int h, boolean isSelected) {
+                    int x, int y, int w, int h, boolean isSelected) {
 
             }
 
@@ -158,8 +131,8 @@ public class HomeFrame extends JFrame {
              */
             @Override
             protected void paintFocusIndicator(Graphics g, int tabPlacement, Rectangle[] rects,
-                                               int tabIndex, Rectangle iconRect, Rectangle textRect,
-                                               boolean isSelected) {
+                    int tabIndex, Rectangle iconRect, Rectangle textRect,
+                    boolean isSelected) {
 
             }
 
@@ -168,7 +141,7 @@ public class HomeFrame extends JFrame {
              */
             @Override
             protected void paintContentBorderTopEdge(Graphics g, int tabPlacement, int selectedIndex,
-                                                     int x, int y, int w, int h) {
+                    int x, int y, int w, int h) {
 
             }
 
@@ -200,10 +173,4 @@ public class HomeFrame extends JFrame {
         contentPanel.add(tabbedPane);
     }
 
-    private void centerContentPanel() {
-        int x = (getWidth() - UIUtils.CONTENT_WIDTH) / 2;
-        int y = (getHeight() - UIUtils.CONTENT_HEIGHT) / 2;
-        contentPanel.setBounds(x, y, UIUtils.CONTENT_WIDTH, UIUtils.CONTENT_HEIGHT);
-        repaint();
-    }
 }

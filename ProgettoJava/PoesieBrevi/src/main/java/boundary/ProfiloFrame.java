@@ -127,8 +127,8 @@ public class ProfiloFrame extends JFrame {
         mainPanel.add(contentPanel);
         add(mainPanel);
 
-        centerContentPanel();
-
+        UIUtils.centerContentPanel(getWidth(), getHeight(), contentPanel);
+        repaint();
         if (!nuovoUtente) {
             caricaDatiProfilo();
         }
@@ -136,8 +136,9 @@ public class ProfiloFrame extends JFrame {
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-                centerContentPanel();
-            }
+            UIUtils.centerContentPanel(getWidth(), getHeight(), contentPanel);
+            repaint();            
+        }
         });
 
         caricaImmagineButton.addActionListener(_ -> {
@@ -238,13 +239,6 @@ public class ProfiloFrame extends JFrame {
 
     public ProfiloFrame(User user) {
         this(user, false);
-    }
-
-    private void centerContentPanel() {
-        int x = (getWidth() - UIUtils.CONTENT_WIDTH) / 2;
-        int y = (getHeight() - UIUtils.CONTENT_HEIGHT) / 2;
-        contentPanel.setBounds(x, y, UIUtils.CONTENT_WIDTH, UIUtils.CONTENT_HEIGHT);
-        repaint();
     }
 
     private void caricaDatiProfilo() {

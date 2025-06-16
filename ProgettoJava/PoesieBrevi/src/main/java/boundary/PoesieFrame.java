@@ -14,8 +14,6 @@ public class PoesieFrame extends JFrame {
     private final User currentUser;
     private JPanel contentPanel;
     private JPanel mainPanel;
-    private final int contentWidth = 700;
-    private final int contentHeight = 600;
     private boolean createMode;
 
     public PoesieFrame(User user, boolean createMode) {
@@ -28,8 +26,8 @@ public class PoesieFrame extends JFrame {
         setLocationRelativeTo(null);
         setMinimumSize(new Dimension(800, 700));
 
-        setupMainPanel();
-        setupContentPanel();
+        UIUtils.setupMainPanel(mainPanel, getWidth(), getHeight());
+        UIUtils.setupContentPanel(contentPanel, mainPanel, getWidth(), getHeight());
         setupHeaderPanel();
         
         if (createMode) {
@@ -39,56 +37,28 @@ public class PoesieFrame extends JFrame {
         }
 
         add(mainPanel);
-        centerContentPanel();
+        UIUtils.centerContentPanel(getWidth(), getHeight(), contentPanel);
+        repaint();
 
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-                centerContentPanel();
+                UIUtils.centerContentPanel(getWidth(), getHeight(), contentPanel);
+                repaint();
             }
         });
-    }
-
-    private void setupMainPanel() {
-        mainPanel = new JPanel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                g.setColor(UIUtils.BACKGROUND_COLOR);
-                g.fillRect(0, 0, getWidth(), getHeight());
-            }
-        };
-        mainPanel.setLayout(null);
-    }
-
-    private void setupContentPanel() {
-        contentPanel = new JPanel(null) {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                Graphics2D g2d = (Graphics2D) g;
-                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                g2d.setColor(Color.WHITE);
-                g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 15, 15);
-                g2d.setColor(UIUtils.BORDER_COLOR);
-                g2d.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 15, 15);
-            }
-        };
-        contentPanel.setOpaque(false);
-        contentPanel.setBounds(0, 0, contentWidth, contentHeight);
-        mainPanel.add(contentPanel);
     }
 
     private void setupHeaderPanel() {
         JPanel headerPanel = new JPanel(new BorderLayout());
         headerPanel.setOpaque(false);
-        headerPanel.setBounds(20, 20, contentWidth - 40, 50);
+        headerPanel.setBounds(20, 20, UIUtils.CONTENT_WIDTH - 40, 50);
 
         JLabel titleLabel = UIUtils.titolo(createMode ? "Crea Nuova Poesia" : "Le Mie Poesie", 0, 0);
         headerPanel.add(titleLabel, BorderLayout.WEST);
 
         JButton backButton = UIUtils.bottone("Torna alla Home", Font.PLAIN, 14);
-        backButton.addActionListener(e -> {
+        backButton.addActionListener(_ -> {
             dispose();
             new HomeFrame(currentUser).setVisible(true);
         });
@@ -100,10 +70,10 @@ public class PoesieFrame extends JFrame {
     private void setupCreatePoesiaPanel() {
         JPanel panel = new JPanel(null);
         panel.setBackground(Color.WHITE);
-        panel.setBounds(20, 80, contentWidth - 40, contentHeight - 100);
+        panel.setBounds(20, 80, UIUtils.CONTENT_WIDTH - 40, UIUtils.CONTENT_HEIGHT - 100);
 
         int labelWidth = 100;
-        int fieldWidth = contentWidth - 40 - labelWidth - 30;
+        int fieldWidth = UIUtils.CONTENT_WIDTH - 40 - labelWidth - 30;
         int y = 20;
         int height = 30;
 
@@ -165,7 +135,7 @@ public class PoesieFrame extends JFrame {
         y += height + 20; //170
 
         JPanel newRaccoltaPanel = nuovaRaccoltaPanel(fieldWidth);
-        newRaccoltaPanel.setBounds(10, y, contentWidth - 70, 100);
+        newRaccoltaPanel.setBounds(10, y, UIUtils.CONTENT_WIDTH - 70, 100);
         newRaccoltaPanel.setVisible(false);
         panel.add(newRaccoltaPanel);
 
@@ -194,7 +164,7 @@ public class PoesieFrame extends JFrame {
             }
             visibleCheckbox.setBounds(labelWidth + 10, yAttuale, fieldWidth, height);
             yAttuale += 20;
-            pubblicaButton.setBounds((contentWidth - 150) / 2, yAttuale, 150, 40);
+            pubblicaButton.setBounds((UIUtils.CONTENT_WIDTH - 150) / 2, yAttuale, 150, 40);
             panel.revalidate();
             panel.repaint();
         };
@@ -210,7 +180,7 @@ public class PoesieFrame extends JFrame {
             }
         });
 
-        pubblicaButton.addActionListener(e -> {
+        pubblicaButton.addActionListener(_ -> {
             if (PubblicaPoesia(titleField, contentArea, tagsField, visibleCheckbox,
                     raccoltaCombo, newCollectionTitleField, newCollectionDescField)) {
                 resetPoesiaForm(titleField, contentArea, tagsField, raccoltaCombo, newRaccoltaPanel);
@@ -221,7 +191,6 @@ public class PoesieFrame extends JFrame {
 
         contentPanel.add(panel);
     }
-
 
     private JPanel nuovaRaccoltaPanel(int fieldWidth) {
         JPanel nuovaRaccoltaPanel = new JPanel(null);
@@ -351,7 +320,7 @@ public class PoesieFrame extends JFrame {
         panel.setLayout(new BorderLayout());
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         panel.setBackground(Color.WHITE);
-        panel.setBounds(20, 80, contentWidth - 40, contentHeight - 100);
+        panel.setBounds(20, 80, UIUtils.CONTENT_WIDTH - 40, UIUtils.CONTENT_HEIGHT - 100);
 
         JButton nuovaPoesiaButton = new JButton("Crea Nuova Poesia");
         nuovaPoesiaButton.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -359,7 +328,7 @@ public class PoesieFrame extends JFrame {
         nuovaPoesiaButton.setForeground(Color.BLACK);
         nuovaPoesiaButton.setFocusPainted(false);
         nuovaPoesiaButton.setMargin(new Insets(8, 15, 8, 15));
-        nuovaPoesiaButton.addActionListener(e -> {
+        nuovaPoesiaButton.addActionListener(_ -> {
             dispose();
             new PoesieFrame(currentUser, true).setVisible(true);
         });
@@ -403,12 +372,5 @@ public class PoesieFrame extends JFrame {
         panel.add(scrollPane, BorderLayout.CENTER);
 
         contentPanel.add(panel);
-    }
-
-    private void centerContentPanel() {
-        int x = (getWidth() - contentWidth) / 2;
-        int y = (getHeight() - contentHeight) / 2;
-        contentPanel.setBounds(x, y, contentWidth, contentHeight);
-        repaint();
     }
 }
