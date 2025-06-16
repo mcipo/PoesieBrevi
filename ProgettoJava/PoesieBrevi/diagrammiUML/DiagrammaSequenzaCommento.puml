@@ -1,0 +1,18 @@
+@startuml DiagrammaSequenzaCommento
+
+
+actor Autore
+participant Interfaccia
+participant Poesia
+participant Commento
+
+' Stile del diagramma
+skinparam sequenceMessageAlign center
+skinparam responseMessageBelowArrow true
+
+' Processo per scrivere un commento
+Autore -> Interfaccia : 3: scriviCommento
+Interfaccia -> Poesia : 1: scriviCommento
+Poesia --> Commento : 2: <<create>>
+
+@enduml

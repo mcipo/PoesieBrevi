@@ -1,4 +1,4 @@
-@startuml
+@startuml DiagrammaClassi
 
 skinparam {
     HorizontalSpacing 30

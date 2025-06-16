@@ -1,0 +1,28 @@
+@startuml DiagrammaSequenzaVisualizzaPoesia
+
+actor Autore
+participant Interfaccia
+participant Poesia
+
+' Stile del diagramma
+skinparam sequenceMessageAlign center
+skinparam responseMessageBelowArrow true
+
+' Processo di visualizzazione poesia
+Autore -> Interfaccia : 1: getPoesia()
+Interfaccia -> Poesia : 2: getPoesia()
+
+activate Poesia
+Poesia -> Poesia : 2.1: verificaPresenzaPoesia
+Poesia --> Interfaccia : 2.2: esito
+deactivate Poesia
+
+' Gestione flusso alternativo (fallimento)
+alt [if esito == false]
+    Interfaccia --> Autore : 2.3: ERRORE nessuna Poesia da visualizzare
+else
+    ' Gestione flusso principale (successo)
+    Interfaccia --> Autore : 2.4: return Poesia
+end
+
+@enduml

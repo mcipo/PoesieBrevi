@@ -1,0 +1,35 @@
+@startuml DiagrammaSequenzaAggiungiARaccolta
+
+actor Autore
+participant "Interfaccia" as UI
+participant "Sistema" as System
+participant "Raccolta" as Collection
+
+' Stile del diagramma
+skinparam sequenceMessageAlign center
+skinparam responseMessageBelowArrow true
+
+' Processo per aggiungere una poesia a una raccolta
+Autore -> UI : ha finito di scrivere la poesia
+UI -> System : richiedi elenco raccolte
+System --> UI : mostra elenco raccolte disponibili
+UI --> Autore : visualizza elenco raccolte
+
+alt raccolta non esistente o non desiderata
+    ' Estensione al caso d'uso CreaRaccolta
+    Autore -> UI : <<extend>> CreaRaccolta
+    note right: L'autore può creare una nuova raccolta
+end
+
+Autore -> UI : seleziona raccolta
+Autore -> UI : conferma aggiunta poesia
+UI -> System : aggiungiPoesiaARaccolta(poesiaId, raccoltaId)
+
+activate System
+System -> Collection : aggiorna()
+System --> UI : confermaOperazione()
+deactivate System
+
+UI --> Autore : mostra conferma di aggiunta
+
+@enduml

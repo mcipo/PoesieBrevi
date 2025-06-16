@@ -1,0 +1,60 @@
+@startuml DiagrammaCasiDUso
+
+skinparam packageStyle rectangle
+skinparam actorStyle awesome
+skinparam backgroundColor white
+
+' Attori
+actor "Utente\nNon\nRegistrato" as UtenteNonRegistrato
+actor "Utente\nRegistrato" as UtenteRegistrato
+actor Amministratore
+actor Autore
+
+' Sistema
+rectangle PoesieBrevi {
+    ' Casi d'uso per Utente Non Registrato
+    usecase "Registrazione" as Registrazione
+    usecase "CreaProfilo" as CreaProfilo
+    
+    ' Casi d'uso per Utente Registrato
+    usecase "Accesso" as Accesso
+    usecase "ModificaProfilo" as ModificaProfilo
+    usecase "VisualizzaPoesia" as VisualizzaPoesia
+    usecase "MettiCuore" as MettiCuore
+    usecase "CommentaPoesia" as CommentaPoesia
+    
+    ' Casi d'uso per Amministratore
+    usecase "GeneraReport" as GeneraReport
+    
+    ' Casi d'uso per Autore
+    usecase "PubblicaPoesia" as PubblicaPoesia
+    usecase "AggiungiARaccolta" as AggiungiARaccolta
+    usecase "CreaRaccolta" as CreaRaccolta
+    usecase "VisualizzaRaccolte" as VisualizzaRaccolte
+    usecase "VisualizzaStatistiche" as VisualizzaStatistiche
+    
+    ' Relazioni tra casi d'uso
+    Registrazione ..> CreaProfilo : <<include>>
+    
+    MettiCuore ..> VisualizzaPoesia : <<extend>>
+    CommentaPoesia ..> VisualizzaPoesia : <<extend>>
+    
+    PubblicaPoesia ..> AggiungiARaccolta : <<include>>
+    AggiungiARaccolta ..> CreaRaccolta : <<extend>>
+}
+
+' Relazioni tra attori e casi d'uso
+UtenteNonRegistrato --> Registrazione
+UtenteRegistrato --> Accesso
+UtenteRegistrato --> ModificaProfilo
+Amministratore --> GeneraReport
+Autore --> PubblicaPoesia
+Autore --> VisualizzaRaccolte
+Autore --> VisualizzaStatistiche
+Autore --> VisualizzaPoesia
+
+' Gerarchia di attori
+UtenteRegistrato <|-- Autore
+UtenteRegistrato <|-- Amministratore
+
+@enduml

@@ -1,0 +1,39 @@
+@startuml DiagrammaSequenzaPubblicaPoesia
+
+actor Autore
+participant "Interfaccia" as UI
+participant "Sistema" as System
+participant "Poesia" as Poetry
+
+' Stile del diagramma
+skinparam sequenceMessageAlign center
+skinparam responseMessageBelowArrow true
+
+' Processo completo per la pubblicazione di una poesia
+Autore -> UI : accede alla sezione pubblicazione
+UI --> Autore : mostra form di pubblicazione
+
+Autore -> UI : scrive la poesia nel campo indicato
+Autore -> UI : aggiunge tag, titolo e imposta visibilità
+
+' Caso d'uso <<include>>
+Autore -> UI : <<include>> AggiungiARaccolta
+note right: Questo è un riferimento al caso d'uso AggiungiARaccolta
+
+Autore -> UI : conferma la pubblicazione
+UI -> System : richiediPubblicazione(poesia, tags, titolo, visibilità)
+
+' Controlli alternativi
+activate System
+System -> System : controllo numero caratteri
+System -> System : controllo impostazione visibilità
+
+' Creazione poesia
+System -> Poetry : <<create>>
+note right: La poesia viene creata nel sistema
+System --> UI : confermaOperazione()
+deactivate System
+
+UI --> Autore : mostra conferma di pubblicazione
+
+@enduml
