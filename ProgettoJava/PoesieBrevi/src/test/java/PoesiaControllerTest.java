@@ -18,14 +18,11 @@ public class PoesiaControllerTest {
 
     private static final Logger LOGGER = Logger.getLogger(PoesiaControllerTest.class.getName());
     private final int testUserId = 1;
-    private final String testUserEmail = "m@email.com";
     private int poesiaIdCreata;
     private int raccoltaIdCreata;
 
     @Before
     public void setUp() throws SQLException, ClassNotFoundException {
-
-
     }
 
     @After
@@ -105,7 +102,7 @@ public class PoesiaControllerTest {
     public void testCreaPoesiaConContenutoTroppoLungo() {
         String titolo = "Test Poesia Lunga";
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < 51; i++) {
+        for(int i = 0; i < 51; i++) {
             sb.append("0123456789");
         }
         String contenuto = sb.toString();

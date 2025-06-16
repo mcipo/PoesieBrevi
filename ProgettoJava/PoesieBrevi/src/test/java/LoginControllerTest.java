@@ -4,7 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
-public class loginControllerTest {
+public class LoginControllerTest {
 
     private final String testEmail = "test@prova.com";
     private final String correctPassword = "password123";
