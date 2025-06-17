@@ -17,6 +17,10 @@ import java.util.UUID;
  * inclusa la gestione delle immagini del profilo.
  */
 public class ProfiloController {
+
+    private ProfiloController(){
+
+    }
     
     /**
      * Directory dove vengono salvate le immagini dei profili.

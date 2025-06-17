@@ -17,6 +17,10 @@ public class CuoreDAO {
      */
     private static final Logger LOGGER = Logger.getLogger(CuoreDAO.class.getName());
 
+    private CuoreDAO() {
+
+    }
+
     /**
      * Aggiunge un nuovo "cuore" (mi piace) a una poesia da parte di un utente.
      *

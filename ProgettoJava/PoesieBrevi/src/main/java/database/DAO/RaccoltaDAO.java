@@ -20,6 +20,10 @@ public class RaccoltaDAO {
      */
     private static final Logger LOGGER = Logger.getLogger(RaccoltaDAO.class.getName());
 
+    private RaccoltaDAO() {
+
+    }
+
     /**
      * Aggiunge una nuova raccolta al database.
      *

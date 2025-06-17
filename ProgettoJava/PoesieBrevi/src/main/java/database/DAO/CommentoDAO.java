@@ -22,6 +22,9 @@ public class CommentoDAO {
      */
     private static final Logger LOGGER = Logger.getLogger(CommentoDAO.class.getName());
 
+    private CommentoDAO() {
+
+    }
 
     /**
      * Aggiunge un nuovo commento al database.

@@ -11,6 +11,10 @@ import database.DAO.UserDAO;
  */
 public class RegistrazioneController {
 
+    private RegistrazioneController(){
+
+    }
+
     /**
      * Crea un nuovo oggetto User in memoria con i dati forniti, senza salvarlo nel database.
      * Il profilo associato all'utente viene creato con valori predefiniti vuoti.

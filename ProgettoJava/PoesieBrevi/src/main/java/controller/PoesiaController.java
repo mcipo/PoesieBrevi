@@ -16,6 +16,10 @@ import java.util.List;
  */
 public class PoesiaController {
 
+    private PoesiaController(){
+
+    }
+
     /**
      * Crea una nuova poesia nel sistema.
      *

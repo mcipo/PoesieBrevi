@@ -24,6 +24,10 @@ public class PoesiaDAO {
      */
     private  static final Logger LOGGER = Logger.getLogger(PoesiaDAO.class.getName());
 
+    private PoesiaDAO(){
+
+    }
+
     /**
      * Recupera le poesie più recenti per il feed di un utente, escludendo le proprie poesie.
      *

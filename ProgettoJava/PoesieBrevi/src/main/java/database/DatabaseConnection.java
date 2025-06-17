@@ -12,16 +12,21 @@ public class DatabaseConnection {
      * URL di connessione al database MySQL.
      */
     private static final String URL = "jdbc:mysql://localhost:3306/poesie_brevi_db";
-    
+
+
     /**
      * Nome utente per la connessione al database.
      */
-    private static final String USER = "claudia";
+    private static final String USER = "root";
     
     /**
      * Password per la connessione al database.
      */
-    private static final String PASSWORD = "passwordSicura";
+    private static final String PASSWORD = "password";
+
+    private DatabaseConnection(){
+
+    }
 
     /**
      * Stabilisce e restituisce una connessione al database.

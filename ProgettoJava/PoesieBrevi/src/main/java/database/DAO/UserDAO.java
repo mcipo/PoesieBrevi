@@ -20,6 +20,9 @@ public class UserDAO {
      */
     private static final Logger LOGGER = Logger.getLogger(UserDAO.class.getName());
 
+    private UserDAO() {
+
+    }
     /**
      * Recupera un utente dal database tramite la sua email.
      *

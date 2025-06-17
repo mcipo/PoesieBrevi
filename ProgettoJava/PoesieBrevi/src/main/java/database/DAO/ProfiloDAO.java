@@ -19,6 +19,10 @@ public class ProfiloDAO {
      */
     private static final Logger LOGGER = Logger.getLogger(ProfiloDAO.class.getName());
 
+    private ProfiloDAO(){
+
+    }
+
     /**
      * Recupera il profilo di un utente dato il suo ID.
      *

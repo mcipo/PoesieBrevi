@@ -9,6 +9,11 @@ import database.DAO.UserDAO;
  * e identificare gli utenti con privilegi di amministratore.
  */
 public class LoginController {
+
+    private LoginController(){
+
+    }
+
     /**
      * Autentica un utente verificando le credenziali fornite.
      *
