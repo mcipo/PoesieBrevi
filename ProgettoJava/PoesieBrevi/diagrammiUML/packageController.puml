@@ -1,6 +1,7 @@
 @startuml
 package controller {
   class LoginController {
+    - LoginController()
     + {static} autenticaUtente(String email, String password): User
     + {static} esisteUtente(String email): boolean
     + {static} verificaCredenziali(String email, String password): boolean
@@ -8,6 +9,7 @@ package controller {
   }
 
   class RegistrazioneController {
+    - RegistrazioneController()
     + {static} creaUtenteInMemoria(String nome, String cognome, String email,
 String password, boolean isAdmin): User
     + {static} salvaUtente(User user): boolean
@@ -15,13 +17,13 @@ String password, boolean isAdmin): User
   }
 
   class PoesiaController {
+    - PoesiaController()
     + {static} creaPoesia(String titolo, String contenuto, String tags,
 boolean visibile, int autoreId, int raccoltaId): boolean
     + {static} creaRaccolta(String titolo, String descrizione, int autoreId): int
     + {static} getRaccolteUtente(int autoreId): List<Raccolta>
     + {static} getPoesieByAutore(int autoreId): List<Poesia>
     + {static} getUltimePoesiePerFeed(int userId, int limit): List<Poesia>
-    + {static} getUsernameByUserId(int userId): String
     + {static} getNumCuori(int poesiaId): int
     + {static} getNumCommenti(int poesiaId): int
     + {static} getCommenti(int poesiaId): List<Commento>
@@ -31,10 +33,13 @@ boolean visibile, int autoreId, int raccoltaId): boolean
   }
 
   class ProfiloController {
+    - ProfiloController()
     - {static} IMG_DIRECTORY: String
     + {static} validaDatiProfilo(String username, String bio, Date dataNascita): boolean
     + {static} salvaModificheProfilo(User user, Profilo profilo): boolean
+    + {static} getUserByUserId(int userId): String
     + {static} caricaProfilo(User user): Profilo
+    + {static} caricaProfilo(int userId): int
   }
 
   LoginController ..> database.DAO.UserDAO

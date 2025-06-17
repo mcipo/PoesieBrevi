@@ -4,6 +4,7 @@ package database {
     - {static} URL: String
     - {static} USER: String
     - {static} PASSWORD: String
+    - DatabaseConnection()
     + {static} getConnection(): Connection
     + {static} executeQuery(String, Object...): ResultSet
     + {static} executeUpdate(String, Object...): int
@@ -12,28 +13,33 @@ package database {
 
   package DAO {
     class UserDAO {
+      - UserDAO()
       + {static} getUserByEmail(String): User
       + {static} addUser(User): boolean
     }
 
     class PoesiaDAO {
+      - PoesiaDAO()
       + {static} getUltimePoesiePerFeed(int, int): List<Poesia>
       + {static} getPoesieByAutore(int): List<Poesia>
       + {static} addPoesia(Poesia): boolean
     }
 
     class ProfiloDAO {
+      - ProfiloDAO()
       + {static} getProfiloAtID(int): Profilo
       + {static} updateProfilo(Profilo, int): void
       + {static} createProfilo(Profilo, int): void
     }
 
     class RaccoltaDAO {
+      - RaccoltaDAO()
       + {static} addRaccolta(Raccolta): int
       + {static} getRaccoltaPerAutore(int): List<Raccolta>
     }
 
     class CuoreDAO {
+      - CuoreDAO()
       + {static} addCuore(int, int): boolean
       + {static} removeCuore(int, int): boolean
       + {static} getNumCuori(int): int
@@ -41,6 +47,7 @@ package database {
     }
 
     class CommentoDAO {
+      - CommentoDAO()
       + {static} addCommento(Commento): void
       + {static} getCommentiByPoesiaId(int): List<Commento>
     }
