@@ -66,7 +66,7 @@ Il sistema è implementato in **Java 22** utilizzando il pattern architetturale 
 
 1. Clona la repository:
    ```bash
-   git clone https://github.com/tuo-utente/poesie-brevi.git
+   git clone https://github.com/mcipo/PoesieBrevi
    cd poesie-brevi
    ```
 
