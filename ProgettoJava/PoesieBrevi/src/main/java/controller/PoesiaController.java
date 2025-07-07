@@ -1,6 +1,5 @@
 package controller;
 
-import database.DAO.*;
 import entity.*;
 
 import java.sql.SQLException;
@@ -62,39 +61,13 @@ public class PoesiaController {
             raccoltaId == -1 ? 0 : raccoltaId
         );
         
-        return PoesiaDAO.addPoesia(nuovaPoesia);
+        return nuovaPoesia.salvaPoesia();
     }
     
 
-    /**
-     * Crea una nuova raccolta di poesie.
-     *
-     * @param titolo Titolo della raccolta.
-     * @param descrizione Descrizione della raccolta.
-     * @param autoreId ID dell'utente che ha creato la raccolta.
-     * @return ID della raccolta creata, o -1 se la creazione è fallita.
-     */
-    public static int creaRaccolta(String titolo, String descrizione, int autoreId) {
 
-        if (titolo == null || titolo.trim().isEmpty()) {
-            return -1;
-        }
-        
-
-        Raccolta nuovaRaccolta = new Raccolta(0, titolo, descrizione, autoreId);
-        return RaccoltaDAO.addRaccolta(nuovaRaccolta);
-    }
     
 
-    /**
-     * Recupera tutte le raccolte create da un determinato utente.
-     *
-     * @param autoreId ID dell'utente autore delle raccolte.
-     * @return Lista delle raccolte dell'utente.
-     */
-    public static List<Raccolta> getRaccolteUtente(int autoreId) {
-        return RaccoltaDAO.getRaccoltaPerAutore(autoreId);
-    }
     
 
     /**
@@ -104,7 +77,7 @@ public class PoesiaController {
      * @return Lista delle poesie dell'utente.
      */
     public static List<Poesia> getPoesieByAutore(int autoreId) {
-        return PoesiaDAO.getPoesieByAutore(autoreId);
+        return Poesia.getPoesieByAutore(autoreId);
     }
     
 
@@ -116,7 +89,7 @@ public class PoesiaController {
      * @return Lista delle poesie più recenti.
      */
     public static List<Poesia> getUltimePoesiePerFeed(int userId, int limit) {
-        return PoesiaDAO.getUltimePoesiePerFeed(userId, limit);
+        return Poesia.getUltimePoesiePerFeed(userId, limit);
     }
     
 
@@ -130,7 +103,7 @@ public class PoesiaController {
      * @return Numero di cuori ricevuti dalla poesia.
      */
     public static int getNumCuori(int poesiaId) {
-        return CuoreDAO.getNumCuori(poesiaId);
+        return Cuore.getNumCuori(poesiaId);
     }
 
     /**
@@ -141,7 +114,7 @@ public class PoesiaController {
      * @throws SQLException Se si verifica un errore durante l'operazione sul database.
      */
     public static int getNumCommenti(int poesiaId) throws SQLException {;
-        int numCommenti = CommentoDAO.getCommentiByPoesiaId(poesiaId).size();
+        int numCommenti = Commento.getCommentiByPoesiaId(poesiaId).size();
         return numCommenti;
     }
 
@@ -153,7 +126,7 @@ public class PoesiaController {
      * @throws SQLException Se si verifica un errore durante l'operazione sul database.
      */
     public static List<Commento> getCommenti(int poesiaId) throws SQLException {
-        List<Commento> commenti = CommentoDAO.getCommentiByPoesiaId(poesiaId);
+        List<Commento> commenti = Commento.getCommentiByPoesiaId(poesiaId);
         return commenti;
     }
 
@@ -164,12 +137,7 @@ public class PoesiaController {
      * @return true se il salvataggio è avvenuto con successo, false altrimenti.
      */
     public static boolean salvaCommento(Commento nuovoCommento) {
-        try {
-            CommentoDAO.addCommento(nuovoCommento);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+        return Commento.salvaCommento(nuovoCommento);
     }
 
     /**
@@ -181,7 +149,7 @@ public class PoesiaController {
      */
     public static boolean hasUserCuorePoesia(int poesiaId, int userId) {
 
-        return CuoreDAO.hasUserLiked(poesiaId, userId);
+        return Cuore.hasUserLiked(poesiaId, userId);
     }
     
 
@@ -195,9 +163,9 @@ public class PoesiaController {
      */
     public static boolean toggleCuore(int poesiaId, int userId) {
         if (hasUserCuorePoesia(poesiaId, userId)) {
-            return CuoreDAO.removeCuore(poesiaId, userId);
+            return Cuore.removeCuore(poesiaId, userId);
         } else {
-            return CuoreDAO.addCuore(poesiaId, userId);
+            return Cuore.addCuore(poesiaId, userId);
         }
     }
 }

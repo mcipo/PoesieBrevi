@@ -13,7 +13,7 @@ import java.util.logging.Logger;
  */
 public class CuoreDAO {
     /**
-     * Logger per la registrazione di eventi e errori.
+     * Logger per la registrazione di eventi ed errori.
      */
     private static final Logger LOGGER = Logger.getLogger(CuoreDAO.class.getName());
 

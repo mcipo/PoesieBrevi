@@ -7,16 +7,19 @@ import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.util.List;
 
+import controller.PiattaformaController;
 import controller.PoesiaController;
 import controller.ProfiloController;
 import entity.Commento;
-import entity.User;
 
 /**
  * Panel che gestisce la visualizzazione e l'inserimento dei commenti per una poesia.
  * Permette di visualizzare la lista dei commenti esistenti e di aggiungere nuovi commenti.
  */
 public class CommentoPanel extends JPanel {
+
+    private PiattaformaController piattaformaController = PiattaformaController.getInstance();
+
     /**
      * ID della poesia che l'utente sta commentando.
      */
@@ -32,20 +35,16 @@ public class CommentoPanel extends JPanel {
      */
     private final JScrollPane scrollPane;
     
-    /**
-     * Utente corrente che sta visualizzando o aggiungendo commenti.
-     */
-    private final User currentUser;
+
 
     /**
      * Costruttore che inizializza il pannello dei commenti per una specifica poesia.
      *
      * @param poesiaId ID della poesia da commentare.
-     * @param currentUser Utente corrente che visualizza o aggiunge commenti.
      */
-    public CommentoPanel(int poesiaId, User currentUser) {
+    public CommentoPanel(int poesiaId) {
         this.poesiaId = poesiaId;
-        this.currentUser = currentUser;
+
 
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createCompoundBorder(
@@ -138,7 +137,7 @@ public class CommentoPanel extends JPanel {
         inviaButton.addActionListener(_ -> {
             String contenuto = commentField.getText().trim();
             if (!contenuto.isEmpty()) {
-                Commento nuovoCommento = new Commento(0, poesiaId, currentUser.getId(), contenuto, new java.util.Date());
+                Commento nuovoCommento = new Commento(0, poesiaId, piattaformaController.getCurrentUser().getId(), contenuto, new java.util.Date());
                 boolean success = PoesiaController.salvaCommento(nuovoCommento);
 
                 if (success) {

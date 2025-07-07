@@ -1,5 +1,6 @@
 package boundary;
 
+import controller.RaccoltaController;
 import entity.User;
 import entity.Poesia;
 import controller.PoesiaController;
@@ -158,7 +159,7 @@ public class PoesieFrame extends JFrame {
         raccoltaCombo.addItem("-- Crea nuova raccolta --");
 
         try {
-            PoesiaController.getRaccolteUtente(currentUser.getId()).forEach(raccolta ->
+            RaccoltaController.getRaccolteUtente(currentUser.getId()).forEach(raccolta ->
                     raccoltaCombo.addItem(raccolta.getId() + ": " + raccolta.getTitolo())
             );
         } catch (Exception e) {
@@ -334,7 +335,7 @@ public class PoesieFrame extends JFrame {
                     return false;
                 }
 
-                raccoltaId = PoesiaController.creaRaccolta(nuovoTitolo, nuovaDescrizione, currentUser.getId());
+                raccoltaId = RaccoltaController.creaRaccolta(nuovoTitolo, nuovaDescrizione, currentUser.getId());
 
                 if (raccoltaId == -1) {
                     JOptionPane.showMessageDialog(this,

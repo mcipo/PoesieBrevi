@@ -1,5 +1,9 @@
 package entity;
 
+import database.DAO.RaccoltaDAO;
+
+import java.util.List;
+
 /**
  * Questa classe rappresenta una raccolta di poesie nel sistema.
  * Una raccolta consente agli utenti di raggruppare diverse poesie sotto un tema comune
@@ -93,6 +97,14 @@ public class Raccolta {
      */
     public int getAutoreID() {
         return autoreID;
+    }
+
+    public int salvaRaccolta() {
+        return RaccoltaDAO.addRaccolta(this);
+    }
+
+    public static List<Raccolta> getRaccoltaByAutore(int autoreId) {
+        return RaccoltaDAO.getRaccoltaPerAutore(autoreId);
     }
 
     /**

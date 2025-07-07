@@ -1,6 +1,10 @@
 package entity;
 
+import database.DAO.CommentoDAO;
+
+import java.sql.SQLException;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Questa classe rappresenta un commento lasciato da un utente su una poesia.
@@ -101,6 +105,20 @@ public class Commento {
      */
     public Date getDataCreazione() {
         return dataCreazione;
+    }
+
+    public static List<Commento> getCommentiByPoesiaId(int poesiaId) throws SQLException {
+        List<Commento> commenti = CommentoDAO.getCommentiByPoesiaId(poesiaId);
+        return commenti;
+    }
+
+    public static boolean salvaCommento(Commento nuovoCommento) {
+        try {
+            CommentoDAO.addCommento(nuovoCommento);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     /**

@@ -275,7 +275,7 @@ public class PoesiaDisplayPanel extends JPanel {
         commentiVisibili = !commentiVisibili;
         if (commentiVisibili) {
             if (commentiPanel == null) {
-                commentiPanel = new CommentoPanel(poesia.getId(), piattaformaController.getCurrentUser());
+                commentiPanel = new CommentoPanel(poesia.getId());
             }
             add(commentiPanel, BorderLayout.SOUTH);
         } else if (commentiPanel != null) {

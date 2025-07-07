@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 public class PoesiaDAO {
 
     /**
-     * Logger per la registrazione di eventi e errori.
+     * Logger per la registrazione di eventi ed errori.
      */
     private  static final Logger LOGGER = Logger.getLogger(PoesiaDAO.class.getName());
 

@@ -1,5 +1,7 @@
 package entity;
 
+import database.DAO.PoesiaDAO;
+
 import java.util.Date;
 import java.util.List;
 
@@ -161,6 +163,18 @@ public class Poesia {
      */
     public int getRaccoltaID() {
         return raccoltaID;
+    }
+
+    public static List<Poesia> getPoesieByAutore(int autoreId) {
+        return PoesiaDAO.getPoesieByAutore(autoreId);
+    }
+
+    public static List<Poesia> getUltimePoesiePerFeed(int userId, int limit) {
+        return PoesiaDAO.getUltimePoesiePerFeed(userId, limit);
+    }
+
+    public boolean salvaPoesia() {
+        return PoesiaDAO.addPoesia(this);
     }
 
     /**

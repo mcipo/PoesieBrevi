@@ -6,6 +6,7 @@ import java.util.List;
 
 import controller.PiattaformaController;
 import controller.PoesiaController;
+import controller.RaccoltaController;
 
 
 /**
@@ -47,7 +48,7 @@ public class MieRaccoltePanel extends JPanel {
         raccolteContainer.setBackground(Color.WHITE);
 
         try {
-            List<entity.Raccolta> raccolte = PoesiaController.getRaccolteUtente(piattaformaController.getCurrentUser().getId());
+            List<entity.Raccolta> raccolte = RaccoltaController.getRaccolteUtente(piattaformaController.getCurrentUser().getId());
 
             if (raccolte.isEmpty()) {
                 JLabel noRaccolte = new JLabel("Non hai ancora creato raccolte");

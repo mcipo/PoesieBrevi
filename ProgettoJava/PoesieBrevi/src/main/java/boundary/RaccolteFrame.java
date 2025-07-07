@@ -3,6 +3,7 @@ package boundary;
 
 import controller.PiattaformaController;
 import controller.PoesiaController;
+import controller.RaccoltaController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -165,7 +166,7 @@ public class RaccolteFrame extends JFrame {
 
         try {
 
-            int raccoltaId = PoesiaController.creaRaccolta(titolo, descrizione, piattaformaController.getCurrentUser().getId());
+            int raccoltaId = RaccoltaController.creaRaccolta(titolo, descrizione, piattaformaController.getCurrentUser().getId());
 
             if (raccoltaId != -1) {
                 JOptionPane.showMessageDialog(this,
@@ -218,7 +219,7 @@ public class RaccolteFrame extends JFrame {
 
         try {
 
-            List<entity.Raccolta> raccolte = PoesiaController.getRaccolteUtente(piattaformaController.getCurrentUser().getId());
+            List<entity.Raccolta> raccolte = RaccoltaController.getRaccolteUtente(piattaformaController.getCurrentUser().getId());
 
             if (raccolte.isEmpty()) {
                 JLabel noCollections = new JLabel("Non hai ancora creato raccolte");
