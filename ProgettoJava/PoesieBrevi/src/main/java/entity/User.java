@@ -1,5 +1,7 @@
 package entity;
 
+import database.DAO.UserDAO;
+
 /**
  * Questa classe rappresenta un utente registrato nel sistema.
  * Contiene le informazioni dell'account utente come credenziali di accesso,
@@ -123,14 +125,6 @@ public class User {
         return cognome;
     }
 
-    /**
-     * Verifica se l'utente ha privilegi di amministratore.
-     *
-     * @return true se l'utente è un amministratore, false altrimenti.
-     */
-    public boolean isAdmin() {
-        return isAdmin;
-    }
 
     /**
      * Imposta un nuovo profilo per l'utente.
@@ -139,6 +133,22 @@ public class User {
      */
     public void setProfilo(Profilo profilo) {
         this.profilo = profilo;
+    }
+
+
+    public static User getUserFromDB(String email) {
+        return UserDAO.getUserByEmail(email);
+    }
+
+    public static boolean salvaUtente(User user) {
+        if (user == null) {
+            return false;
+        }
+        if (UserDAO.getUserByEmail(user.getEmail()) != null) {
+            return false;
+        }
+
+        return UserDAO.addUser(user);
     }
 
     /**

@@ -7,8 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
-import controller.LoginController;
-import entity.User;
+import controller.PiattaformaController;
 
 /**
  * Frame che gestisce l'interfaccia di login dell'applicazione.
@@ -16,6 +15,8 @@ import entity.User;
  * con opzioni per il recupero password e la registrazione di nuovi account.
  */
 public class LoginFrame extends JFrame {
+
+    PiattaformaController piattaformaController = PiattaformaController.getInstance();
 
     /**
      * Campo di testo per l'inserimento dell'email.
@@ -132,13 +133,12 @@ public class LoginFrame extends JFrame {
                 }
 
                 try {
-                    if (LoginController.esisteUtente(email)) {
-                        if (LoginController.verificaCredenziali(email, password)) {
-                            User user = LoginController.autenticaUtente(email, password);
+                    if (piattaformaController.esisteUtente(email)) {
+                        if (piattaformaController.autenticaUtente(email, password)) {
                             System.out.println(email + " ha effettuato il login");
                             JOptionPane.showMessageDialog(LoginFrame.this, "Login effettuato con successo!", "Successo", JOptionPane.INFORMATION_MESSAGE);
                             dispose();
-                            new HomeFrame(user).setVisible(true);
+                            new HomeFrame(piattaformaController.getInstance().getCurrentUser()).setVisible(true);
                         } else {
                             JOptionPane.showMessageDialog(LoginFrame.this, "Password non corretta", "Errore di login", JOptionPane.ERROR_MESSAGE);
                         }

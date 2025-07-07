@@ -1,6 +1,6 @@
 package boundary;
 
-import controller.RegistrazioneController;
+import controller.PiattaformaController;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -190,7 +190,7 @@ public class RegistrazioneFrame extends JFrame {
                     return;
                 }
                 
-                if (RegistrazioneController.esisteUtente(email)) {
+                if (PiattaformaController.esisteUtente(email)) {
                     JOptionPane.showMessageDialog(RegistrazioneFrame.this, 
                         "Email già registrata nel sistema", 
                         "Errore", 
@@ -198,7 +198,7 @@ public class RegistrazioneFrame extends JFrame {
                     return;
                 }
                 
-                entity.User nuovoUtente = RegistrazioneController.creaUtenteInMemoria(nome, cognome, email, password, isAdmin);
+                entity.User nuovoUtente = PiattaformaController.creaUtenteInMemoria(nome, cognome, email, password, isAdmin);
                 
                 if(nuovoUtente != null) {
                     JOptionPane.showMessageDialog(RegistrazioneFrame.this,

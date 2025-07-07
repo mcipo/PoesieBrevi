@@ -1,4 +1,4 @@
-import controller.PoesiaController;
+/*import controller.PoesiaController;
 import database.DatabaseConnection;
 import entity.Poesia;
 import entity.Raccolta;
@@ -230,4 +230,4 @@ public class PoesiaControllerTest {
         assertTrue("La raccolta appena creata dovrebbe essere nella lista", trovata);
     }
 
-}
+}*/

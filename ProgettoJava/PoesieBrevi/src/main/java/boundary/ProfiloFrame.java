@@ -1,8 +1,8 @@
 package boundary;
 
+import controller.PiattaformaController;
 import entity.Profilo;
 import entity.User;
-import controller.RegistrazioneController;
 
 import java.awt.image.BufferedImage;
 
@@ -228,7 +228,7 @@ public class ProfiloFrame extends JFrame {
 
             if (nuovoUtente) {
 
-                success = RegistrazioneController.salvaUtente(currentUser);
+                success = PiattaformaController.salvaUtente(currentUser);
 
                 if (success) {
                     JOptionPane.showMessageDialog(ProfiloFrame.this,

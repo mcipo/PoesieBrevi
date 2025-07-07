@@ -1,4 +1,4 @@
--- DROP DATABASE IF EXISTS poesie_brevi_db;
+DROP DATABASE IF EXISTS poesie_brevi_db;
 CREATE DATABASE IF NOT EXISTS poesie_brevi_db;
 USE poesie_brevi_db;
 
