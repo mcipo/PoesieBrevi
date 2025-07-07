@@ -64,7 +64,7 @@ public class UserDAO {
     public static boolean addUser(User user) {
         String query = "INSERT INTO users (email, password, nome, cognome, amministratore) VALUES (?, ?, ?, ?, ?)";
         try{
-            int result = DatabaseConnection.executeUpdate(query,user.getEmail(), user.getPassword(), user.getNome(), user.getCognome(), user.isAdmin());
+            int result = DatabaseConnection.executeUpdate(query,user.getEmail(), user.getPassword(), user.getNome(), user.getCognome(), false);
             if (result > 0) {
                 String queryID = "SELECT id FROM users WHERE email = ?";
                 ResultSet resultSet = DatabaseConnection.executeQuery(queryID, user.getEmail());

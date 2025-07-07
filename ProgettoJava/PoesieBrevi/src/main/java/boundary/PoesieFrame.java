@@ -92,7 +92,7 @@ public class PoesieFrame extends JFrame {
         JButton backButton = UIUtils.bottone("Torna alla Home", Font.PLAIN, 14);
         backButton.addActionListener(_ -> {
             dispose();
-            new HomeFrame(currentUser).setVisible(true);
+            new HomeFrame().setVisible(true);
         });
         headerPanel.add(backButton, BorderLayout.EAST);
 
@@ -221,7 +221,7 @@ public class PoesieFrame extends JFrame {
                     raccoltaCombo, newCollectionTitleField, newCollectionDescField)) {
                 resetPoesiaForm(titleField, contentArea, tagsField, raccoltaCombo, newRaccoltaPanel);
                 dispose();
-                new HomeFrame(currentUser).setVisible(true);
+                new HomeFrame().setVisible(true);
             }
         });
 
@@ -428,7 +428,7 @@ public class PoesieFrame extends JFrame {
                 poesieContainer.add(nessunaPoesia);
             } else {
                 for (Poesia poesia : poesie) {
-                    PoesiaDisplayPanel poesiaPanel = new PoesiaDisplayPanel(poesia, currentUser);
+                    PoesiaDisplayPanel poesiaPanel = new PoesiaDisplayPanel(poesia);
                     poesieContainer.add(poesiaPanel);
                     poesieContainer.add(Box.createVerticalStrut(15));
                 }

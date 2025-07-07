@@ -4,8 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
+import controller.PiattaformaController;
 import controller.PoesiaController;
-import entity.User;
+
 
 /**
  * Panel che visualizza le raccolte create dall'utente corrente.
@@ -14,14 +15,14 @@ import entity.User;
  */
 public class MieRaccoltePanel extends JPanel {
 
+    private PiattaformaController piattaformaController = PiattaformaController.getInstance();
     /**
      * Costruttore che crea e configura il pannello con le raccolte dell'utente.
      * Recupera le raccolte dal controller e le visualizza in un layout verticale.
      * Include pulsanti per creare nuove raccolte e visualizzare tutte le raccolte.
      *
-     * @param currentUser Utente corrente di cui visualizzare le raccolte.
      */
-    public MieRaccoltePanel(User currentUser) {
+    public MieRaccoltePanel() {
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
         setBackground(Color.WHITE);
@@ -35,7 +36,7 @@ public class MieRaccoltePanel extends JPanel {
         JButton addButton = UIUtils.bottone("+", Font.BOLD,14);
         addButton.addActionListener(_ -> {
             SwingUtilities.getWindowAncestor(this).dispose();
-            new RaccolteFrame(currentUser, true).setVisible(true);
+            new RaccolteFrame(true).setVisible(true);
         });
         headerPanel.add(addButton, BorderLayout.EAST);
 
@@ -46,7 +47,7 @@ public class MieRaccoltePanel extends JPanel {
         raccolteContainer.setBackground(Color.WHITE);
 
         try {
-            List<entity.Raccolta> raccolte = PoesiaController.getRaccolteUtente(currentUser.getId());
+            List<entity.Raccolta> raccolte = PoesiaController.getRaccolteUtente(piattaformaController.getCurrentUser().getId());
 
             if (raccolte.isEmpty()) {
                 JLabel noRaccolte = new JLabel("Non hai ancora creato raccolte");
@@ -77,7 +78,7 @@ public class MieRaccoltePanel extends JPanel {
         JButton vediTutteButton = UIUtils.bottone("Visualizza tutte", Font.PLAIN,14);
         vediTutteButton.addActionListener(_ -> {
             SwingUtilities.getWindowAncestor(this).dispose();
-            new RaccolteFrame(currentUser, false).setVisible(true);
+            new RaccolteFrame(false).setVisible(true);
         });
 
         add(vediTutteButton, BorderLayout.SOUTH);

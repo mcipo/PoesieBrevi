@@ -4,9 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
+import controller.PiattaformaController;
 import controller.PoesiaController;
 import entity.Poesia;
-import entity.User;
 
 /**
  * Panel che visualizza le poesie create dall'utente corrente.
@@ -15,14 +15,14 @@ import entity.User;
  */
 public class MiePoesiePanel extends JPanel {
 
+    private PiattaformaController piattaformaController = PiattaformaController.getInstance();
     /**
      * Costruttore che crea e configura il pannello con le poesie dell'utente.
      * Recupera le poesie dal controller e le visualizza in un layout verticale.
      * Include pulsanti per creare nuove poesie e visualizzare tutte le poesie.
      *
-     * @param currentUser Utente corrente di cui visualizzare le poesie.
      */
-    public MiePoesiePanel(User currentUser) {
+    public MiePoesiePanel() {
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
         setBackground(Color.WHITE);
@@ -33,7 +33,7 @@ public class MiePoesiePanel extends JPanel {
         JButton addButton = UIUtils.bottone("+", Font.BOLD,14);
         addButton.addActionListener(_ -> {
             SwingUtilities.getWindowAncestor(this).dispose();
-            new PoesieFrame(currentUser, true).setVisible(true);
+            new PoesieFrame(piattaformaController.getCurrentUser(), true).setVisible(true);
         });
         headerPanel.add(addButton, BorderLayout.EAST);
 
@@ -48,7 +48,7 @@ public class MiePoesiePanel extends JPanel {
 
         try {
 
-            List<Poesia> poesie = PoesiaController.getPoesieByAutore(currentUser.getId());
+            List<Poesia> poesie = PoesiaController.getPoesieByAutore(piattaformaController.getCurrentUser().getId());
 
             if (poesie.isEmpty()) {
                 JLabel noPoesie = UIUtils.label("Non hai ancora scritto poesie", 0, 0, 14);
@@ -56,7 +56,7 @@ public class MiePoesiePanel extends JPanel {
                 poesieContainer.add(noPoesie);
             } else {
                 for (Poesia poesia : poesie) {
-                    PoesiaDisplayPanel poesiePanel = new PoesiaDisplayPanel(poesia, currentUser);
+                    PoesiaDisplayPanel poesiePanel = new PoesiaDisplayPanel(poesia);
                     poesieContainer.add(poesiePanel);
                     poesieContainer.add(Box.createVerticalStrut(15));
                 }
@@ -77,7 +77,7 @@ public class MiePoesiePanel extends JPanel {
         JButton visualizzaTutte = UIUtils.bottone("Visualizza tutte", Font.PLAIN ,14);
         visualizzaTutte.addActionListener(_ -> {
             SwingUtilities.getWindowAncestor(this).dispose();
-            new PoesieFrame(currentUser, false).setVisible(true);
+            new PoesieFrame(piattaformaController.getCurrentUser(), false).setVisible(true);
         });
 
         add(visualizzaTutte, BorderLayout.SOUTH);

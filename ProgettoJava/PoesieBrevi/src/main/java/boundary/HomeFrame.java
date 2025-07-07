@@ -1,6 +1,5 @@
 package boundary;
-
-import entity.User;
+import controller.PiattaformaController;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
@@ -14,10 +13,7 @@ import java.awt.event.*;
  */
 public class HomeFrame extends JFrame {
 
-    /**
-     * Utente attualmente loggato nell'applicazione.
-     */
-    private final User currentUser;
+    private PiattaformaController piattaformaController = PiattaformaController.getInstance();
     
     /**
      * Pannello principale che contiene i contenuti della schermata.
@@ -33,10 +29,8 @@ public class HomeFrame extends JFrame {
      * Costruttore che crea e configura la schermata principale dell'applicazione.
      * Inizializza i componenti dell'interfaccia e mostra i contenuti personalizzati per l'utente.
      *
-     * @param user Utente attualmente loggato nell'applicazione.
      */
-    public HomeFrame(User user) {
-        this.currentUser = user;
+    public HomeFrame() {
 
         setTitle("Poesie Brevi - Home");
         setSize(UIUtils.CONTENT_MARGIN_W, UIUtils.CONTENT_MARGIN_H);
@@ -74,7 +68,7 @@ public class HomeFrame extends JFrame {
         headerPanel.setOpaque(false);
         headerPanel.setBounds(20, 20, UIUtils.CONTENT_WIDTH - 40, 50);
 
-        String username = currentUser.getProfilo().getUsername();
+        String username = piattaformaController.getCurrentUser().getProfilo().getUsername();
 
         JPanel leftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         leftPanel.setOpaque(false);
@@ -87,7 +81,7 @@ public class HomeFrame extends JFrame {
 
         profiloButton.addActionListener(_ -> {
             dispose();
-            new ProfiloFrame(currentUser).setVisible(true);
+            new ProfiloFrame(piattaformaController.getCurrentUser()).setVisible(true);
         });
         headerPanel.add(profiloButton, BorderLayout.EAST);
 
@@ -110,9 +104,9 @@ public class HomeFrame extends JFrame {
 
         tabbedPane.setBorder(null);
 
-        JPanel feedPanel = new FeedPanel(currentUser);
-        JPanel miePoesiePanel = new MiePoesiePanel(currentUser);
-        JPanel mieRaccoltePanel = new MieRaccoltePanel(currentUser);
+        JPanel feedPanel = new FeedPanel();
+        JPanel miePoesiePanel = new MiePoesiePanel();
+        JPanel mieRaccoltePanel = new MieRaccoltePanel();
 
         tabbedPane.addTab("Feed", null, feedPanel, "Visualizza il feed delle poesie");
         tabbedPane.addTab("Le mie Poesie", null, miePoesiePanel, "Visualizza le tue poesie");

@@ -16,7 +16,7 @@ import controller.PiattaformaController;
  */
 public class LoginFrame extends JFrame {
 
-    PiattaformaController piattaformaController = PiattaformaController.getInstance();
+    private PiattaformaController piattaformaController = PiattaformaController.getInstance();
 
     /**
      * Campo di testo per l'inserimento dell'email.
@@ -138,7 +138,7 @@ public class LoginFrame extends JFrame {
                             System.out.println(email + " ha effettuato il login");
                             JOptionPane.showMessageDialog(LoginFrame.this, "Login effettuato con successo!", "Successo", JOptionPane.INFORMATION_MESSAGE);
                             dispose();
-                            new HomeFrame(piattaformaController.getInstance().getCurrentUser()).setVisible(true);
+                            new HomeFrame().setVisible(true);
                         } else {
                             JOptionPane.showMessageDialog(LoginFrame.this, "Password non corretta", "Errore di login", JOptionPane.ERROR_MESSAGE);
                         }

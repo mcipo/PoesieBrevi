@@ -4,9 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
+import controller.PiattaformaController;
 import controller.PoesiaController;
 import entity.Poesia;
-import entity.User;
 
 /**
  * Panel che visualizza un feed delle ultime poesie pubblicate dagli altri utenti.
@@ -14,13 +14,14 @@ import entity.User;
  */
 public class FeedPanel extends JPanel {
 
+    private PiattaformaController piattaformaController = PiattaformaController.getInstance();
+
     /**
      * Costruttore che crea e configura il pannello del feed con le ultime poesie pubblicate.
      * Recupera le poesie dal controller e le visualizza in ordine cronologico inverso.
      *
-     * @param currentUser Utente corrente che sta visualizzando il feed.
      */
-    public FeedPanel(User currentUser) {
+    public FeedPanel() {
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
         setBackground(Color.WHITE);
@@ -33,7 +34,7 @@ public class FeedPanel extends JPanel {
         poesieContainer.setBackground(Color.WHITE);
 
         try {
-            List<Poesia> poesie = PoesiaController.getUltimePoesiePerFeed(currentUser.getId(), 5);
+            List<Poesia> poesie = PoesiaController.getUltimePoesiePerFeed(piattaformaController.getCurrentUser().getId(), 5);
 
             if (poesie.isEmpty()) {
                 JLabel noPoesie = new JLabel("Nessuna poesia disponibile nel feed");
@@ -43,7 +44,7 @@ public class FeedPanel extends JPanel {
                 poesieContainer.add(noPoesie);
             } else {
                 for (Poesia poesia : poesie) {
-                    JPanel poesiePanel = new PoesiaDisplayPanel(poesia, currentUser);
+                    JPanel poesiePanel = new PoesiaDisplayPanel(poesia);
                     poesieContainer.add(poesiePanel);
                     poesieContainer.add(Box.createVerticalStrut(15));
                 }

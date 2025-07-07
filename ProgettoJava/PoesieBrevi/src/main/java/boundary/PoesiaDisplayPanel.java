@@ -6,11 +6,12 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 
+import controller.PiattaformaController;
 import controller.PoesiaController;
 import controller.ProfiloController;
 import entity.Poesia;
 import entity.Profilo;
-import entity.User;
+
 
 /**
  * Panel che visualizza una singola poesia con tutti i suoi dettagli.
@@ -18,15 +19,13 @@ import entity.User;
  * tramite commenti e "cuori" (mi piace).
  */
 public class PoesiaDisplayPanel extends JPanel {
+
+    private PiattaformaController piattaformaController = PiattaformaController.getInstance();
+
     /**
      * Poesia da visualizzare nel pannello.
      */
     private final Poesia poesia;
-    
-    /**
-     * Utente corrente che sta visualizzando la poesia.
-     */
-    private final User currentUser;
     
     /**
      * Flag che indica se i commenti sono attualmente visibili.
@@ -42,11 +41,10 @@ public class PoesiaDisplayPanel extends JPanel {
      * Costruttore che crea un pannello per visualizzare una poesia.
      *
      * @param poesia Poesia da visualizzare.
-     * @param currentUser Utente corrente che sta visualizzando la poesia.
      */
-    public PoesiaDisplayPanel(Poesia poesia, User currentUser) {
+    public PoesiaDisplayPanel(Poesia poesia) {
         this.poesia = poesia;
-        this.currentUser = currentUser;
+
 
         initialize();
     }
@@ -242,7 +240,7 @@ public class PoesiaDisplayPanel extends JPanel {
         commentButton.setFocusPainted(false);
         commentButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         commentButton.setForeground(UIUtils.TEXT_COLOR);
-        commentButton.addActionListener(_ -> toggleCommentsPanel(commentButton, numCommenti, currentUser));
+        commentButton.addActionListener(_ -> toggleCommentsPanel(commentButton, numCommenti));
         return commentButton;
     }
 
@@ -254,7 +252,7 @@ public class PoesiaDisplayPanel extends JPanel {
     private JButton getCuoreButton() {
 
         int numCuori = PoesiaController.getNumCuori(poesia.getId());
-        boolean isCuore = PoesiaController.hasUserCuorePoesia(poesia.getId(), currentUser.getId());
+        boolean isCuore = PoesiaController.hasUserCuorePoesia(poesia.getId(), piattaformaController.getCurrentUser().getId());
 
         JButton cuoreButton = new JButton((isCuore ? "\uDBC0\uDEB5" : "\uDBC0\uDEB4") + numCuori);
         cuoreButton.setFont(new Font(UIUtils.FONT, Font.BOLD, 14));
@@ -272,13 +270,12 @@ public class PoesiaDisplayPanel extends JPanel {
      *
      * @param commentButton Il pulsante dei commenti che ha attivato l'azione.
      * @param numCommenti Il numero di commenti della poesia.
-     * @param user Utente corrente che sta interagendo con la poesia.
      */
-    private void toggleCommentsPanel(JButton commentButton, int numCommenti, User user) {
+    private void toggleCommentsPanel(JButton commentButton, int numCommenti) {
         commentiVisibili = !commentiVisibili;
         if (commentiVisibili) {
             if (commentiPanel == null) {
-                commentiPanel = new CommentoPanel(poesia.getId(), user);
+                commentiPanel = new CommentoPanel(poesia.getId(), piattaformaController.getCurrentUser());
             }
             add(commentiPanel, BorderLayout.SOUTH);
         } else if (commentiPanel != null) {
@@ -300,11 +297,11 @@ public class PoesiaDisplayPanel extends JPanel {
     private void handleCuoreButtonClick(JButton cuoreButton, int poesiaId) {
         try {
 
-            boolean success = PoesiaController.toggleCuore(poesiaId, currentUser.getId());
+            boolean success = PoesiaController.toggleCuore(poesiaId, piattaformaController.getCurrentUser().getId());
 
             if (success) {
                 int newNumCuori = PoesiaController.getNumCuori(poesiaId);
-                boolean userHasCuore = PoesiaController.hasUserCuorePoesia(poesiaId, currentUser.getId());
+                boolean userHasCuore = PoesiaController.hasUserCuorePoesia(poesiaId, piattaformaController.getCurrentUser().getId());
 
                 cuoreButton.setText((userHasCuore ? "\uDBC0\uDEB5" : "\uDBC0\uDEB4") + newNumCuori);
                 cuoreButton.setForeground(userHasCuore ? Color.red : UIUtils.TEXT_COLOR);

@@ -1,6 +1,7 @@
 package boundary;
 
-import entity.User;
+
+import controller.PiattaformaController;
 import controller.PoesiaController;
 
 import javax.swing.*;
@@ -14,10 +15,7 @@ import java.util.List;
  */
 public class RaccolteFrame extends JFrame {
 
-    /**
-     * Utente corrente che sta utilizzando la finestra.
-     */
-    private User currentUser;
+    private PiattaformaController piattaformaController = PiattaformaController.getInstance();
     
     /**
      * Pannelli principali dell'interfaccia.
@@ -34,12 +32,10 @@ public class RaccolteFrame extends JFrame {
     /**
      * Costruttore che crea e configura la finestra per la creazione o visualizzazione delle raccolte.
      *
-     * @param user Utente corrente che sta utilizzando l'applicazione.
      * @param createMode Se true, mostra l'interfaccia per creare una nuova raccolta;
      *                  se false, mostra la lista delle raccolte esistenti.
      */
-    public RaccolteFrame(User user, boolean createMode) {
-        this.currentUser = user;
+    public RaccolteFrame(boolean createMode) {
         this.createMode = createMode;
 
         setTitle(createMode ? "Crea Nuova Raccolta" : "Le Mie Raccolte");
@@ -86,7 +82,7 @@ public class RaccolteFrame extends JFrame {
         JButton backButton = UIUtils.bottone("Torna alla Home", Font.PLAIN, 14);
         backButton.addActionListener(_ -> {
             dispose();
-            new HomeFrame(currentUser).setVisible(true);
+            new HomeFrame().setVisible(true);
         });
         headerPanel.add(backButton, BorderLayout.EAST);
 
@@ -141,7 +137,7 @@ public class RaccolteFrame extends JFrame {
         creaRaccolta.addActionListener(_ -> {
             if (handleCollectionCreation(titleField, descriptionArea)) {
                 dispose();
-                new HomeFrame(currentUser).setVisible(true);
+                new HomeFrame().setVisible(true);
             }
         });
 
@@ -169,7 +165,7 @@ public class RaccolteFrame extends JFrame {
 
         try {
 
-            int raccoltaId = PoesiaController.creaRaccolta(titolo, descrizione, currentUser.getId());
+            int raccoltaId = PoesiaController.creaRaccolta(titolo, descrizione, piattaformaController.getCurrentUser().getId());
 
             if (raccoltaId != -1) {
                 JOptionPane.showMessageDialog(this,
@@ -214,7 +210,7 @@ public class RaccolteFrame extends JFrame {
         JButton createNewButton = UIUtils.bottone("Crea Nuova Raccolta", Font.PLAIN, 14);
         createNewButton.addActionListener(_ -> {
             dispose();
-            new RaccolteFrame(currentUser, true).setVisible(true);
+            new RaccolteFrame(true).setVisible(true);
         });
         
         panel.add(createNewButton, BorderLayout.SOUTH );
@@ -222,7 +218,7 @@ public class RaccolteFrame extends JFrame {
 
         try {
 
-            List<entity.Raccolta> raccolte = PoesiaController.getRaccolteUtente(currentUser.getId());
+            List<entity.Raccolta> raccolte = PoesiaController.getRaccolteUtente(piattaformaController.getCurrentUser().getId());
 
             if (raccolte.isEmpty()) {
                 JLabel noCollections = new JLabel("Non hai ancora creato raccolte");
