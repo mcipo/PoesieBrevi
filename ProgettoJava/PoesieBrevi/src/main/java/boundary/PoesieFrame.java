@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class PoesieFrame extends JFrame {
 
-    private PiattaformaController piattaformaController = PiattaformaController.getInstance();
+    private final PiattaformaController piattaformaController = PiattaformaController.getInstance();
     
     /**
      * Pannello principale per i contenuti dell'interfaccia.

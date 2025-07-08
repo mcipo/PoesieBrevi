@@ -174,7 +174,7 @@ public class Poesia {
     }
 
     public boolean salvaPoesia() {
-        return PoesiaDAO.addPoesia(this);
+        return PoesiaDAO.addPoesia(this.getTitolo(), this.contenuto, this.visibile, this.dataCreazione, this.tags, this.autoreID, this.raccoltaID);
     }
 
     /**

@@ -1,5 +1,10 @@
 package database.DAO;
 
+/**
+ * AGGIUSTARE IL METODO getCommenti...
+ */
+
+
 import entity.Commento;
 import database.DatabaseConnection;
 
@@ -29,13 +34,13 @@ public class CommentoDAO {
     /**
      * Aggiunge un nuovo commento al database.
      *
-     * @param commento L'oggetto Commento da salvare nel database.
+     *
      * @throws SQLException Se si verifica un errore durante l'operazione di inserimento.
      */
-    public static void addCommento(Commento commento) throws SQLException {
+    public static void addCommento(int poesiaId, int autoreId, String testo, Date dataCreazione) throws SQLException {
         String query = "INSERT INTO commenti (poesia_id, autore_id, contenuto, data_creazione) VALUES (?, ?, ?, ?)";
         try{
-            DatabaseConnection.executeUpdate(query, commento.getPoesiaID(), commento.getAutoreID(), commento.getTesto(), new Timestamp(commento.getDataCreazione().getTime()));
+            DatabaseConnection.executeUpdate(query, poesiaId, autoreId, testo, new Timestamp(dataCreazione.getTime()));
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Errore in addCommento", e);
         }

@@ -50,17 +50,15 @@ public class ProfiloDAO {
     /**
      * Aggiorna un profilo esistente nel database.
      *
-     * @param profilo L'oggetto Profilo con i nuovi dati.
      * @param userId L'ID dell'utente proprietario del profilo.
      */
-    public static void updateProfilo(Profilo profilo, int userId) {
+    public static void updateProfilo(String username, String bio, String immagineProfilo, Date dataDiNascita, int userId) {
         String query = "UPDATE user_profiles SET username = ?, bio = ?, foto_profilo_path = ?, data_nascita = ? WHERE user_id = ?";
         try{
-            Date dataNascita = null;
-            if (profilo.getDataNascita() != null) {
-                dataNascita =  new java.sql.Date(profilo.getDataNascita().getTime());
+            if (dataDiNascita != null) {
+                dataDiNascita =  new java.sql.Date(dataDiNascita.getTime());
             }
-            DatabaseConnection.executeUpdate(query, profilo.getUsername(), profilo.getBio(), profilo.getImmagineProfilo(), dataNascita, userId);
+            DatabaseConnection.executeUpdate(query, username, bio, immagineProfilo, dataDiNascita, userId);
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Errore updating profilo", e);
         }
@@ -71,21 +69,19 @@ public class ProfiloDAO {
      * Se viene rilevato un profilo esistente con lo stesso ID utente,
      * chiama il metodo updateProfilo per aggiornarlo invece.
      *
-     * @param profilo L'oggetto Profilo da salvare nel database.
      * @param userId L'ID dell'utente proprietario del profilo.
      */
-    public static void createProfilo(Profilo profilo, int userId) {
+    public static void createProfilo(String username, String bio, String immagineProfilo, Date dataDiNascita, int userId) {
         String query = "INSERT INTO user_profiles (user_id, username, bio, foto_profilo_path, data_nascita) VALUES (?, ?, ?, ?, ?)";
         try {
-            Date dataNascita = null;
-            if (profilo.getDataNascita() != null) {
-                dataNascita =  new java.sql.Date(profilo.getDataNascita().getTime());
+            if (dataDiNascita != null) {
+                dataDiNascita =  new java.sql.Date(dataDiNascita.getTime());
             }
-            DatabaseConnection.executeUpdate(query, userId, profilo.getUsername(), profilo.getBio(), profilo.getImmagineProfilo(), dataNascita);
+            DatabaseConnection.executeUpdate(query, userId, username, bio, immagineProfilo, dataDiNascita);
         } catch (SQLException e) {
             if (e instanceof SQLIntegrityConstraintViolationException) {
                 LOGGER.log(Level.SEVERE, "Errore in createProfilo - chiave duplicata", e);
-                updateProfilo(profilo, userId);
+                updateProfilo(username, bio, immagineProfilo, dataDiNascita, userId);
             } else {
                 LOGGER.log(Level.SEVERE, "Errore in createProfilo", e);
             }

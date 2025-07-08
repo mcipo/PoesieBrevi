@@ -114,7 +114,11 @@ public class Commento {
 
     public static boolean salvaCommento(Commento nuovoCommento) {
         try {
-            CommentoDAO.addCommento(nuovoCommento);
+            int poesiaID = nuovoCommento.getPoesiaID();
+            int autoreID = nuovoCommento.getAutoreID();
+            String testo = nuovoCommento.getTesto();
+            Date dataCreazione = nuovoCommento.getDataCreazione();
+            CommentoDAO.addCommento(poesiaID, autoreID, testo, dataCreazione);
             return true;
         } catch (Exception e) {
             return false;

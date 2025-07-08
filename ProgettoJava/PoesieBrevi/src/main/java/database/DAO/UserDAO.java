@@ -5,6 +5,7 @@ import entity.User;
 import entity.Profilo;
 
 import java.sql.*;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,7 +17,7 @@ import java.util.logging.Logger;
 public class UserDAO {
 
     /**
-     * Logger per la registrazione di eventi e errori.
+     * Logger per la registrazione di eventi ed errori.
      */
     private static final Logger LOGGER = Logger.getLogger(UserDAO.class.getName());
 
@@ -58,20 +59,19 @@ public class UserDAO {
     /**
      * Aggiunge un nuovo utente al database e crea il profilo associato.
      *
-     * @param user L'oggetto User da salvare nel database.
      * @return true se l'operazione è completata con successo, false altrimenti.
      */
-    public static boolean addUser(User user) {
+    public static boolean addUser(String email, String password, String nome, String cognome, String username, String bio, String immagineProfilo, Date dataDiNascita) {
         String query = "INSERT INTO users (email, password, nome, cognome, amministratore) VALUES (?, ?, ?, ?, ?)";
         try{
-            int result = DatabaseConnection.executeUpdate(query,user.getEmail(), user.getPassword(), user.getNome(), user.getCognome(), false);
+            int result = DatabaseConnection.executeUpdate(query,email, password, nome, cognome, false);
             if (result > 0) {
                 String queryID = "SELECT id FROM users WHERE email = ?";
-                ResultSet resultSet = DatabaseConnection.executeQuery(queryID, user.getEmail());
+                ResultSet resultSet = DatabaseConnection.executeQuery(queryID, email);
                 if (resultSet.next()) {
                     int userId = resultSet.getInt("id");
-                    user.setId(userId);
-                    ProfiloDAO.createProfilo(user.getProfilo(), userId);
+                    //user.setId(userId);
+                    ProfiloDAO.createProfilo(username, bio, immagineProfilo, dataDiNascita, userId);
                     return true;
                 }
             }

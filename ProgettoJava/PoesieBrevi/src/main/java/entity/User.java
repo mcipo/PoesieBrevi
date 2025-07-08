@@ -158,8 +158,17 @@ public class User {
         if (UserDAO.getUserByEmail(user.getEmail()) != null) {
             return false;
         }
+        Profilo profilo = user.getProfilo();
+        String email = user.getEmail();
+        String password = user.getPassword();
+        String nome = user.getNome();
+        String cognome = user.getCognome();
+        String username = profilo.getUsername();
+        String bio = profilo.getBio();
+        String immagineProfilo = profilo.getImmagineProfilo();
+        Date dataDiNascita = profilo.getDataNascita();
 
-        return UserDAO.addUser(user);
+        return UserDAO.addUser(email, password, nome, cognome, username, bio, immagineProfilo, dataDiNascita);
     }
 
     /**

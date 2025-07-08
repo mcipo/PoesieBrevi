@@ -91,11 +91,11 @@ public class Profilo {
     }
 
     public void updateProfilo(int userId) {
-        ProfiloDAO.updateProfilo(this, userId);
+        ProfiloDAO.updateProfilo(this.username, this.bio, this.immagineProfilo, this.dataNascita, userId);
     }
 
     public void createProfilo(int userId) {
-        ProfiloDAO.createProfilo(this, userId);
+        ProfiloDAO.createProfilo(this.username, this.bio, this.immagineProfilo, this.dataNascita, userId);
     }
 
     public static Profilo getProfiloAtID(int userId){

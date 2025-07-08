@@ -1,5 +1,11 @@
 package database.DAO;
 
+/**
+ * Aggiustare:
+ * - getUltimePoesiePerFeed
+ * - getPoesieByAutore
+ */
+
 import entity.Poesia;
 import database.DatabaseConnection;
 
@@ -108,20 +114,16 @@ public class PoesiaDAO {
     /**
      * Aggiunge una nuova poesia al database.
      *
-     * @param poesia L'oggetto Poesia da salvare nel database.
      * @return true se l'operazione è completata con successo, false altrimenti.
      */
-    public static boolean addPoesia(Poesia poesia) {
+    public static boolean addPoesia(String titolo, String contenuto, boolean visibile, Date dataCreazione, List<String> tags, int autoreId, int raccoltaId) {
         String query = "INSERT INTO poesie (titolo, contenuto, tag, visibile, data_creazione, autore_id, raccolta_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try{
-            String tagsString = poesia.getTags() != null && !poesia.getTags().isEmpty() ? String.join(",", poesia.getTags()) : "";
-            int raccoltaID = 0;
-            if (poesia.getRaccoltaID() > 0){
-                raccoltaID = poesia.getRaccoltaID();
-            }else{
-                raccoltaID = java.sql.Types.INTEGER;
+            String tagsString = tags != null && !tags.isEmpty() ? String.join(",", tags) : "";
+            if(raccoltaId <= 0){
+                raccoltaId = java.sql.Types.INTEGER;
             }
-            int result = DatabaseConnection.executeUpdate(query, poesia.getTitolo(), poesia.getContenuto(), tagsString, poesia.getVisibile(), new Timestamp(poesia.getDataCreazione().getTime()), poesia.getAutoreID(), raccoltaID);
+            int result = DatabaseConnection.executeUpdate(query, titolo, contenuto, tags, visibile, new Timestamp(dataCreazione.getTime()), autoreId, raccoltaId);
 
             return result > 0;
         } catch (SQLException e) {
