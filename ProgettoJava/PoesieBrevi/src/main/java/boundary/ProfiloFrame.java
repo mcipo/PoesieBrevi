@@ -2,7 +2,6 @@ package boundary;
 
 import controller.PiattaformaController;
 import entity.Profilo;
-import entity.User;
 
 import java.awt.image.BufferedImage;
 
@@ -23,10 +22,7 @@ import controller.ProfiloController;
  */
 public class ProfiloFrame extends JFrame {
 
-    /**
-     * Utente corrente che sta creando o modificando il profilo.
-     */
-    private final User currentUser;
+    private PiattaformaController piattaformaController = PiattaformaController.getInstance();
     
     /**
      * Campo di testo per l'inserimento o la modifica dello username.
@@ -62,12 +58,11 @@ public class ProfiloFrame extends JFrame {
      * Costruttore che crea e configura la finestra di gestione del profilo.
      * Può essere utilizzato sia per creare un nuovo profilo che per modificare uno esistente.
      *
-     * @param user Utente il cui profilo viene gestito.
      * @param nuovoUtente Se true, indica che si sta creando un nuovo profilo;
      *                   se false, indica che si sta modificando un profilo esistente.
      */
-    public ProfiloFrame(User user, boolean nuovoUtente) {
-        this.currentUser = user;
+    public ProfiloFrame(boolean nuovoUtente) {
+
 
         setTitle("Poesie Brevi - Profilo");
         setSize(UIUtils.CONTENT_MARGIN_W, UIUtils.CONTENT_MARGIN_H);
@@ -222,13 +217,13 @@ public class ProfiloFrame extends JFrame {
                 return;
             }
 
-            currentUser.setProfilo(profilo);
+            piattaformaController.getCurrentUser().setProfilo(profilo);
 
             boolean success;
 
             if (nuovoUtente) {
 
-                success = PiattaformaController.salvaUtente(currentUser);
+                success = PiattaformaController.salvaUtente(piattaformaController.getCurrentUser());
 
                 if (success) {
                     JOptionPane.showMessageDialog(ProfiloFrame.this,
@@ -242,7 +237,7 @@ public class ProfiloFrame extends JFrame {
                             "Errore", JOptionPane.ERROR_MESSAGE);
                 }
             } else {
-                success = ProfiloController.salvaModificheProfilo(currentUser, profilo);
+                success = ProfiloController.salvaModificheProfilo(piattaformaController.getCurrentUser(), profilo);
 
                 if (success) {
                     JOptionPane.showMessageDialog(ProfiloFrame.this,
@@ -281,22 +276,13 @@ public class ProfiloFrame extends JFrame {
     }
 
     /**
-     * Costruttore alternativo che crea la finestra di modifica del profilo per un utente esistente.
-     *
-     * @param user Utente il cui profilo viene modificato.
-     */
-    public ProfiloFrame(User user) {
-        this(user, false);
-    }
-
-    /**
      * Carica i dati del profilo esistente nei campi dell'interfaccia.
      * Utilizzato quando si modifica un profilo esistente.
      */
     private void caricaDatiProfilo() {
         try {
 
-            Profilo profilo = ProfiloController.caricaProfilo(currentUser);
+            Profilo profilo = ProfiloController.caricaProfilo(piattaformaController.getCurrentUser());
             
             if (profilo != null) {
                 usernameField.setText(profilo.getUsername());

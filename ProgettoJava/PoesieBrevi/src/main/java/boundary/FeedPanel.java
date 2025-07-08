@@ -6,7 +6,7 @@ import java.util.List;
 
 import controller.PiattaformaController;
 import controller.PoesiaController;
-import entity.Poesia;
+import DTO.PoesiaDTO;
 
 /**
  * Panel che visualizza un feed delle ultime poesie pubblicate dagli altri utenti.
@@ -34,7 +34,7 @@ public class FeedPanel extends JPanel {
         poesieContainer.setBackground(Color.WHITE);
 
         try {
-            List<Poesia> poesie = PoesiaController.getUltimePoesiePerFeed(piattaformaController.getCurrentUser().getId(), 5);
+            List<PoesiaDTO> poesie = PoesiaController.getUltimePoesiePerFeed(piattaformaController.getCurrentUser().getId(), 5);
 
             if (poesie.isEmpty()) {
                 JLabel noPoesie = new JLabel("Nessuna poesia disponibile nel feed");
@@ -43,7 +43,7 @@ public class FeedPanel extends JPanel {
                 poesieContainer.add(Box.createVerticalStrut(20));
                 poesieContainer.add(noPoesie);
             } else {
-                for (Poesia poesia : poesie) {
+                for (PoesiaDTO poesia : poesie) {
                     JPanel poesiePanel = new PoesiaDisplayPanel(poesia);
                     poesieContainer.add(poesiePanel);
                     poesieContainer.add(Box.createVerticalStrut(15));

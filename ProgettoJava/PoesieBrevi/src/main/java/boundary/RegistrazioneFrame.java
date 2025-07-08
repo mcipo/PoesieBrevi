@@ -14,6 +14,9 @@ import java.awt.event.ComponentEvent;
  * come amministratore.
  */
 public class RegistrazioneFrame extends JFrame {
+
+    private PiattaformaController piattaformaController = PiattaformaController.getInstance();
+
     /**
      * Campo di testo per l'inserimento dell'email.
      */
@@ -198,22 +201,15 @@ public class RegistrazioneFrame extends JFrame {
                     return;
                 }
                 
-                entity.User nuovoUtente = PiattaformaController.creaUtenteInMemoria(nome, cognome, email, password, isAdmin);
-                
-                if(nuovoUtente != null) {
-                    JOptionPane.showMessageDialog(RegistrazioneFrame.this,
+                piattaformaController.setCurrentUser(PiattaformaController.creaUtenteInMemoria(nome, cognome, email, password, isAdmin));
+
+                JOptionPane.showMessageDialog(RegistrazioneFrame.this,
                         "Registrazione iniziale completata! Ora compila il tuo profilo.",
                         "Successo",
                         JOptionPane.INFORMATION_MESSAGE);
                         
-                    dispose();
-                    new ProfiloFrame(nuovoUtente, true).setVisible(true);
-                } else {
-                    JOptionPane.showMessageDialog(RegistrazioneFrame.this,
-                        "Errore durante la creazione dell'utente.",
-                        "Errore",
-                        JOptionPane.ERROR_MESSAGE);
-                }
+                dispose();
+                new ProfiloFrame(true).setVisible(true);
             }
 
         });

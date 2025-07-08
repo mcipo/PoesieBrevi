@@ -1,8 +1,8 @@
 package boundary;
 
+import DTO.PoesiaDTO;
+import controller.PiattaformaController;
 import controller.RaccoltaController;
-import entity.User;
-import entity.Poesia;
 import controller.PoesiaController;
 
 import javax.swing.*;
@@ -16,10 +16,7 @@ import java.util.List;
  */
 public class PoesieFrame extends JFrame {
 
-    /**
-     * Utente corrente che sta utilizzando la finestra.
-     */
-    private final User currentUser;
+    private PiattaformaController piattaformaController = PiattaformaController.getInstance();
     
     /**
      * Pannello principale per i contenuti dell'interfaccia.
@@ -41,12 +38,10 @@ public class PoesieFrame extends JFrame {
     /**
      * Costruttore che crea e configura la finestra per la creazione o visualizzazione delle poesie.
      *
-     * @param user Utente corrente che sta utilizzando l'applicazione.
      * @param createMode Se true, mostra l'interfaccia per creare una nuova poesia;
      *                   se false, mostra la lista delle poesie esistenti.
      */
-    public PoesieFrame(User user, boolean createMode) {
-        this.currentUser = user;
+    public PoesieFrame(boolean createMode) {
         this.createMode = createMode;
 
         setTitle(createMode ? "Crea Nuova Poesia" : "Le Mie Poesie");
@@ -159,7 +154,7 @@ public class PoesieFrame extends JFrame {
         raccoltaCombo.addItem("-- Crea nuova raccolta --");
 
         try {
-            RaccoltaController.getRaccolteUtente(currentUser.getId()).forEach(raccolta ->
+            RaccoltaController.getRaccolteUtente(piattaformaController.getCurrentUser().getId()).forEach(raccolta ->
                     raccoltaCombo.addItem(raccolta.getId() + ": " + raccolta.getTitolo())
             );
         } catch (Exception e) {
@@ -335,7 +330,7 @@ public class PoesieFrame extends JFrame {
                     return false;
                 }
 
-                raccoltaId = RaccoltaController.creaRaccolta(nuovoTitolo, nuovaDescrizione, currentUser.getId());
+                raccoltaId = RaccoltaController.creaRaccolta(nuovoTitolo, nuovaDescrizione, piattaformaController.getCurrentUser().getId());
 
                 if (raccoltaId == -1) {
                     JOptionPane.showMessageDialog(this,
@@ -348,7 +343,7 @@ public class PoesieFrame extends JFrame {
             }
 
             boolean success = PoesiaController.creaPoesia(titolo, contenuto, tags, isVisible,
-                    currentUser.getId(), raccoltaId);
+                    piattaformaController.getCurrentUser().getId(), raccoltaId);
 
             if (success) {
                 JOptionPane.showMessageDialog(this,
@@ -406,7 +401,7 @@ public class PoesieFrame extends JFrame {
         nuovaPoesiaButton.setMargin(new Insets(8, 15, 8, 15));
         nuovaPoesiaButton.addActionListener(_ -> {
             dispose();
-            new PoesieFrame(currentUser, true).setVisible(true);
+            new PoesieFrame(true).setVisible(true);
         });
 
         panel.add(nuovaPoesiaButton, BorderLayout.SOUTH);
@@ -419,7 +414,7 @@ public class PoesieFrame extends JFrame {
 
         try {
 
-            List<Poesia> poesie = PoesiaController.getPoesieByAutore(currentUser.getId());
+            List<PoesiaDTO> poesie = PoesiaController.getPoesieByAutore(piattaformaController.getCurrentUser().getId());
 
             if (poesie.isEmpty()) {
                 JLabel nessunaPoesia = new JLabel("Non hai ancora scritto poesie");
@@ -428,7 +423,7 @@ public class PoesieFrame extends JFrame {
                 poesieContainer.add(Box.createVerticalStrut(20));
                 poesieContainer.add(nessunaPoesia);
             } else {
-                for (Poesia poesia : poesie) {
+                for (PoesiaDTO poesia : poesie) {
                     PoesiaDisplayPanel poesiaPanel = new PoesiaDisplayPanel(poesia);
                     poesieContainer.add(poesiaPanel);
                     poesieContainer.add(Box.createVerticalStrut(15));

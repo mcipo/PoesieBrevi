@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import controller.PiattaformaController;
 import controller.PoesiaController;
 import controller.ProfiloController;
-import entity.Poesia;
+import DTO.PoesiaDTO;
 import entity.Profilo;
 
 
@@ -25,7 +25,7 @@ public class PoesiaDisplayPanel extends JPanel {
     /**
      * Poesia da visualizzare nel pannello.
      */
-    private final Poesia poesia;
+    private final PoesiaDTO poesia;
     
     /**
      * Flag che indica se i commenti sono attualmente visibili.
@@ -42,9 +42,8 @@ public class PoesiaDisplayPanel extends JPanel {
      *
      * @param poesia Poesia da visualizzare.
      */
-    public PoesiaDisplayPanel(Poesia poesia) {
+    public PoesiaDisplayPanel(PoesiaDTO poesia) {
         this.poesia = poesia;
-
 
         initialize();
     }

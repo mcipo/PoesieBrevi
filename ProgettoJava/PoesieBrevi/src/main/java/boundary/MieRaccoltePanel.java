@@ -5,7 +5,6 @@ import java.awt.*;
 import java.util.List;
 
 import controller.PiattaformaController;
-import controller.PoesiaController;
 import controller.RaccoltaController;
 
 

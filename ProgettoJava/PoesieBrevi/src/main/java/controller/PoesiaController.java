@@ -1,6 +1,8 @@
 package controller;
 
+import DTO.PoesiaDTO;
 import entity.*;
+import DTO.CommentoDTO;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -14,6 +16,8 @@ import java.util.List;
  * inclusa la gestione di commenti e "cuori" (mi piace).
  */
 public class PoesiaController {
+
+    private static PiattaformaController piattaformaController = PiattaformaController.getInstance();
 
     private PoesiaController(){
 
@@ -63,12 +67,6 @@ public class PoesiaController {
         
         return nuovaPoesia.salvaPoesia();
     }
-    
-
-
-    
-
-    
 
     /**
      * Recupera tutte le poesie create da un determinato utente.
@@ -76,10 +74,19 @@ public class PoesiaController {
      * @param autoreId ID dell'utente autore delle poesie.
      * @return Lista delle poesie dell'utente.
      */
-    public static List<Poesia> getPoesieByAutore(int autoreId) {
-        return Poesia.getPoesieByAutore(autoreId);
+    public static List<PoesiaDTO> getPoesieByAutore(int autoreId) {
+        List<Poesia> poesie = Poesia.getPoesieByAutore(autoreId);
+        List<PoesiaDTO> poesieDTO = new ArrayList<>();
+        for (Poesia poesia : poesie) {
+            int id = poesia.getId();
+            String titolo = poesia.getTitolo();
+            String contenuto = poesia.getContenuto();
+            List<String> tagList = poesia.getTags();
+            Date data = poesia.getDataCreazione();
+            poesieDTO.add(new PoesiaDTO(id, titolo, autoreId, contenuto, data, tagList));
+        }
+        return poesieDTO;
     }
-    
 
     /**
      * Recupera le poesie più recenti per il feed dell'utente.
@@ -88,13 +95,20 @@ public class PoesiaController {
      * @param limit Numero massimo di poesie da recuperare.
      * @return Lista delle poesie più recenti.
      */
-    public static List<Poesia> getUltimePoesiePerFeed(int userId, int limit) {
-        return Poesia.getUltimePoesiePerFeed(userId, limit);
+    public static List<PoesiaDTO> getUltimePoesiePerFeed(int userId, int limit) {
+        List<Poesia> poesie = Poesia.getUltimePoesiePerFeed(userId, limit);
+        List<PoesiaDTO> poesieDTO = new ArrayList<>();
+        for (Poesia poesia : poesie) {
+            int id = poesia.getId();
+            String titolo = poesia.getTitolo();
+            String contenuto = poesia.getContenuto();
+            List<String> tagList = poesia.getTags();
+            Date data = poesia.getDataCreazione();
+            int autoreId = poesia.getAutoreID();
+            poesieDTO.add(new PoesiaDTO(id, titolo, autoreId, contenuto, data, tagList));
+        }
+        return poesieDTO;
     }
-    
-
-
-    
 
     /**
      * Conta il numero di "cuori" (mi piace) ricevuti da una poesia.
@@ -125,18 +139,29 @@ public class PoesiaController {
      * @return Lista dei commenti della poesia.
      * @throws SQLException Se si verifica un errore durante l'operazione sul database.
      */
-    public static List<Commento> getCommenti(int poesiaId) throws SQLException {
+    public static List<CommentoDTO> getCommenti(int poesiaId) throws SQLException {
         List<Commento> commenti = Commento.getCommentiByPoesiaId(poesiaId);
-        return commenti;
+        List<CommentoDTO> commentiDTO = new ArrayList<>();
+        for (Commento c : commenti) {
+            String username = ProfiloController.getUsernameByUserId(c.getAutoreID());
+            String testo = c.getTesto();
+            Date data = c.getDataCreazione();
+            commentiDTO.add(new CommentoDTO(username, testo, data));
+        }
+        return commentiDTO;
     }
+
 
     /**
      * Salva un nuovo commento nel database.
      *
-     * @param nuovoCommento Oggetto Commento da salvare.
+     * @param nuovoCommentoDTO Oggetto Commento da salvare.
      * @return true se il salvataggio è avvenuto con successo, false altrimenti.
      */
-    public static boolean salvaCommento(Commento nuovoCommento) {
+    public static boolean salvaCommento(CommentoDTO nuovoCommentoDTO, int poesiaId) {
+        String testo = nuovoCommentoDTO.getTesto();
+        Date data = nuovoCommentoDTO.getDataCreazione();
+        Commento nuovoCommento = new Commento(0, poesiaId, piattaformaController.getCurrentUser().getId(), testo, data);
         return Commento.salvaCommento(nuovoCommento);
     }
 

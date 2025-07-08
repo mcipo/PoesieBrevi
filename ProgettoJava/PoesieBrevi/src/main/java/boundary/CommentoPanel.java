@@ -10,7 +10,7 @@ import java.util.List;
 import controller.PiattaformaController;
 import controller.PoesiaController;
 import controller.ProfiloController;
-import entity.Commento;
+import DTO.CommentoDTO;
 
 /**
  * Panel che gestisce la visualizzazione e l'inserimento dei commenti per una poesia.
@@ -45,7 +45,6 @@ public class CommentoPanel extends JPanel {
     public CommentoPanel(int poesiaId) {
         this.poesiaId = poesiaId;
 
-
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createMatteBorder(1, 0, 0, 0, UIUtils.BORDER_COLOR),
@@ -78,7 +77,7 @@ public class CommentoPanel extends JPanel {
      */
     private void caricaCommenti() {
         try {
-            List<Commento> commenti = PoesiaController.getCommenti(poesiaId);
+            List<CommentoDTO> commenti = PoesiaController.getCommenti(poesiaId);
 
             commentiListPanel.removeAll();
 
@@ -89,7 +88,7 @@ public class CommentoPanel extends JPanel {
                 noCommentiLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
                 commentiListPanel.add(noCommentiLabel);
             } else {
-                for (Commento commento : commenti) {
+                for (CommentoDTO commento : commenti) {
                     JPanel commentPanel = creaPanelSingoloCommento(commento);
                     commentiListPanel.add(commentPanel);
                     commentiListPanel.add(Box.createVerticalStrut(8));
@@ -137,8 +136,9 @@ public class CommentoPanel extends JPanel {
         inviaButton.addActionListener(_ -> {
             String contenuto = commentField.getText().trim();
             if (!contenuto.isEmpty()) {
-                Commento nuovoCommento = new Commento(0, poesiaId, piattaformaController.getCurrentUser().getId(), contenuto, new java.util.Date());
-                boolean success = PoesiaController.salvaCommento(nuovoCommento);
+                String username = ProfiloController.getUsernameByUserId(piattaformaController.getCurrentUser().getId());
+                CommentoDTO nuovoCommento = new CommentoDTO(username, contenuto, new java.util.Date());
+                boolean success = PoesiaController.salvaCommento(nuovoCommento, poesiaId);
 
                 if (success) {
                     JPanel newCommentPanel = creaPanelSingoloCommento(nuovoCommento);
@@ -175,7 +175,7 @@ public class CommentoPanel extends JPanel {
      * @param commento L'oggetto Commento da visualizzare.
      * @return JPanel configurato per visualizzare il commento.
      */
-    private JPanel creaPanelSingoloCommento(Commento commento) {
+    private JPanel creaPanelSingoloCommento(CommentoDTO commento) {
         JPanel panel = new JPanel(new BorderLayout(5, 2));
         panel.setBackground(new Color(255, 255, 255));
         panel.setBorder(BorderFactory.createCompoundBorder(
@@ -183,7 +183,7 @@ public class CommentoPanel extends JPanel {
                 BorderFactory.createEmptyBorder(8, 10, 8, 10)));
         panel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
 
-        String username = getUsernameById(commento.getAutoreID());
+        String username = commento.getUsername();
         JLabel usernameLabel = new JLabel(username);
         usernameLabel.setFont(new Font(UIUtils.FONT, Font.BOLD, 12));
         panel.add(usernameLabel, BorderLayout.NORTH);
@@ -200,19 +200,5 @@ public class CommentoPanel extends JPanel {
         return panel;
     }
 
-    /**
-     * Recupera lo username dell'utente dato il suo ID.
-     *
-     * @param userId ID dell'utente di cui recuperare lo username.
-     * @return Username dell'utente, o "UTENTEDEFAULT" in caso di errore.
-     */
-    private String getUsernameById(int userId) {
-        try {
 
-            return ProfiloController.getUsernameByUserId(userId);
-
-        } catch (Exception e) {
-            return "UTENTEDEFAULT";
-        }
-    }
 }

@@ -81,7 +81,7 @@ public class HomeFrame extends JFrame {
 
         profiloButton.addActionListener(_ -> {
             dispose();
-            new ProfiloFrame(piattaformaController.getCurrentUser()).setVisible(true);
+            new ProfiloFrame(false).setVisible(true);
         });
         headerPanel.add(profiloButton, BorderLayout.EAST);
 

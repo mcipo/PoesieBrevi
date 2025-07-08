@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 public class CommentoDAO {
 
     /**
-     * Logger per la registrazione di eventi e errori.
+     * Logger per la registrazione di eventi ed errori.
      */
     private static final Logger LOGGER = Logger.getLogger(CommentoDAO.class.getName());
 
@@ -39,7 +39,6 @@ public class CommentoDAO {
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Errore in addCommento", e);
         }
-
     }
 
     /**
@@ -67,5 +66,4 @@ public class CommentoDAO {
         }
         return commenti;
     }
-    
 }

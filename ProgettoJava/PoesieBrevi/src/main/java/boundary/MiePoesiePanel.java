@@ -4,9 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
+import DTO.PoesiaDTO;
 import controller.PiattaformaController;
 import controller.PoesiaController;
-import entity.Poesia;
 
 /**
  * Panel che visualizza le poesie create dall'utente corrente.
@@ -33,7 +33,7 @@ public class MiePoesiePanel extends JPanel {
         JButton addButton = UIUtils.bottone("+", Font.BOLD,14);
         addButton.addActionListener(_ -> {
             SwingUtilities.getWindowAncestor(this).dispose();
-            new PoesieFrame(piattaformaController.getCurrentUser(), true).setVisible(true);
+            new PoesieFrame(true).setVisible(true);
         });
         headerPanel.add(addButton, BorderLayout.EAST);
 
@@ -48,14 +48,14 @@ public class MiePoesiePanel extends JPanel {
 
         try {
 
-            List<Poesia> poesie = PoesiaController.getPoesieByAutore(piattaformaController.getCurrentUser().getId());
+            List<PoesiaDTO> poesie = PoesiaController.getPoesieByAutore(piattaformaController.getCurrentUser().getId());
 
             if (poesie.isEmpty()) {
                 JLabel noPoesie = UIUtils.label("Non hai ancora scritto poesie", 0, 0, 14);
                 poesieContainer.add(Box.createVerticalStrut(20));
                 poesieContainer.add(noPoesie);
             } else {
-                for (Poesia poesia : poesie) {
+                for (PoesiaDTO poesia : poesie) {
                     PoesiaDisplayPanel poesiePanel = new PoesiaDisplayPanel(poesia);
                     poesieContainer.add(poesiePanel);
                     poesieContainer.add(Box.createVerticalStrut(15));
@@ -77,7 +77,7 @@ public class MiePoesiePanel extends JPanel {
         JButton visualizzaTutte = UIUtils.bottone("Visualizza tutte", Font.PLAIN ,14);
         visualizzaTutte.addActionListener(_ -> {
             SwingUtilities.getWindowAncestor(this).dispose();
-            new PoesieFrame(piattaformaController.getCurrentUser(), false).setVisible(true);
+            new PoesieFrame(false).setVisible(true);
         });
 
         add(visualizzaTutte, BorderLayout.SOUTH);
