@@ -99,8 +99,13 @@ public class Profilo {
     }
 
     public static Profilo getProfiloAtID(int userId){
-        ProfiloDAO profiloDAO = ProfiloDAO.getProfiloAtID(userId);
-        return new Profilo(profiloDAO.getUsername(), profiloDAO.getBio(), profiloDAO.getImmagineProfilo(), new Date());
+        try{
+            ProfiloDAO profiloDAO = ProfiloDAO.getProfiloAtID(userId);
+            return new Profilo(profiloDAO.getUsername(), profiloDAO.getBio(), profiloDAO.getImmagineProfilo(), new Date());
+        }catch (Exception e){
+
+        }
+        return null;
     }
 
     /**

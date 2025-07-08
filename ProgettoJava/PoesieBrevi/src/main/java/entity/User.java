@@ -148,9 +148,18 @@ public class User {
     }
 
     public static User getUserFromDB(String email) {
-        UserDAO userDAO = UserDAO.getUserByEmail(email);
-        Profilo profilo = Profilo.getProfiloAtID(userDAO.getId());
-        User user = new User(userDAO.getPassword(), userDAO.getEmail(), userDAO.getNome(), userDAO.getCognome(), false, profilo);
+        try{
+            UserDAO userDAO = UserDAO.getUserByEmail(email);
+            System.out.println(userDAO);
+            Profilo profilo = Profilo.getProfiloAtID(userDAO.getId());
+            if (profilo == null) {
+                profilo = new Profilo(userDAO.getNome() + userDAO.getCognome().charAt(0), "Nessuna biografia", "", null);
+            }
+            User user = new User(userDAO.getPassword(), userDAO.getEmail(), userDAO.getNome(), userDAO.getCognome(), false, profilo);
+            return user;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return null;
     }
 
@@ -159,6 +168,7 @@ public class User {
             return false;
         }
         if (UserDAO.getUserByEmail(user.getEmail()) != null) {
+            System.out.println("UTENTE GIA ESISTE");
             return false;
         }
         Profilo profilo = user.getProfilo();

@@ -1,6 +1,7 @@
 package database.DAO;
 
 
+import controller.PiattaformaController;
 import database.DatabaseConnection;
 
 import java.sql.*;
@@ -14,7 +15,7 @@ import java.util.logging.Logger;
  * come la ricerca di utenti per email e l'aggiunta di nuovi utenti.
  */
 public class UserDAO {
-
+    private static PiattaformaController piattaformaController = PiattaformaController.getInstance();
     /**
      * Logger per la registrazione di eventi ed errori.
      */
@@ -65,6 +66,7 @@ public class UserDAO {
         try{
             ResultSet resultSet = DatabaseConnection.executeQuery(query, userEmail);
             if (resultSet.next()) {
+                System.out.println("ENTRO NELL'IF");
                 int id = resultSet.getInt("id");
                 String email = resultSet.getString("email");
                 String nome = resultSet.getString("nome");
@@ -74,11 +76,14 @@ public class UserDAO {
 
                 UserDAO user = new UserDAO(password, email, nome, cognome, amministratore);
                 user.setId(id);
+                System.out.println(user);
                 return user;
             }
+            System.out.println("NON ENTRO NELL'IF");
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Errore in getUserByEmail", e);
         }
+        System.out.println("ERROREEEEEE");
         return null;
     }
 
@@ -96,8 +101,9 @@ public class UserDAO {
                 ResultSet resultSet = DatabaseConnection.executeQuery(queryID, email);
                 if (resultSet.next()) {
                     int userId = resultSet.getInt("id");
-                    //user.setId(userId);
+                    piattaformaController.getCurrentUser().setId(userId);
                     ProfiloDAO.createProfilo(username, bio, immagineProfilo, dataDiNascita, userId);
+                    System.out.println("Utente aggiunto");
                     return true;
                 }
             }
