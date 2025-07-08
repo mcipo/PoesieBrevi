@@ -7,6 +7,7 @@ import java.util.List;
 import controller.PiattaformaController;
 import controller.RaccoltaController;
 
+import DTO.RaccoltaDTO;
 
 /**
  * Panel che visualizza le raccolte create dall'utente corrente.
@@ -47,7 +48,7 @@ public class MieRaccoltePanel extends JPanel {
         raccolteContainer.setBackground(Color.WHITE);
 
         try {
-            List<entity.Raccolta> raccolte = RaccoltaController.getRaccolteUtente(piattaformaController.getCurrentUser().getId());
+            List<RaccoltaDTO> raccolte = RaccoltaController.getRaccolteUtente(piattaformaController.getCurrentUser().getId());
 
             if (raccolte.isEmpty()) {
                 JLabel noRaccolte = new JLabel("Non hai ancora creato raccolte");
@@ -56,7 +57,7 @@ public class MieRaccoltePanel extends JPanel {
                 raccolteContainer.add(Box.createVerticalStrut(20));
                 raccolteContainer.add(noRaccolte);
             } else {
-                for (entity.Raccolta raccolta : raccolte) {
+                for (RaccoltaDTO raccolta : raccolte) {
                     JPanel raccoltePanel = new RaccoltaDisplayPanel(raccolta);
                     raccolteContainer.add(raccoltePanel);
                     raccolteContainer.add(Box.createVerticalStrut(15));

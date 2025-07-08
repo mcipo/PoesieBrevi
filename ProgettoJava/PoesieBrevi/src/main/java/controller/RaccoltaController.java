@@ -1,7 +1,9 @@
 package controller;
 
+import DTO.RaccoltaDTO;
 import entity.Raccolta;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RaccoltaController {
@@ -36,8 +38,15 @@ public class RaccoltaController {
      * @param autoreId ID dell'utente autore delle raccolte.
      * @return Lista delle raccolte dell'utente.
      */
-    public static List<Raccolta> getRaccolteUtente(int autoreId) {
-        return Raccolta.getRaccoltaByAutore(autoreId);
+    public static List<RaccoltaDTO> getRaccolteUtente(int autoreId) {
+        List<Raccolta> raccolte = Raccolta.getRaccoltaByAutore(autoreId);
+        List<RaccoltaDTO> raccolteDTO = new ArrayList<>();
+        for (Raccolta raccolta : raccolte) {
+            String titolo = raccolta.getTitolo();
+            String descrizione = raccolta.getDescrizione();
+            raccolteDTO.add(new RaccoltaDTO(titolo, descrizione));
+        }
+        return raccolteDTO;
     }
 
 }

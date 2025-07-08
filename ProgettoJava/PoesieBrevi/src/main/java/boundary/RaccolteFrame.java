@@ -9,6 +9,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
 
+import DTO.RaccoltaDTO;
+
 /**
  * Frame che gestisce sia la creazione di nuove raccolte che la visualizzazione
  * di tutte le raccolte dell'utente. Il comportamento varia in base al parametro createMode.
@@ -218,7 +220,7 @@ public class RaccolteFrame extends JFrame {
 
         try {
 
-            List<entity.Raccolta> raccolte = RaccoltaController.getRaccolteUtente(piattaformaController.getCurrentUser().getId());
+            List<RaccoltaDTO> raccolte = RaccoltaController.getRaccolteUtente(piattaformaController.getCurrentUser().getId());
 
             if (raccolte.isEmpty()) {
                 JLabel noCollections = new JLabel("Non hai ancora creato raccolte");
@@ -227,7 +229,7 @@ public class RaccolteFrame extends JFrame {
                 collectionsContainer.add(Box.createVerticalStrut(20));
                 collectionsContainer.add(noCollections);
             } else {
-                for (entity.Raccolta raccolta : raccolte) {
+                for (RaccoltaDTO raccolta : raccolte) {
                     RaccoltaDisplayPanel collectionPanel = new RaccoltaDisplayPanel(raccolta);
                     collectionsContainer.add(collectionPanel);
                     collectionsContainer.add(Box.createVerticalStrut(15));

@@ -1,10 +1,11 @@
 package boundary;
 
+import DTO.RaccoltaDTO;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import entity.Raccolta;
 
 /**
  * Panel che visualizza i dettagli di una raccolta di poesie.
@@ -14,7 +15,7 @@ public class RaccoltaDisplayPanel extends JPanel {
     /**
      * Raccolta da visualizzare nel panel.
      */
-    private final Raccolta raccolta;
+    private final RaccoltaDTO raccolta;
 
     /**
      * Pulsante per visualizzare le poesie contenute nella raccolta.
@@ -26,7 +27,7 @@ public class RaccoltaDisplayPanel extends JPanel {
      *
      * @param raccolta Raccolta di poesie da visualizzare.
      */
-    public RaccoltaDisplayPanel(Raccolta raccolta) {
+    public RaccoltaDisplayPanel(RaccoltaDTO raccolta) {
         this.raccolta = raccolta;
         initialize();
     }
