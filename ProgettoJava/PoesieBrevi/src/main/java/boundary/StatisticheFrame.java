@@ -1,74 +1,46 @@
 package boundary;
+
 import controller.PiattaformaController;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
 import java.awt.*;
-import java.awt.event.*;
 
-/**
- * Frame principale dell'applicazione che mostra la schermata home dell'utente.
- * Include un header con il benvenuto e il pulsante per accedere al profilo,
- * e un pannello a schede (tabbed pane) con feed, poesie personali e raccolte dell'utente.
- */
-public class HomeFrame extends JFrame {
+public class StatisticheFrame extends JFrame {
 
     private PiattaformaController piattaformaController = PiattaformaController.getInstance();
-    
     /**
      * Pannello principale che contiene i contenuti della schermata.
      */
     private JPanel contentPanel;
-    
+
     /**
      * Pannello di sfondo dell'intera finestra.
      */
     private JPanel mainPanel;
-
-    /**
-     * Costruttore che crea e configura la schermata principale dell'applicazione.
-     * Inizializza i componenti dell'interfaccia e mostra i contenuti personalizzati per l'utente.
-     *
-     */
-    public HomeFrame() {
-
-        setTitle("Poesie Brevi - Home");
+    public StatisticheFrame() {
+        setTitle("Poesie Brevi - Dashboard");
         setSize(UIUtils.CONTENT_MARGIN_W, UIUtils.CONTENT_MARGIN_H);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setMinimumSize(new Dimension(800, 700));
 
         mainPanel = UIUtils.setupMainPanel(getWidth(), getHeight());
-
         contentPanel = UIUtils.setupContentPanel(mainPanel, getWidth(), getHeight());
-
         setupHeaderPanel();
-
         setupTabbedPane();
-
         add(mainPanel);
         UIUtils.centerContentPanel(getWidth(), getHeight(), contentPanel);
         repaint();
 
-        addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                UIUtils.centerContentPanel(getWidth(), getHeight(), contentPanel);
-                repaint();
-            }
-        });
     }
 
-    /**
-     * Configura il pannello di intestazione con il benvenuto personalizzato e il pulsante per il profilo.
-     * Include il nome dell'utente e un pulsante per accedere alla schermata del profilo.
-     */
     private void setupHeaderPanel() {
         JPanel headerPanel = new JPanel(new BorderLayout());
         headerPanel.setOpaque(false);
         headerPanel.setBounds(20, 20, UIUtils.CONTENT_WIDTH - 40, 50);
 
-        String username = piattaformaController.getCurrentUser().getProfilo().getUsername();
+        String username = "Amministratore"; //piattaformaController.getCurrentUser().getProfilo().getUsername();
 
         JPanel leftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         leftPanel.setOpaque(false);
@@ -88,13 +60,6 @@ public class HomeFrame extends JFrame {
         contentPanel.add(headerPanel);
     }
 
-    /**
-     * Configura il pannello a schede (tabbed pane) con tre sezioni:
-     * - Feed: mostra le poesie di altri utenti
-     * - Le mie Poesie: mostra le poesie dell'utente corrente
-     * - Le mie Raccolte: mostra le raccolte dell'utente corrente
-     * Personalizza anche l'aspetto visivo delle schede.
-     */
     private void setupTabbedPane() {
         JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
         tabbedPane.setBounds(20, 80, UIUtils.CONTENT_WIDTH - 40, UIUtils.CONTENT_HEIGHT - 100);
@@ -104,13 +69,13 @@ public class HomeFrame extends JFrame {
 
         tabbedPane.setBorder(null);
 
-        JPanel feedPanel = new FeedPanel();
-        JPanel miePoesiePanel = new MiePoesiePanel();
-        JPanel mieRaccoltePanel = new MieRaccoltePanel();
+        JPanel statsAutoriPanel = new StatsAutoriPanel();
+        JPanel statsTagPanel = new StatsTagPanel();
+        JPanel statsPoesiePanel = new StatsPoesiePanel();
 
-        tabbedPane.addTab("Feed", null, feedPanel, "Visualizza il feed delle poesie");
-        tabbedPane.addTab("Le mie Poesie", null, miePoesiePanel, "Visualizza le tue poesie");
-        tabbedPane.addTab("Le mie Raccolte", null, mieRaccoltePanel, "Visualizza le tue raccolte");
+        tabbedPane.addTab("Statistiche Autori", null, statsAutoriPanel, "Visualizza l'elenco di autori più attivi");
+        tabbedPane.addTab("Statistiche Tag", null, statsTagPanel, "Visualizza i tag più usati");
+        tabbedPane.addTab("Statistiche Poesie", null, statsPoesiePanel, "Visualizza le poesie con più interazioni");
 
         tabbedPane.setSelectedIndex(0);
 
@@ -199,4 +164,17 @@ public class HomeFrame extends JFrame {
         contentPanel.add(tabbedPane);
     }
 
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            try {
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            new StatisticheFrame().setVisible(true);
+        });
+    }
 }
+
+

@@ -1,6 +1,10 @@
 package controller;
+import DTO.PoesiaDTO;
+import entity.Poesia;
 import entity.Profilo;
 import entity.User;
+
+import java.util.List;
 
 public class PiattaformaController {
 
@@ -86,4 +90,15 @@ public class PiattaformaController {
     public static boolean salvaUtente(User user) {
         return User.salvaUtente(user);
     }
+
+    public static List<PoesiaDTO> getPoesieUltimaSettimana(){
+
+        List<Poesia> poesie = Poesia.getPoesieInIntervallo(7);
+        return poesie.stream()
+                .map(p -> new PoesiaDTO(p.getId(), p.getTitolo(), p.getAutoreID()))
+                .toList();
+
+
+    }
+
 }

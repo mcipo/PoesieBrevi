@@ -21,6 +21,12 @@ public class PoesiaDTO {
         this.id = id;
     }
 
+    public PoesiaDTO(int id, String titolo, int autoreID) {
+        this.titolo = titolo;
+        this.autoreID = autoreID;
+        this.id = id;
+    }
+
     public int getId() {
         return id;
     }

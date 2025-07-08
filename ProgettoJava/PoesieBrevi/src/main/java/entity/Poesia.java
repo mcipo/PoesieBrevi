@@ -183,6 +183,13 @@ public class Poesia {
         return PoesiaDAO.addPoesia(this.getTitolo(), this.contenuto, this.visibile, this.dataCreazione, this.tags, this.autoreID, this.raccoltaID);
     }
 
+    public static List<Poesia> getPoesieInIntervallo(int giorni){
+        List<PoesiaDAO> poesieDAO = PoesiaDAO.getPoesieInIntervallo(giorni);
+        return poesieDAO.stream()
+                .map(dao -> new Poesia(dao.getId(), dao.getTitolo(), dao.getContenuto(), dao.getTags(), dao.getIsVisibile(), dao.getDataCreazione(), dao.getAutoreID(), dao.getRaccoltaID() ))
+                .toList();
+    }
+
     /**
      * Restituisce una rappresentazione testuale dell'oggetto Poesia.
      *

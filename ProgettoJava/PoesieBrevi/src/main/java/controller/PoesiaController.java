@@ -97,17 +97,9 @@ public class PoesiaController {
      */
     public static List<PoesiaDTO> getUltimePoesiePerFeed(int userId, int limit) {
         List<Poesia> poesie = Poesia.getUltimePoesiePerFeed(userId, limit);
-        List<PoesiaDTO> poesieDTO = new ArrayList<>();
-        for (Poesia poesia : poesie) {
-            int id = poesia.getId();
-            String titolo = poesia.getTitolo();
-            String contenuto = poesia.getContenuto();
-            List<String> tagList = poesia.getTags();
-            Date data = poesia.getDataCreazione();
-            int autoreId = poesia.getAutoreID();
-            poesieDTO.add(new PoesiaDTO(id, titolo, autoreId, contenuto, data, tagList));
-        }
-        return poesieDTO;
+        return poesie.stream()
+                .map(p -> new PoesiaDTO(p.getId(), p.getTitolo(), p.getAutoreID(), p.getContenuto(), p.getDataCreazione(), p.getTags()))
+                .toList();
     }
 
     /**
@@ -127,7 +119,7 @@ public class PoesiaController {
      * @return Numero di commenti ricevuti dalla poesia.
      * @throws SQLException Se si verifica un errore durante l'operazione sul database.
      */
-    public static int getNumCommenti(int poesiaId) throws SQLException {;
+    public static int getNumCommenti(int poesiaId){
         int numCommenti = Commento.getCommentiByPoesiaId(poesiaId).size();
         return numCommenti;
     }

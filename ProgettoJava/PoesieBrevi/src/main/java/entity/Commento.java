@@ -107,7 +107,7 @@ public class Commento {
         return dataCreazione;
     }
 
-    public static List<Commento> getCommentiByPoesiaId(int poesiaId) throws SQLException {
+    public static List<Commento> getCommentiByPoesiaId(int poesiaId) {
 
         List<CommentoDAO> commentiDAO = CommentoDAO.getCommentiByPoesiaId(poesiaId);
         return commentiDAO.stream()

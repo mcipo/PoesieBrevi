@@ -76,7 +76,7 @@ public class CommentoDAO {
      * @return Lista di oggetti Commento associati alla poesia specificata.
      * @throws SQLException Se si verifica un errore durante l'operazione di recupero.
      */
-    public static List<CommentoDAO> getCommentiByPoesiaId(int poesiaId) throws SQLException {
+    public static List<CommentoDAO> getCommentiByPoesiaId(int poesiaId) {
         List<CommentoDAO> commenti = new ArrayList<>();
         String query = "SELECT * FROM commenti WHERE poesia_id = ?";
         try(ResultSet resultSet = DatabaseConnection.executeQuery(query, poesiaId);){

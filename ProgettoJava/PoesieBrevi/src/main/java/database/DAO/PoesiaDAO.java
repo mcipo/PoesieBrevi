@@ -44,6 +44,12 @@ public class PoesiaDAO {
         this.raccoltaID = raccoltaID;
     }
 
+    public PoesiaDAO(int id, String titolo, int autoreID) {
+        this.id = id;
+        this.titolo = titolo;
+        this.autoreID = autoreID;
+    }
+
     public int getId() {
         return id;
     }
@@ -166,6 +172,24 @@ public class PoesiaDAO {
         }
 
         return false;
+    }
+
+    public static List<PoesiaDAO> getPoesieInIntervallo(int giorni){
+        String query = "SELECT * FROM poesie WHERE data_creazione >= DATE_SUB(CURRENT_DATE, INTERVAL ? DAY);";
+        List<PoesiaDAO> poesie = new ArrayList<>();
+        try{
+            ResultSet resultSet = DatabaseConnection.executeQuery(query, giorni);
+            while(resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String titolo = resultSet.getString("titolo");
+                int autoreId = resultSet.getInt("autore_id");
+                poesie.add(new PoesiaDAO(id, titolo, autoreId ));
+            }
+            return poesie;
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }
