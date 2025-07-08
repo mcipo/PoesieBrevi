@@ -148,9 +148,9 @@ public class User {
     }
 
     public static User getUserFromDB(String email) {
-        try{
-            UserDAO userDAO = UserDAO.getUserByEmail(email);
-            System.out.println(userDAO);
+
+        UserDAO userDAO = UserDAO.getUserByEmail(email);
+        if (userDAO != null) {
             Profilo profilo = Profilo.getProfiloAtID(userDAO.getId());
             if (profilo == null) {
                 profilo = new Profilo(userDAO.getNome() + userDAO.getCognome().charAt(0), "Nessuna biografia", "", null);
@@ -158,9 +158,8 @@ public class User {
             User user = new User(userDAO.getPassword(), userDAO.getEmail(), userDAO.getNome(), userDAO.getCognome(), false, profilo);
             user.setId(userDAO.getId());
             return user;
-        }catch (Exception e){
-            e.printStackTrace();
         }
+
         return null;
     }
 
