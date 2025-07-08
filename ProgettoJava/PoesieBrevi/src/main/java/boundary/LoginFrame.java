@@ -135,7 +135,8 @@ public class LoginFrame extends JFrame {
                 try {
                     if (piattaformaController.esisteUtente(email)) {
                         if (piattaformaController.autenticaUtente(email, password)) {
-                            System.out.println(email + " ha effettuato il login");
+
+                            System.out.println(email + " ha effettuato il login" + piattaformaController.getCurrentUser());
                             JOptionPane.showMessageDialog(LoginFrame.this, "Login effettuato con successo!", "Successo", JOptionPane.INFORMATION_MESSAGE);
                             dispose();
                             new HomeFrame().setVisible(true);

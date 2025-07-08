@@ -156,6 +156,7 @@ public class User {
                 profilo = new Profilo(userDAO.getNome() + userDAO.getCognome().charAt(0), "Nessuna biografia", "", null);
             }
             User user = new User(userDAO.getPassword(), userDAO.getEmail(), userDAO.getNome(), userDAO.getCognome(), false, profilo);
+            user.setId(userDAO.getId());
             return user;
         }catch (Exception e){
             e.printStackTrace();
