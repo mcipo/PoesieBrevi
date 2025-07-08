@@ -1,6 +1,6 @@
 package controller;
 
-import database.DAO.ProfiloDAO;
+import DTO.ProfiloDTO;
 import entity.Profilo;
 import entity.User;
 import java.io.File;
@@ -63,21 +63,23 @@ public class ProfiloController {
      * Se l'utente non ha un profilo esistente, ne crea uno nuovo.
      *
      * @param user Utente proprietario del profilo.
-     * @param profilo Profilo con le modifiche da salvare.
+     * @param profiloDTO Profilo con le modifiche da salvare.
      * @return true se le modifiche sono state salvate con successo, false altrimenti.
      */
-    public static boolean salvaModificheProfilo(User user, Profilo profilo) {
-        if (user == null || profilo == null) {
+    public static boolean salvaModificheProfilo(User user, ProfiloDTO profiloDTO) {
+        if (user == null || profiloDTO == null) {
             return false;
         }
-        
+        String username = profiloDTO.getUsername();
+        String bio = profiloDTO.getBio();
+        Date dataNascita = profiloDTO.getDataNascita();
         try {
-            if (!validaDatiProfilo(profilo.getUsername(), profilo.getBio(), profilo.getDataNascita())) {
+            if (!validaDatiProfilo(username, bio, dataNascita)) {
                 return false;
             }
             
 
-            String percorsoImmagine = profilo.getImmagineProfilo();
+            String percorsoImmagine = profiloDTO.getImmagineProfilo();
             if (percorsoImmagine != null && !percorsoImmagine.isEmpty()) {
                 if (!percorsoImmagine.startsWith(IMG_DIRECTORY)) {
                     File sourceFile = new File(percorsoImmagine);
@@ -94,23 +96,24 @@ public class ProfiloController {
                         Path sourcePath = sourceFile.toPath();
                         Path destinationPath = Paths.get(nuovoPercorso);
                         Files.copy(sourcePath, destinationPath, StandardCopyOption.REPLACE_EXISTING);
-                        
-                        profilo.setImmagineProfilo(nuovoPercorso);
+
+                        profiloDTO.setImmagineProfilo(nuovoPercorso);
                     }
                 }
             }
+
+            Profilo profilo = new Profilo(username, bio, percorsoImmagine ,dataNascita);
             
             user.setProfilo(profilo);
 
             
 
-            Profilo existingProfile = ProfiloDAO.getProfiloAtID(user.getId());
+            Profilo existingProfile = Profilo.getProfiloAtID(user.getId());
             if (existingProfile != null) {
 
-                ProfiloDAO.updateProfilo(profilo, user.getId());
+                profilo.updateProfilo(user.getId());
             } else {
-
-                ProfiloDAO.createProfilo(profilo, user.getId());
+                profilo.createProfilo(user.getId());
             }
             
             System.out.println("Profilo aggiornato per l'utente ID: " + user.getId());
@@ -129,7 +132,7 @@ public class ProfiloController {
      * @return Username dell'utente, o "Sconosciuto" se non trovato.
      */
     public static String getUsernameByUserId(int userId) {
-        Profilo profilo = ProfiloDAO.getProfiloAtID(userId);
+        Profilo profilo = Profilo.getProfiloAtID(userId);
         return profilo != null ? profilo.getUsername() : "Sconosciuto";
     }
     
@@ -141,31 +144,35 @@ public class ProfiloController {
      * @param user Utente di cui caricare il profilo.
      * @return Il profilo dell'utente, o null se non esiste o si verifica un errore.
      */
-    public static Profilo caricaProfilo(User user) {
+    public static ProfiloDTO caricaProfilo(User user) {
         if (user == null) {
             return null;
         }
         
         if (user.getProfilo() != null) {
-            return user.getProfilo();
-        }
-
-        Profilo profilo = ProfiloDAO.getProfiloAtID(user.getId());
-        
-        if (profilo != null) {
-            user.setProfilo(profilo);
-            return profilo;
+            Profilo profilo = user.getProfilo();
+            String username = profilo.getUsername();
+            String bio = profilo.getBio();
+            String percorsoImmagine = profilo.getImmagineProfilo();
+            Date dataNascita = profilo.getDataNascita();
+            return new ProfiloDTO(username, bio, percorsoImmagine, dataNascita);
         }
         
         return null;
     }
 
-    public static Profilo caricaProfilo(int userId) {
+    public static ProfiloDTO caricaProfilo(int userId) {
 
         if (userId < 0) {
             return null;
         }
-        return ProfiloDAO.getProfiloAtID(userId);
+        Profilo profilo = Profilo.getProfiloAtID(userId);
+        String username = profilo.getUsername();
+        String bio = profilo.getBio();
+        Date dataNascita = profilo.getDataNascita();
+        String immagineProfilo = profilo.getImmagineProfilo();
+        ProfiloDTO profiloDTO = new ProfiloDTO(username,bio, immagineProfilo, dataNascita);
+        return profiloDTO;
 
     }
 }

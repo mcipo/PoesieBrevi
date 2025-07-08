@@ -1,5 +1,7 @@
 package entity;
 
+import database.DAO.ProfiloDAO;
+
 import java.util.Date;
 
 /**
@@ -86,6 +88,18 @@ public class Profilo {
      */
     public Date getDataNascita() {
         return dataNascita;
+    }
+
+    public void updateProfilo(int userId) {
+        ProfiloDAO.updateProfilo(this, userId);
+    }
+
+    public void createProfilo(int userId) {
+        ProfiloDAO.createProfilo(this, userId);
+    }
+
+    public static Profilo getProfiloAtID(int userId){
+        return ProfiloDAO.getProfiloAtID(userId);
     }
 
     /**

@@ -1,7 +1,7 @@
 package boundary;
 
 import controller.PiattaformaController;
-import entity.Profilo;
+import DTO.ProfiloDTO;
 
 import java.awt.image.BufferedImage;
 
@@ -201,7 +201,7 @@ public class ProfiloFrame extends JFrame {
                 return;
             }
 
-            Profilo profilo = new Profilo(username, bio, pathImmagineSelezionata, dataNascita);
+            ProfiloDTO profilo = new ProfiloDTO(username, bio, pathImmagineSelezionata, dataNascita);
 
 
             boolean datiValidi = ProfiloController.validaDatiProfilo(username, bio, dataNascita);
@@ -282,7 +282,7 @@ public class ProfiloFrame extends JFrame {
     private void caricaDatiProfilo() {
         try {
 
-            Profilo profilo = ProfiloController.caricaProfilo(piattaformaController.getCurrentUser());
+            ProfiloDTO profilo = ProfiloController.caricaProfilo(piattaformaController.getCurrentUser());
             
             if (profilo != null) {
                 usernameField.setText(profilo.getUsername());

@@ -1,6 +1,9 @@
 package entity;
 
+import DTO.ProfiloDTO;
 import database.DAO.UserDAO;
+
+import java.util.Date;
 
 /**
  * Questa classe rappresenta un utente registrato nel sistema.
@@ -129,12 +132,20 @@ public class User {
     /**
      * Imposta un nuovo profilo per l'utente.
      *
-     * @param profilo Nuovo oggetto Profilo da associare all'utente.
+     * @param profiloDTO Nuovo oggetto Profilo da associare all'utente.
      */
-    public void setProfilo(Profilo profilo) {
+    public void setProfilo(ProfiloDTO profiloDTO) {
+        String username = profiloDTO.getUsername();
+        String bio = profiloDTO.getBio();
+        String percorsoImmagine = profiloDTO.getImmagineProfilo();
+        Date dataNascita = profiloDTO.getDataNascita();
+        Profilo profilo = new Profilo(username, bio, percorsoImmagine, dataNascita);
         this.profilo = profilo;
     }
 
+    public void setProfilo(Profilo profilo) {
+        this.profilo = profilo;
+    }
 
     public static User getUserFromDB(String email) {
         return UserDAO.getUserByEmail(email);

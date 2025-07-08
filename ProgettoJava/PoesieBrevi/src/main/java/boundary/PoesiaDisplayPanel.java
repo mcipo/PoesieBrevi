@@ -10,7 +10,8 @@ import controller.PiattaformaController;
 import controller.PoesiaController;
 import controller.ProfiloController;
 import DTO.PoesiaDTO;
-import entity.Profilo;
+import DTO.ProfiloDTO;
+
 
 
 /**
@@ -113,7 +114,7 @@ public class PoesiaDisplayPanel extends JPanel {
         JLabel titleLabel = UIUtils.titolo(poesia.getTitolo(), 0, 0, 16);
         headerPanel.add(titleLabel, BorderLayout.WEST);
 
-        Profilo autore = null;
+        ProfiloDTO autore = null;
         try {
 
             autore = ProfiloController.caricaProfilo(poesia.getAutoreID());
