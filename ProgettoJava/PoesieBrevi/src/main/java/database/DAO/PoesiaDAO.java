@@ -158,7 +158,7 @@ public class PoesiaDAO {
             if(raccoltaId <= 0){
                 raccoltaId = java.sql.Types.INTEGER;
             }
-            int result = DatabaseConnection.executeUpdate(query, titolo, contenuto, tags, visibile, new Timestamp(dataCreazione.getTime()), autoreId, raccoltaId);
+            int result = DatabaseConnection.executeUpdate(query, titolo, contenuto, tagsString, visibile, new Timestamp(dataCreazione.getTime()), autoreId, raccoltaId);
 
             return result > 0;
         } catch (SQLException e) {
