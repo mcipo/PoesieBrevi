@@ -1,6 +1,7 @@
 package boundary;
 
 import DTO.PoesiaDTO;
+import DTO.RaccoltaDTO;
 import controller.PiattaformaController;
 import controller.RaccoltaController;
 import controller.PoesiaController;
@@ -154,9 +155,10 @@ public class PoesieFrame extends JFrame {
         raccoltaCombo.addItem("-- Crea nuova raccolta --");
 
         try {
-            RaccoltaController.getRaccolteUtente(piattaformaController.getCurrentUser().getId()).forEach(raccolta ->
-                    raccoltaCombo.addItem(raccolta.getId() + ": " + raccolta.getTitolo())
-            );
+            List<RaccoltaDTO> raccolte = RaccoltaController.getRaccolteUtente(piattaformaController.getCurrentUser().getId());
+            for (int i = 0; i < raccolte.size(); i++) {
+                raccoltaCombo.addItem((i + 1) + " : " + raccolte.get(i).getTitolo());
+            }
         } catch (Exception e) {
 
         }
