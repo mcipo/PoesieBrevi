@@ -1,8 +1,7 @@
 package database.DAO;
 
+
 import database.DatabaseConnection;
-import entity.User;
-import entity.Profilo;
 
 import java.sql.*;
 import java.util.Date;
@@ -21,8 +20,39 @@ public class UserDAO {
      */
     private static final Logger LOGGER = Logger.getLogger(UserDAO.class.getName());
 
-    private UserDAO() {
-
+    private int id;
+    private final String password;
+    private final String email;
+    private final String nome;
+    private final String cognome;
+    private final boolean isAdmin;
+    public UserDAO(String password, String email, String nome, String cognome, boolean isAdmin) {
+        this.password = password;
+        this.email = email;
+        this.nome = nome;
+        this.cognome = cognome;
+        this.isAdmin = isAdmin;
+    }
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
+    }
+    public String getPassword() {
+        return password;
+    }
+    public String getEmail() {
+        return email;
+    }
+    public String getNome() {
+        return nome;
+    }
+    public String getCognome() {
+        return cognome;
+    }
+    public boolean isAdmin() {
+        return isAdmin;
     }
     /**
      * Recupera un utente dal database tramite la sua email.
@@ -30,7 +60,7 @@ public class UserDAO {
      * @param userEmail L'email dell'utente da cercare.
      * @return L'oggetto User corrispondente all'email specificata, o null se non trovato.
      */
-    public static User getUserByEmail(String userEmail) {
+    public static UserDAO getUserByEmail(String userEmail) {
         String query = "SELECT * FROM users WHERE email = ?";
         try{
             ResultSet resultSet = DatabaseConnection.executeQuery(query, userEmail);
@@ -42,11 +72,7 @@ public class UserDAO {
                 String password = resultSet.getString("password");
                 boolean amministratore = resultSet.getBoolean("amministratore");
 
-                Profilo profilo = ProfiloDAO.getProfiloAtID(id);
-                if (profilo == null) {
-                    profilo = new Profilo(nome + cognome.charAt(0), "Nessuna biografia", "", null);
-                }
-                User user = new User(password, email, nome, cognome, amministratore, profilo);
+                UserDAO user = new UserDAO(password, email, nome, cognome, amministratore);
                 user.setId(id);
                 return user;
             }

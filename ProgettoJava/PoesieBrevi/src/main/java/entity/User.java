@@ -40,7 +40,7 @@ public class User {
      * Flag che indica se l'utente ha privilegi di amministratore.
      */
     private final boolean isAdmin;
-    
+
     /**
      * Profilo pubblico associato all'utente.
      */
@@ -148,7 +148,10 @@ public class User {
     }
 
     public static User getUserFromDB(String email) {
-        return UserDAO.getUserByEmail(email);
+        UserDAO userDAO = UserDAO.getUserByEmail(email);
+        Profilo profilo = Profilo.getProfiloAtID(userDAO.getId());
+        User user = new User(userDAO.getPassword(), userDAO.getEmail(), userDAO.getNome(), userDAO.getCognome(), false, profilo);
+        return null;
     }
 
     public static boolean salvaUtente(User user) {

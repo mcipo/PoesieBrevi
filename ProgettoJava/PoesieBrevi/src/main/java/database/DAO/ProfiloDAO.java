@@ -1,6 +1,5 @@
 package database.DAO;
 
-import entity.Profilo;
 import database.DatabaseConnection;
 
 import java.sql.*;
@@ -19,8 +18,33 @@ public class ProfiloDAO {
      */
     private static final Logger LOGGER = Logger.getLogger(ProfiloDAO.class.getName());
 
-    private ProfiloDAO(){
+    private final String username;
 
+    private final String bio;
+
+    private String immagineProfilo;
+
+    private final Date dataNascita;
+
+
+    public ProfiloDAO(String username, String bio, String immagineProfilo, Date dataNascita) {
+        this.username = username;
+        this.bio = bio;
+        this.immagineProfilo = immagineProfilo;
+        this.dataNascita = dataNascita;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+    public String getBio() {
+        return bio;
+    }
+    public String getImmagineProfilo() {
+        return immagineProfilo;
+    }
+    public Date getDataNascita() {
+        return dataNascita;
     }
 
     /**
@@ -29,7 +53,7 @@ public class ProfiloDAO {
      * @param userId L'ID dell'utente di cui recuperare il profilo.
      * @return L'oggetto Profilo associato all'utente, o null se non esiste.
      */
-    public static Profilo getProfiloAtID(int userId) {
+    public static ProfiloDAO getProfiloAtID(int userId) {
         String query = "SELECT * FROM user_profiles WHERE user_id = ?";
         try{
             ResultSet resultSet = DatabaseConnection.executeQuery(query, userId);
@@ -39,7 +63,7 @@ public class ProfiloDAO {
                 String bio = resultSet.getString("bio");
                 String fotoProfiloPath = resultSet.getString("foto_profilo_path");
                 Date dataNascita = resultSet.getDate("data_nascita");
-                return new Profilo(username, bio, fotoProfiloPath, dataNascita);
+                return new ProfiloDAO(username, bio, fotoProfiloPath, dataNascita);
             }
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Errore getting profilo", e);

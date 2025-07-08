@@ -100,7 +100,7 @@ public class Raccolta {
     }
 
     public int salvaRaccolta() {
-        return RaccoltaDAO.addRaccolta(this);
+        return RaccoltaDAO.addRaccolta(this.titolo, this.descrizione, this.autoreID);
     }
 
     public static List<Raccolta> getRaccoltaByAutore(int autoreId) {

@@ -1,11 +1,5 @@
 package database.DAO;
 
-/**
- * AGGIUSTARE IL METODO getCommenti...
- */
-
-
-import entity.Commento;
 import database.DatabaseConnection;
 
 import java.sql.*;
@@ -22,14 +16,42 @@ import java.util.logging.Logger;
  */
 public class CommentoDAO {
 
+    private int id;
+    private int poesiaId;
+    private int autoreId;
+    private String testo;
+    private Date dataCreazione;
+
+
     /**
      * Logger per la registrazione di eventi ed errori.
      */
     private static final Logger LOGGER = Logger.getLogger(CommentoDAO.class.getName());
 
-    private CommentoDAO() {
-
+    private CommentoDAO(int id, int poesiaId, int autoreId, String testo, Date dataCreazione) {
+        this.id = id;
+        this.poesiaId = poesiaId;
+        this.autoreId = autoreId;
+        this.testo = testo;
+        this.dataCreazione = dataCreazione;
     }
+
+    public int getId() {
+        return id;
+    }
+    public int getPoesiaId() {
+        return poesiaId;
+    }
+    public int getAutoreId() {
+        return autoreId;
+    }
+    public String getTesto() {
+        return testo;
+    }
+    public Date getDataCreazione() {
+        return dataCreazione;
+    }
+
 
     /**
      * Aggiunge un nuovo commento al database.
@@ -53,8 +75,8 @@ public class CommentoDAO {
      * @return Lista di oggetti Commento associati alla poesia specificata.
      * @throws SQLException Se si verifica un errore durante l'operazione di recupero.
      */
-    public static List<Commento> getCommentiByPoesiaId(int poesiaId) throws SQLException {
-        List<Commento> commenti = new ArrayList<>();
+    public static List<CommentoDAO> getCommentiByPoesiaId(int poesiaId) throws SQLException {
+        List<CommentoDAO> commenti = new ArrayList<>();
         String query = "SELECT * FROM commenti WHERE poesia_id = ?";
         try(ResultSet resultSet = DatabaseConnection.executeQuery(query, poesiaId);){
             while (resultSet.next()) {
@@ -62,7 +84,7 @@ public class CommentoDAO {
                 int autoreID = resultSet.getInt("autore_id");
                 String testo = resultSet.getString("contenuto");
                 Date dataCreazione = resultSet.getTimestamp("data_creazione");
-                Commento commento = new Commento(id, poesiaId, autoreID, testo, dataCreazione);
+                CommentoDAO commento = new CommentoDAO(id, poesiaId, autoreID, testo, dataCreazione);
                 commenti.add(commento);
             }
             return commenti;

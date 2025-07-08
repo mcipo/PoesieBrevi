@@ -108,8 +108,12 @@ public class Commento {
     }
 
     public static List<Commento> getCommentiByPoesiaId(int poesiaId) throws SQLException {
-        List<Commento> commenti = CommentoDAO.getCommentiByPoesiaId(poesiaId);
-        return commenti;
+
+        List<CommentoDAO> commentiDAO = CommentoDAO.getCommentiByPoesiaId(poesiaId);
+        return commentiDAO.stream()
+                .map(dao -> new Commento(dao.getId(), dao.getPoesiaId(), dao.getAutoreId(), dao.getTesto(), dao.getDataCreazione()))
+                .toList();
+
     }
 
     public static boolean salvaCommento(Commento nuovoCommento) {

@@ -1,4 +1,8 @@
 package database.DAO;
+/**
+ * Aggiustare getRaccoltaPerAutore...
+ */
+
 
 import entity.Raccolta;
 import database.DatabaseConnection;
@@ -16,7 +20,7 @@ import java.util.logging.Logger;
  */
 public class RaccoltaDAO {
     /**
-     * Logger per la registrazione di eventi e errori.
+     * Logger per la registrazione di eventi ed errori.
      */
     private static final Logger LOGGER = Logger.getLogger(RaccoltaDAO.class.getName());
 
@@ -27,13 +31,12 @@ public class RaccoltaDAO {
     /**
      * Aggiunge una nuova raccolta al database.
      *
-     * @param raccolta L'oggetto Raccolta da salvare nel database.
      * @return L'ID della raccolta appena creata, o -1 in caso di errore.
      */
-    public static int addRaccolta(Raccolta raccolta) {
+    public static int addRaccolta(String titolo, String descrizione, int autoreId) {
         String query = "INSERT INTO raccolte (titolo, descrizione, autore_id) VALUES (?, ?, ?)";
         try{
-            int nuovoID = DatabaseConnection.executeUpdateConID(query, raccolta.getTitolo(), raccolta.getDescrizione(), raccolta.getAutoreID());
+            int nuovoID = DatabaseConnection.executeUpdateConID(query, titolo, descrizione, autoreId);
             return nuovoID;
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Errore in addRaccolta", e);

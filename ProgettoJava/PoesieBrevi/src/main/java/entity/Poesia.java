@@ -166,11 +166,17 @@ public class Poesia {
     }
 
     public static List<Poesia> getPoesieByAutore(int autoreId) {
-        return PoesiaDAO.getPoesieByAutore(autoreId);
+        List<PoesiaDAO> poesieDAO = PoesiaDAO.getPoesieByAutore(autoreId);;
+        return poesieDAO.stream()
+                .map(dao -> new Poesia(dao.getId(), dao.getTitolo(), dao.getContenuto(), dao.getTags(), dao.getIsVisibile(), dao.getDataCreazione(), dao.getAutoreID(), dao.getRaccoltaID() ))
+                .toList();
     }
 
     public static List<Poesia> getUltimePoesiePerFeed(int userId, int limit) {
-        return PoesiaDAO.getUltimePoesiePerFeed(userId, limit);
+        List<PoesiaDAO> poesieDAO = PoesiaDAO.getUltimePoesiePerFeed(userId, limit);
+        return poesieDAO.stream()
+                .map(dao -> new Poesia(dao.getId(), dao.getTitolo(), dao.getContenuto(), dao.getTags(), dao.getIsVisibile(), dao.getDataCreazione(), dao.getAutoreID(), dao.getRaccoltaID() ))
+                .toList();
     }
 
     public boolean salvaPoesia() {

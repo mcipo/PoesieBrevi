@@ -1,12 +1,5 @@
 package database.DAO;
 
-/**
- * Aggiustare:
- * - getUltimePoesiePerFeed
- * - getPoesieByAutore
- */
-
-import entity.Poesia;
 import database.DatabaseConnection;
 
 import java.sql.*;
@@ -25,13 +18,55 @@ import java.util.logging.Logger;
  */
 public class PoesiaDAO {
 
+    int id;
+    String titolo;
+    String contenuto;
+    List<String> tags;
+    boolean visibile;
+    Date dataCreazione;
+    int autoreID;
+    int raccoltaID;
+
+
     /**
      * Logger per la registrazione di eventi ed errori.
      */
     private  static final Logger LOGGER = Logger.getLogger(PoesiaDAO.class.getName());
 
-    private PoesiaDAO(){
+    public PoesiaDAO(int id, String titolo, String contenuto, List<String> tags, boolean visibile, Date dataCreazione, int autoreID, int raccoltaID) {
+        this.id = id;
+        this.titolo = titolo;
+        this.contenuto = contenuto;
+        this.tags = tags;
+        this.visibile = visibile;
+        this.dataCreazione = dataCreazione;
+        this.autoreID = autoreID;
+        this.raccoltaID = raccoltaID;
+    }
 
+    public int getId() {
+        return id;
+    }
+    public String getTitolo() {
+        return titolo;
+    }
+    public String getContenuto() {
+        return contenuto;
+    }
+    public List<String> getTags() {
+        return tags;
+    }
+    public boolean getIsVisibile() {
+        return visibile;
+    }
+    public Date getDataCreazione() {
+        return dataCreazione;
+    }
+    public int getAutoreID() {
+        return autoreID;
+    }
+    public int getRaccoltaID() {
+        return raccoltaID;
     }
 
     /**
@@ -41,8 +76,8 @@ public class PoesiaDAO {
      * @param limite Il numero massimo di poesie da recuperare.
      * @return Lista di oggetti Poesia ordinate per data di creazione decrescente.
      */
-    public static List<Poesia> getUltimePoesiePerFeed(int userId, int limite) {
-        List<Poesia> poesie = new ArrayList<>();
+    public static List<PoesiaDAO> getUltimePoesiePerFeed(int userId, int limite) {
+        List<PoesiaDAO> poesie = new ArrayList<>();
         String query = "SELECT * FROM poesie WHERE visibile = true AND autore_id != ? ORDER BY data_creazione DESC LIMIT ?";
         try{
             ResultSet resultSet = DatabaseConnection.executeQuery(query, userId, limite);
@@ -64,7 +99,7 @@ public class PoesiaDAO {
                     tags = new ArrayList<>();
                 }
 
-                poesie.add(new Poesia(id, titolo, contenuto, tags, visibile, dataCreazione, autoreId, raccoltaId));
+                poesie.add(new PoesiaDAO(id, titolo, contenuto, tags, visibile, dataCreazione, autoreId, raccoltaId));
             }
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE,"Errore in getUltimePoesiePerFeed", e);
@@ -80,8 +115,8 @@ public class PoesiaDAO {
      * @param autoreId L'ID dell'utente autore delle poesie da recuperare.
      * @return Lista di oggetti Poesia appartenenti all'autore specificato.
      */
-    public static List<Poesia> getPoesieByAutore(int autoreId) {
-        List<Poesia> poesie = new ArrayList<>();
+    public static List<PoesiaDAO> getPoesieByAutore(int autoreId) {
+        List<PoesiaDAO> poesie = new ArrayList<>();
         String query = "SELECT * FROM poesie WHERE autore_id = ? ORDER BY data_creazione DESC";
         try{
             ResultSet resultSet = DatabaseConnection.executeQuery(query, autoreId);
@@ -102,7 +137,7 @@ public class PoesiaDAO {
                     tags = new ArrayList<>();
                 }
 
-                poesie.add(new Poesia(id, titolo, contenuto, tags, visibile, dataCreazione, autoreId, raccoltaId));
+                poesie.add(new PoesiaDAO(id, titolo, contenuto, tags, visibile, dataCreazione, autoreId, raccoltaId));
             }
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE,"Errore in getPoesieByAutore",e);
