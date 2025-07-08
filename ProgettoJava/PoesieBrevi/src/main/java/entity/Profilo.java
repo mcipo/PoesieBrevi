@@ -101,7 +101,7 @@ public class Profilo {
     public static Profilo getProfiloAtID(int userId){
         try{
             ProfiloDAO profiloDAO = ProfiloDAO.getProfiloAtID(userId);
-            return new Profilo(profiloDAO.getUsername(), profiloDAO.getBio(), profiloDAO.getImmagineProfilo(), new Date());
+            return new Profilo(profiloDAO.getUsername(), profiloDAO.getBio(), profiloDAO.getImmagineProfilo(), profiloDAO.getDataNascita());
         }catch (Exception e){
 
         }
