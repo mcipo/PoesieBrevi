@@ -40,7 +40,7 @@ public class StatisticheFrame extends JFrame {
         headerPanel.setOpaque(false);
         headerPanel.setBounds(20, 20, UIUtils.CONTENT_WIDTH - 40, 50);
 
-        String username = "Amministratore"; //piattaformaController.getCurrentUser().getProfilo().getUsername();
+        String username = piattaformaController.getCurrentUser().getProfilo().getUsername();
 
         JPanel leftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         leftPanel.setOpaque(false);
@@ -70,11 +70,9 @@ public class StatisticheFrame extends JFrame {
         tabbedPane.setBorder(null);
 
         JPanel statsAutoriPanel = new StatsAutoriPanel();
-        JPanel statsTagPanel = new StatsTagPanel();
         JPanel statsPoesiePanel = new StatsPoesiePanel();
 
         tabbedPane.addTab("Statistiche Autori", null, statsAutoriPanel, "Visualizza l'elenco di autori più attivi");
-        tabbedPane.addTab("Statistiche Tag", null, statsTagPanel, "Visualizza i tag più usati");
         tabbedPane.addTab("Statistiche Poesie", null, statsPoesiePanel, "Visualizza le poesie con più interazioni");
 
         tabbedPane.setSelectedIndex(0);

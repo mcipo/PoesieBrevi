@@ -244,7 +244,12 @@ public class ProfiloFrame extends JFrame {
                             "Profilo aggiornato con successo!",
                             "Successo", JOptionPane.INFORMATION_MESSAGE);
                     dispose();
-                    new HomeFrame().setVisible(true);
+                    if (piattaformaController.getCurrentUser().isAdmin()) {
+                        new StatisticheFrame().setVisible(true);
+                    }else{
+                        new HomeFrame().setVisible(true);
+                    }
+
                 } else {
                     JOptionPane.showMessageDialog(ProfiloFrame.this,
                             "Errore durante il salvataggio del profilo.",

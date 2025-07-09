@@ -101,4 +101,8 @@ public class PiattaformaController {
 
     }
 
+    public static List<int[]> getUserConPiuPoesie(){
+        return User.getUserConPiuPoesie();
+    }
+
 }

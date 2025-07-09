@@ -4,6 +4,7 @@ import DTO.ProfiloDTO;
 import database.DAO.UserDAO;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Questa classe rappresenta un utente registrato nel sistema.
@@ -128,6 +129,10 @@ public class User {
         return cognome;
     }
 
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
 
     /**
      * Imposta un nuovo profilo per l'utente.
@@ -155,7 +160,7 @@ public class User {
             if (profilo == null) {
                 profilo = new Profilo(userDAO.getNome() + userDAO.getCognome().charAt(0), "Nessuna biografia", "", null);
             }
-            User user = new User(userDAO.getPassword(), userDAO.getEmail(), userDAO.getNome(), userDAO.getCognome(), false, profilo);
+            User user = new User(userDAO.getPassword(), userDAO.getEmail(), userDAO.getNome(), userDAO.getCognome(), userDAO.isAdmin(), profilo);
             user.setId(userDAO.getId());
             return user;
         }
@@ -182,6 +187,10 @@ public class User {
         Date dataDiNascita = profilo.getDataNascita();
 
         return UserDAO.addUser(email, password, nome, cognome, username, bio, immagineProfilo, dataDiNascita);
+    }
+
+    public static List<int[]> getUserConPiuPoesie(){
+        return UserDAO.getUserConPiuPoesie();
     }
 
     /**

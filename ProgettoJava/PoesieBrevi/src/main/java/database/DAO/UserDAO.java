@@ -5,7 +5,9 @@ import controller.PiattaformaController;
 import database.DatabaseConnection;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -111,6 +113,23 @@ public class UserDAO {
             LOGGER.log(Level.SEVERE, "Errore in addUser", e);
         }
         return false;
+    }
+
+    public static List<int[]> getUserConPiuPoesie() {
+        String query = "SELECT autore_id, COUNT(*) AS numero_poesie FROM poesie GROUP BY autore_id ORDER BY numero_poesie DESC LIMIT 10";
+        try{
+            ResultSet resultSet = DatabaseConnection.executeQuery(query);
+            List<int[]> datiAutori = new ArrayList<>();
+            while (resultSet.next()) {
+                int autoreId = resultSet.getInt("autore_id");
+                int numeroPoesie = resultSet.getInt("numero_poesie");
+                datiAutori.add(new int[]{autoreId, numeroPoesie});
+            }
+            return datiAutori;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
     }
 
 }
