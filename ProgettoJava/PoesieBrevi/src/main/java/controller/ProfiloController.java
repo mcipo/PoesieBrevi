@@ -117,7 +117,7 @@ public class ProfiloController {
                 profilo.createProfilo(user.getId());
             }
             
-            System.out.println("Profilo aggiornato per l'utente ID: " + user.getId());
+
             
             return true;
         } catch (Exception e) {
@@ -152,12 +152,12 @@ public class ProfiloController {
         
         if (user.getProfilo() != null) {
             Profilo profilo = user.getProfilo();
-            System.out.println(profilo);
+
             String username = profilo.getUsername();
             String bio = profilo.getBio();
             String percorsoImmagine = profilo.getImmagineProfilo();
             Date dataNascita = profilo.getDataNascita();
-            System.out.println("profilo data di nascita: " + dataNascita);
+
             return new ProfiloDTO(username, bio, percorsoImmagine, dataNascita);
         }
         

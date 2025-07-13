@@ -173,7 +173,7 @@ public class User {
             return false;
         }
         if (UserDAO.getUserByEmail(user.getEmail()) != null) {
-            System.out.println("UTENTE GIA ESISTE");
+
             return false;
         }
         Profilo profilo = user.getProfilo();

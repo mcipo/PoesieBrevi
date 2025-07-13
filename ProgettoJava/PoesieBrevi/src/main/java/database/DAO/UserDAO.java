@@ -68,7 +68,6 @@ public class UserDAO {
         try{
             ResultSet resultSet = DatabaseConnection.executeQuery(query, userEmail);
             if (resultSet.next()) {
-                System.out.println("ENTRO NELL'IF");
                 int id = resultSet.getInt("id");
                 String email = resultSet.getString("email");
                 String nome = resultSet.getString("nome");
@@ -78,14 +77,11 @@ public class UserDAO {
 
                 UserDAO user = new UserDAO(password, email, nome, cognome, amministratore);
                 user.setId(id);
-                System.out.println(user);
                 return user;
             }
-            System.out.println("NON ENTRO NELL'IF");
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Errore in getUserByEmail", e);
         }
-        System.out.println("ERROREEEEEE");
         return null;
     }
 
@@ -105,7 +101,6 @@ public class UserDAO {
                     int userId = resultSet.getInt("id");
                     piattaformaController.getCurrentUser().setId(userId);
                     ProfiloDAO.createProfilo(username, bio, immagineProfilo, dataDiNascita, userId);
-                    System.out.println("Utente aggiunto");
                     return true;
                 }
             }

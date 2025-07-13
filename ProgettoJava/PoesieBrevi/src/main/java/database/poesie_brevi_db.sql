@@ -94,7 +94,8 @@ VALUES (FALSE, 'dante@poeta.it', 'password123', 'Dante', 'Alighieri'),
        (FALSE, 'pascoli@poeta.it', 'password123', 'Giovanni', 'Pascoli'),
        (FALSE, 'test@prova.com', 'password123', 'Test', 'Prova'),
        (TRUE, 'claudiadeluca@email.com', 'password123', 'Claudia', 'De Luca'),
-       (TRUE, 'mariocipolletta@email.com', 'password123', 'Mario', 'Cipolletta');
+       (TRUE, 'mariocipolletta@email.com', 'password123', 'Mario', 'Cipolletta'),
+       (FALSE, 'test@email.com', 'test', 'test', 'test');
 
 INSERT INTO user_profiles (user_id, username, bio, foto_profilo_path, data_nascita)
 VALUES(1, 'Dante_Alighieri', 'Padre della lingua italiana e autore della Divina Commedia.', 'resources/immagine_profilo/danteAlighieri.jpeg', '1265-05-21'),
@@ -161,4 +162,5 @@ VALUES('Raccolta Classici', 'Una selezione delle poesie più celebri della lette
        ('Raccolta Riflessioni', 'Riflessioni profonde sulla vita e sull’esistenza.', 3),
        ('Raccolta Autunno', 'Poesie che catturano l’essenza dell’autunno.', 4),
        ('Raccolta Infanzia', 'Ricordi d’infanzia e momenti di nostalgia.', 5),
-       ('Raccolta Dolore e Speranza', 'Poesie che esplorano il dolore e la speranza.', 6);
+       ('Raccolta Dolore e Speranza', 'Poesie che esplorano il dolore e la speranza.', 6),
+       ('Raccolta test', 'Raccolta per testare PoesieController', 10);
