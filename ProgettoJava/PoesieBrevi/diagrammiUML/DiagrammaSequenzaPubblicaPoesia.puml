@@ -1,39 +1,34 @@
-@startuml DiagrammaSequenzaPubblicaPoesia
-
+@startuml
 actor Autore
-participant "Interfaccia" as UI
-participant "Sistema" as System
-participant "Poesia" as Poetry
+participant Interfaccia
+participant Sistema
+participant GestoreRaccolte
 
-' Stile del diagramma
-skinparam sequenceMessageAlign center
-skinparam responseMessageBelowArrow true
+Autore -> Interfaccia : Compila poesia nel form
 
-' Processo completo per la pubblicazione di una poesia
-Autore -> UI : accede alla sezione pubblicazione
-UI --> Autore : mostra form di pubblicazione
+alt L'autore sceglie di aggiungere a una raccolta
+    Autore -> Interfaccia : Sceglie raccolta (esistente o nuova)
+    Interfaccia -> Sistema : Invia poesia + info raccolta
 
-Autore -> UI : scrive la poesia nel campo indicato
-Autore -> UI : aggiunge tag, titolo e imposta visibilità
+    Sistema -> GestoreRaccolte : Verifica raccolta
 
-' Caso d'uso <<include>>
-Autore -> UI : <<include>> AggiungiARaccolta
-note right: Questo è un riferimento al caso d'uso AggiungiARaccolta
+    alt Raccolta esistente
+        GestoreRaccolte -> Sistema : Raccolta trovata
+    else Raccolta non esistente
+        Sistema -> GestoreRaccolte : Crea nuova raccolta
+    end
 
-Autore -> UI : conferma la pubblicazione
-UI -> System : richiediPubblicazione(poesia, tags, titolo, visibilità)
+    Sistema -> GestoreRaccolte : Associa poesia alla raccolta
+else L'autore non aggiunge a nessuna raccolta
+    Interfaccia -> Sistema : Invia poesia senza raccolta
+end
 
-' Controlli alternativi
-activate System
-System -> System : controllo numero caratteri
-System -> System : controllo impostazione visibilità
+Sistema -> Sistema : Valida poesia (campi, lunghezza)
 
-' Creazione poesia
-System -> Poetry : <<create>>
-note right: La poesia viene creata nel sistema
-System --> UI : confermaOperazione()
-deactivate System
-
-UI --> Autore : mostra conferma di pubblicazione
-
+alt Poesia valida
+    Sistema -> Sistema : Crea poesia
+    Sistema -> Interfaccia : Conferma pubblicazione
+else Errore di validazione
+    Sistema -> Interfaccia : Mostra errore
+end
 @enduml
