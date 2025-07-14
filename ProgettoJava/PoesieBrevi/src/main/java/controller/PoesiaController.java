@@ -121,7 +121,6 @@ public class PoesiaController {
      *
      * @param poesiaId ID della poesia.
      * @return Numero di commenti ricevuti dalla poesia.
-     * @throws SQLException Se si verifica un errore durante l'operazione sul database.
      */
     public static int getNumCommenti(int poesiaId){
         int numCommenti = Commento.getCommentiByPoesiaId(poesiaId).size();

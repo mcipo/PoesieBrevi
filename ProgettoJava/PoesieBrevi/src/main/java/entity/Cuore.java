@@ -37,10 +37,11 @@ public class Cuore {
     }
 
     /**
-     * Recupera il numero di cuori (like) ricevuti da una poesia.
+     * Controlla se un utente ha già messo un cuore (like) su una poesia.
      *
-     * @param poesiaId ID della poesia di cui contare i cuori.
-     * @return Numero di cuori ricevuti dalla poesia, o -1 in caso di errore.
+     * @param poesia_id ID della poesia da verificare.
+     * @param user_id ID dell'utente da verificare.
+     * @return true se l'utente ha già messo un cuore, false altrimenti.
      */
     public static boolean hasUserLiked(int poesia_id, int user_id){
         return CuoreDAO.hasUserLiked(poesia_id, user_id);

@@ -133,7 +133,7 @@ public class UserDAO {
      * @param username Nome utente del profilo.
      * @param bio Biografia del profilo.
      * @param immagineProfilo Percorso dell'immagine del profilo.
-     * @param dataNascita Data di nascita dell'utente associato al profilo.
+     * @param dataDiNascita Data di nascita dell'utente associato al profilo.
      * @return true se l'operazione è completata con successo, false altrimenti.
      */
     public static boolean addUser(String email, String password, String nome, String cognome, String username, String bio, String immagineProfilo, Date dataDiNascita) {

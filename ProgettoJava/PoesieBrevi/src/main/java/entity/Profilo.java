@@ -84,11 +84,10 @@ public class Profilo {
     }
 
     /**
-     * Aggiorna il profilo di un utente.
+     * Recupera il profilo di un utente specifico dal database.
      *
-     * @param user L'utente il cui profilo deve essere aggiornato.
-     * @param profiloDTO Oggetto contenente i nuovi dati del profilo.
-     * @return true se l'aggiornamento è riuscito, false altrimenti.
+     * @param userId ID dell'utente di cui recuperare il profilo.
+     * @return Un oggetto Profilo contenente le informazioni dell'utente, o null se non trovato.
      */
     public static Profilo getProfiloAtID(int userId){
         try{
