@@ -136,7 +136,6 @@ public class LoginFrame extends JFrame {
                     if (piattaformaController.esisteUtente(email)) {
                         if (piattaformaController.autenticaUtente(email, password)) {
 
-                            System.out.println(email + " ha effettuato il login" + piattaformaController.getCurrentUser());
                             JOptionPane.showMessageDialog(LoginFrame.this, "Login effettuato con successo!", "Successo", JOptionPane.INFORMATION_MESSAGE);
                             dispose();
                             if (piattaformaController.getCurrentUser().isAdmin()){
@@ -171,7 +170,7 @@ public class LoginFrame extends JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 dispose();
                 new RegistrazioneFrame().setVisible(true);
-                System.out.println("Registrazione Cliccata");
+
             }
         });
     }

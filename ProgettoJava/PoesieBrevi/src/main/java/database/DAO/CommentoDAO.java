@@ -62,7 +62,7 @@ public class CommentoDAO {
     public static void addCommento(int poesiaId, int autoreId, String testo, Date dataCreazione) throws SQLException {
         String query = "INSERT INTO commenti (poesia_id, autore_id, contenuto, data_creazione) VALUES (?, ?, ?, ?)";
         try{
-            System.out.println(poesiaId + " " + autoreId + " " + testo + " " + dataCreazione);
+
             DatabaseConnection.executeUpdate(query, poesiaId, autoreId, testo, new Timestamp(dataCreazione.getTime()));
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Errore in addCommento", e);
