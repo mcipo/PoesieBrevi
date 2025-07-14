@@ -33,6 +33,12 @@ Questo progetto è stato sviluppato nell'ambito del corso di **Ingegneria del So
   - Sistema di “cuori” (like)
   - Commenti testuali alle poesie
     
+- **Statistiche**
+  - Dashboard per la visualizzazione:
+    - degli autori più attivi (con più poesie pubblicate);
+    - del numero totale di poesie pubblicate negli ultimi 7 giorni;
+    - delle poesie con più interazioni.
+    
 ---
 
 ## 🧱 Architettura
@@ -43,6 +49,7 @@ Il sistema è implementato in **Java 22** utilizzando il pattern architetturale 
 - **Controller**: logica dei casi d’uso (Login, Registrazione, Profilo, Poesie)
 - **Entity**: classi del dominio (User, Poesia, Raccolta, Commento, Cuore)
 - **Database**: classi DAO per persistenza su MySQL
+- **DTO**: classi DTO per garantire il disaccoppiamento tra Boundary e Controller
 
 ---
 
@@ -67,7 +74,7 @@ Il sistema è implementato in **Java 22** utilizzando il pattern architetturale 
 1. Clona la repository:
    ```bash
    git clone https://github.com/mcipo/PoesieBrevi
-   cd poesie-brevi
+   cd PoesieBrevi
    ```
 
 2. Importa il progetto in un IDE (es. IntelliJ)
