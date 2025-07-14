@@ -16,51 +16,22 @@ import java.util.Date;
 
 import controller.ProfiloController;
 
-/**
- * Frame che gestisce la creazione e la modifica del profilo utente.
- * Permette di inserire o modificare username, bio, immagine del profilo e data di nascita.
- */
 public class ProfiloFrame extends JFrame {
 
     private PiattaformaController piattaformaController = PiattaformaController.getInstance();
-    
-    /**
-     * Campo di testo per l'inserimento o la modifica dello username.
-     */
+
     private final JTextField usernameField;
-    
-    /**
-     * Area di testo per l'inserimento o la modifica della biografia.
-     */
+
     private final JTextArea bioArea;
 
-    /**
-     * Etichetta che mostra l'immagine del profilo.
-     */
     private final JLabel immagineProfiloLabel;
-    
-    /**
-     * Selettore per l'inserimento o la modifica della data di nascita.
-     */
+
     private final JSpinner dataNascitaSpinner;
-    
-    /**
-     * Pannello principale che contiene i componenti dell'interfaccia.
-     */
+
     private final JPanel contentPanel;
-    
-    /**
-     * Percorso dell'immagine del profilo selezionata dall'utente.
-     */
+
     private String pathImmagineSelezionata = "";
 
-    /**
-     * Costruttore che crea e configura la finestra di gestione del profilo.
-     * Può essere utilizzato sia per creare un nuovo profilo che per modificare uno esistente.
-     *
-     * @param nuovoUtente Se true, indica che si sta creando un nuovo profilo;
-     *                   se false, indica che si sta modificando un profilo esistente.
-     */
     public ProfiloFrame(boolean nuovoUtente) {
 
 
@@ -259,12 +230,6 @@ public class ProfiloFrame extends JFrame {
         });
     }
 
-    /**
-     * Crea un'icona di immagine per mostrare l'immagine del profilo.
-     * Utilizza un'immagine placeholder se l'immagine del profilo non è disponibile.
-     *
-     * @return ImageIcon da utilizzare nell'interfaccia.
-     */
     private static ImageIcon getImageIcon() {
         ImageIcon placeholderIcona;
         BufferedImage placeholderImagine = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
@@ -280,10 +245,6 @@ public class ProfiloFrame extends JFrame {
         return placeholderIcona;
     }
 
-    /**
-     * Carica i dati del profilo esistente nei campi dell'interfaccia.
-     * Utilizzato quando si modifica un profilo esistente.
-     */
     private void caricaDatiProfilo() {
         try {
 

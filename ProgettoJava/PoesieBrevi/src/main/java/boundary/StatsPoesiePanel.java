@@ -6,15 +6,15 @@ import controller.PoesiaController;
 import controller.ProfiloController;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class StatsPoesiePanel extends JPanel {
+
     List<PoesiaDTO> ultimePoesie = PiattaformaController.getPoesieUltimaSettimana();
+
     public StatsPoesiePanel() {
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
@@ -28,11 +28,8 @@ public class StatsPoesiePanel extends JPanel {
                 200, 200
         );
         add(scrollPane, BorderLayout.CENTER);
-
-
-
-
     }
+
     private JTable createPoesieTable() {
         String[] columns = {"Titolo", "Autore", "\uDBC0\uDEB5", "\uDBC0\uDF24", "Totale"};
 
@@ -53,10 +50,7 @@ public class StatsPoesiePanel extends JPanel {
         rows.sort((row1, row2) -> Integer.compare((int) row2[4], (int) row1[4]));
         
         Object[][] data = rows.toArray(new Object[0][columns.length]);
+
         return UIUtils.createStyledTable(data, columns);
-
     }
-
-
-
 }

@@ -12,36 +12,16 @@ import controller.PoesiaController;
 import controller.ProfiloController;
 import DTO.CommentoDTO;
 
-/**
- * Panel che gestisce la visualizzazione e l'inserimento dei commenti per una poesia.
- * Permette di visualizzare la lista dei commenti esistenti e di aggiungere nuovi commenti.
- */
 public class CommentoPanel extends JPanel {
 
     private PiattaformaController piattaformaController = PiattaformaController.getInstance();
 
-    /**
-     * ID della poesia che l'utente sta commentando.
-     */
     private final int poesiaId;
     
-    /**
-     * Panel contenente la lista dei commenti.
-     */
     private final JPanel commentiListPanel;
     
-    /**
-     * ScrollPane che contiene la lista dei commenti per permettere lo scorrimento.
-     */
     private final JScrollPane scrollPane;
     
-
-
-    /**
-     * Costruttore che inizializza il pannello dei commenti per una specifica poesia.
-     *
-     * @param poesiaId ID della poesia da commentare.
-     */
     public CommentoPanel(int poesiaId) {
         this.poesiaId = poesiaId;
 
@@ -70,11 +50,6 @@ public class CommentoPanel extends JPanel {
         caricaCommenti();
     }
 
-    /**
-     * Carica i commenti esistenti dal database e li mostra nell'interfaccia.
-     * Per ogni commento viene creato un pannello apposito.
-     * Mostra un messaggio se non ci sono commenti.
-     */
     private void caricaCommenti() {
         try {
             List<CommentoDTO> commenti = PoesiaController.getCommenti(poesiaId);
@@ -104,12 +79,6 @@ public class CommentoPanel extends JPanel {
         }
     }
 
-    /**
-     * Crea e configura il pannello per l'inserimento di nuovi commenti.
-     * Include un campo di testo per il commento e un pulsante per inviarlo.
-     *
-     * @return JPanel configurato per l'inserimento di commenti.
-     */
     private JPanel aggiungiCommentoPanel() {
         JPanel addCommentPanel = new JPanel(new BorderLayout());
         addCommentPanel.setOpaque(false);
@@ -168,13 +137,6 @@ public class CommentoPanel extends JPanel {
         return addCommentPanel;
     }
 
-    /**
-     * Crea un pannello che rappresenta un singolo commento nell'interfaccia.
-     * Il pannello include il nome dell'utente, il testo del commento e la data di creazione.
-     *
-     * @param commento L'oggetto Commento da visualizzare.
-     * @return JPanel configurato per visualizzare il commento.
-     */
     private JPanel creaPanelSingoloCommento(CommentoDTO commento) {
         JPanel panel = new JPanel(new BorderLayout(5, 2));
         panel.setBackground(new Color(255, 255, 255));

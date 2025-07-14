@@ -8,19 +8,10 @@ import controller.PiattaformaController;
 import controller.PoesiaController;
 import DTO.PoesiaDTO;
 
-/**
- * Panel che visualizza un feed delle ultime poesie pubblicate dagli altri utenti.
- * Mostra una lista delle poesie più recenti che non appartengono all'utente corrente.
- */
 public class FeedPanel extends JPanel {
 
     private PiattaformaController piattaformaController = PiattaformaController.getInstance();
 
-    /**
-     * Costruttore che crea e configura il pannello del feed con le ultime poesie pubblicate.
-     * Recupera le poesie dal controller e le visualizza in ordine cronologico inverso.
-     *
-     */
     public FeedPanel() {
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));

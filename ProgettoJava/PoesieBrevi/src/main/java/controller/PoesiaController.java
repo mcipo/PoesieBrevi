@@ -17,11 +17,16 @@ import java.util.List;
  */
 public class PoesiaController {
 
+    /**
+     * Istanza singleton del controller della piattaforma.
+     */
     private static PiattaformaController piattaformaController = PiattaformaController.getInstance();
 
-    private PoesiaController(){
-
-    }
+    /**
+     * Costruttore privato per implementare il pattern Singleton.
+     * Previene l'istanziazione diretta della classe dall'esterno.
+     */
+    private PoesiaController(){}
 
     /**
      * Crea una nuova poesia nel sistema.
@@ -44,7 +49,6 @@ public class PoesiaController {
             return false;
         }
         
-
         List<String> tagList = new ArrayList<>();
         if (tags != null && !tags.trim().isEmpty()) {
             tagList = Arrays.asList(tags.split(","));
@@ -69,7 +73,7 @@ public class PoesiaController {
     }
 
     /**
-     * Recupera tutte le poesie create da un determinato utente.
+     * Recupera tutte le poesie create da un determinato autore.
      *
      * @param autoreId ID dell'utente autore delle poesie.
      * @return Lista delle poesie dell'utente.
@@ -143,7 +147,6 @@ public class PoesiaController {
         return commentiDTO;
     }
 
-
     /**
      * Salva un nuovo commento nel database.
      *
@@ -168,7 +171,6 @@ public class PoesiaController {
 
         return Cuore.hasUserLiked(poesiaId, userId);
     }
-    
 
     /**
      * Applica o rimuove un "cuore" (mi piace) da una poesia.

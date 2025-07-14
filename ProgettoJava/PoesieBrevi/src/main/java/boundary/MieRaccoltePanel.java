@@ -9,20 +9,10 @@ import controller.RaccoltaController;
 
 import DTO.RaccoltaDTO;
 
-/**
- * Panel che visualizza le raccolte create dall'utente corrente.
- * Permette anche di accedere alle funzionalità di creazione di nuove raccolte
- * e di visualizzare tutte le raccolte dell'utente.
- */
 public class MieRaccoltePanel extends JPanel {
 
     private PiattaformaController piattaformaController = PiattaformaController.getInstance();
-    /**
-     * Costruttore che crea e configura il pannello con le raccolte dell'utente.
-     * Recupera le raccolte dal controller e le visualizza in un layout verticale.
-     * Include pulsanti per creare nuove raccolte e visualizzare tutte le raccolte.
-     *
-     */
+
     public MieRaccoltePanel() {
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));

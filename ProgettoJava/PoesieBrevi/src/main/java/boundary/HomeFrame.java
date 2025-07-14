@@ -6,30 +6,14 @@ import javax.swing.plaf.basic.BasicTabbedPaneUI;
 import java.awt.*;
 import java.awt.event.*;
 
-/**
- * Frame principale dell'applicazione che mostra la schermata home dell'utente.
- * Include un header con il benvenuto e il pulsante per accedere al profilo,
- * e un pannello a schede (tabbed pane) con feed, poesie personali e raccolte dell'utente.
- */
 public class HomeFrame extends JFrame {
 
     private PiattaformaController piattaformaController = PiattaformaController.getInstance();
     
-    /**
-     * Pannello principale che contiene i contenuti della schermata.
-     */
     private JPanel contentPanel;
-    
-    /**
-     * Pannello di sfondo dell'intera finestra.
-     */
+
     private JPanel mainPanel;
 
-    /**
-     * Costruttore che crea e configura la schermata principale dell'applicazione.
-     * Inizializza i componenti dell'interfaccia e mostra i contenuti personalizzati per l'utente.
-     *
-     */
     public HomeFrame() {
 
         setTitle("Poesie Brevi - Home");
@@ -59,10 +43,6 @@ public class HomeFrame extends JFrame {
         });
     }
 
-    /**
-     * Configura il pannello di intestazione con il benvenuto personalizzato e il pulsante per il profilo.
-     * Include il nome dell'utente e un pulsante per accedere alla schermata del profilo.
-     */
     private void setupHeaderPanel() {
         JPanel headerPanel = new JPanel(new BorderLayout());
         headerPanel.setOpaque(false);
@@ -88,13 +68,6 @@ public class HomeFrame extends JFrame {
         contentPanel.add(headerPanel);
     }
 
-    /**
-     * Configura il pannello a schede (tabbed pane) con tre sezioni:
-     * - Feed: mostra le poesie di altri utenti
-     * - Le mie Poesie: mostra le poesie dell'utente corrente
-     * - Le mie Raccolte: mostra le raccolte dell'utente corrente
-     * Personalizza anche l'aspetto visivo delle schede.
-     */
     private void setupTabbedPane() {
         JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
         tabbedPane.setBounds(20, 80, UIUtils.CONTENT_WIDTH - 40, UIUtils.CONTENT_HEIGHT - 100);
@@ -115,13 +88,7 @@ public class HomeFrame extends JFrame {
         tabbedPane.setSelectedIndex(0);
 
         tabbedPane.setUI(new BasicTabbedPaneUI() {
-            /**
-             * Imposta i valori predefiniti per il layout e il rendering del JTabbedPane
-             * - tabAreaInsets: indica i margini dell'area totale delle tab
-             * - selectedTabPadInsets: margini aggiuntivi per il tab selezionato
-             * - tabInsets: margini interni di ogni tab
-             * - contentBorderInsets: margini del bordo intorno al contenuto del tab
-             */
+
             @Override
             protected void installDefaults() {
                 super.installDefaults();
@@ -131,9 +98,6 @@ public class HomeFrame extends JFrame {
                 contentBorderInsets = new Insets(1, 0, 0, 0);
             }
 
-            /**
-             * Disegnamo solo il bordo inferiore per il tab selezionato
-             */
             @Override
             protected void paintTabBorder(Graphics g, int tabPlacement, int tabIndex,
                                           int x, int y, int w, int h, boolean isSelected) {
@@ -143,18 +107,12 @@ public class HomeFrame extends JFrame {
                 g.fillRect(x, y + h - 2, w, 2);
             }
 
-            /**
-             * Disegna lo sfondo del tab, per avere lo sfondo bianco, è lasciato trasparente
-             */
             @Override
             protected void paintTabBackground(Graphics g, int tabPlacement, int tabIndex,
                                               int x, int y, int w, int h, boolean isSelected) {
 
             }
 
-            /**
-             * Disegna un indicatore per il mouse, viene lasciato vuoto per non avere nulla
-             */
             @Override
             protected void paintFocusIndicator(Graphics g, int tabPlacement, Rectangle[] rects,
                                                int tabIndex, Rectangle iconRect, Rectangle textRect,
@@ -162,34 +120,22 @@ public class HomeFrame extends JFrame {
 
             }
 
-            /**
-             * Disegna il bordo superiore del tab, lasciato vuoto perchè non si vuole un bordo superiore
-             */
             @Override
             protected void paintContentBorderTopEdge(Graphics g, int tabPlacement, int selectedIndex,
                                                      int x, int y, int w, int h) {
 
             }
 
-            /**
-             * Disegna il bordo del contenuto, lasciato vuoto perchè non lo si vuole colorare
-             */
-
             @Override
             protected void paintContentBorder(Graphics g, int tabPlacement, int selectedIndex) {
 
             }
 
-            /**
-             * Calcola la larghezza del tab, aumentandone la larghezza di 10
-             */
             @Override
             protected int calculateTabWidth(int tabPlacement, int tabIndex, FontMetrics metrics) {
                 return super.calculateTabWidth(tabPlacement, tabIndex, metrics) + 10;
             }
-            /**
-             * Calcola l'altezza del tab, aumentandola 4
-             */
+
             @Override
             protected int calculateTabHeight(int tabPlacement, int tabIndex, int fontHeight) {
                 return super.calculateTabHeight(tabPlacement, tabIndex, fontHeight) + 4;

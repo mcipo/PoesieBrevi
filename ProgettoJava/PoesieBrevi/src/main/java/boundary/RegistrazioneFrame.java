@@ -8,58 +8,25 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
-/**
- * Frame che gestisce l'interfaccia di registrazione di nuovi utenti.
- * Permette l'inserimento dei dati personali, credenziali e l'opzione per registrarsi
- * come amministratore.
- */
 public class RegistrazioneFrame extends JFrame {
 
     private PiattaformaController piattaformaController = PiattaformaController.getInstance();
 
-    /**
-     * Campo di testo per l'inserimento dell'email.
-     */
     private final JTextField emailField;
-    
-    /**
-     * Campo di testo per l'inserimento del nome.
-     */
+
     private final JTextField nomeField;
-    
-    /**
-     * Campo di testo per l'inserimento del cognome.
-     */
+ 
     private final JTextField cognomeField;
-    
-    /**
-     * Campo di testo protetto per l'inserimento della password.
-     */
+
     private final JPasswordField passwordField;
-    
-    /**
-     * Campo di testo protetto per la conferma della password.
-     */
+
     private final JPasswordField confermaPasswordField;
-    
-    /**
-     * Checkbox per la selezione del ruolo di amministratore.
-     */
+
     private final JCheckBox adminCheckbox;
-    
-    /**
-     * Pannello principale che contiene i componenti dell'interfaccia.
-     */
+
     private final JPanel contentPanel;
 
-
-
-    /**
-     * Costruttore che crea e configura la schermata di registrazione.
-     * Inizializza tutti i campi e i controlli per l'inserimento dei dati utente.
-     */
     public RegistrazioneFrame() {
-
 
         setTitle("Poesie Brevi - Registrazione");
         setSize(UIUtils.CONTENT_MARGIN_W, UIUtils.CONTENT_MARGIN_H);

@@ -319,6 +319,7 @@ public class UIUtils {
         mainPanel.add(contentPanel);
         return contentPanel;
     }
+    
     public static JTable createStyledTable(Object[][] data, String[] columns) {
         DefaultTableModel model = new DefaultTableModel(data, columns) {
             @Override

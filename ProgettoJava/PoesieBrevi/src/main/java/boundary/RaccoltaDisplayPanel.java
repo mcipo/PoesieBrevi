@@ -7,35 +7,17 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-/**
- * Panel che visualizza i dettagli di una raccolta di poesie.
- * Mostra il titolo, la descrizione e fornisce un pulsante per visualizzare le poesie contenute.
- */
 public class RaccoltaDisplayPanel extends JPanel {
-    /**
-     * Raccolta da visualizzare nel panel.
-     */
+
     private final RaccoltaDTO raccolta;
 
-    /**
-     * Pulsante per visualizzare le poesie contenute nella raccolta.
-     */
     private JButton viewButton;
 
-    /**
-     * Costruttore che crea un pannello per visualizzare i dettagli di una raccolta.
-     *
-     * @param raccolta Raccolta di poesie da visualizzare.
-     */
     public RaccoltaDisplayPanel(RaccoltaDTO raccolta) {
         this.raccolta = raccolta;
         initialize();
     }
 
-    /**
-     * Inizializza e configura i componenti grafici del pannello.
-     * Include il titolo, la descrizione e un pulsante per visualizzare le poesie.
-     */
     private void initialize() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBorder(BorderFactory.createCompoundBorder(

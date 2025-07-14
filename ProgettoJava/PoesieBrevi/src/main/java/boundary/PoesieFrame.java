@@ -11,37 +11,16 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
 
-/**
- * Frame che gestisce sia la creazione di nuove poesie che la visualizzazione
- * di tutte le poesie dell'utente. Il comportamento varia in base al parametro createMode.
- */
 public class PoesieFrame extends JFrame {
 
     private final PiattaformaController piattaformaController = PiattaformaController.getInstance();
     
-    /**
-     * Pannello principale per i contenuti dell'interfaccia.
-     */
     private JPanel contentPanel;
-    
-    /**
-     * Pannello di sfondo dell'intera finestra.
-     */
+
     private JPanel mainPanel;
-    
-    /**
-     * Flag che determina il comportamento della finestra:
-     * - true: modalità di creazione di una nuova poesia
-     * - false: modalità di visualizzazione di tutte le poesie
-     */
+
     private boolean createMode;
 
-    /**
-     * Costruttore che crea e configura la finestra per la creazione o visualizzazione delle poesie.
-     *
-     * @param createMode Se true, mostra l'interfaccia per creare una nuova poesia;
-     *                   se false, mostra la lista delle poesie esistenti.
-     */
     public PoesieFrame(boolean createMode) {
         this.createMode = createMode;
 
@@ -74,10 +53,6 @@ public class PoesieFrame extends JFrame {
         });
     }
 
-    /**
-     * Configura il pannello di intestazione con il titolo appropriato e un pulsante
-     * per tornare alla schermata home.
-     */
     private void setupHeaderPanel() {
         JPanel headerPanel = new JPanel(new BorderLayout());
         headerPanel.setOpaque(false);
@@ -96,10 +71,6 @@ public class PoesieFrame extends JFrame {
         contentPanel.add(headerPanel);
     }
 
-    /**
-     * Configura il pannello per la creazione di una nuova poesia.
-     * Include campi per titolo, contenuto, tag, visibilità e selezione/creazione raccolta.
-     */
     private void setupCreatePoesiaPanel() {
         JPanel panel = new JPanel(null);
         panel.setBackground(Color.WHITE);
@@ -187,10 +158,7 @@ public class PoesieFrame extends JFrame {
         panel.add(pubblicaButton);
 
         int finalY = y;
-        /**
-         * Definiamo un Runnable che ci permette di aggiornare la UI dinamicamente quando viene selezionata la "creazione
-         * veloce della raccolta" andando ad abbassare la posizione di "pubblicaButton" e visibleCheckboc"
-         */
+
         Runnable updateYPosition = () ->{
             int yAttuale = finalY;
             if (newRaccoltaPanel.isVisible()) {
@@ -226,12 +194,6 @@ public class PoesieFrame extends JFrame {
         contentPanel.add(panel);
     }
 
-    /**
-     * Crea un pannello per la creazione di una nuova raccolta.
-     *
-     * @param fieldWidth Larghezza dei campi di testo.
-     * @return Pannello configurato per la creazione della raccolta.
-     */
     private JPanel nuovaRaccoltaPanel(int fieldWidth) {
         JPanel nuovaRaccoltaPanel = new JPanel(null);
         nuovaRaccoltaPanel.setBackground(Color.WHITE);
@@ -262,13 +224,6 @@ public class PoesieFrame extends JFrame {
         return nuovaRaccoltaPanel;
     }
 
-    /**
-     * Cerca un componente all'interno di un container in base al suo nome.
-     *
-     * @param container Container in cui cercare.
-     * @param name Nome del componente da trovare.
-     * @return Il componente trovato, o null se non esiste.
-     */
     private Component findComponentByName(Container container, String name) {
         for (Component component : container.getComponents()) {
             if (name.equals(component.getName())) {
@@ -278,19 +233,6 @@ public class PoesieFrame extends JFrame {
         return null;
     }
 
-    /**
-     * Gestisce la pubblicazione di una nuova poesia.
-     * Verifica la validità dei dati inseriti e li invia al controller.
-     *
-     * @param titleField Campo del titolo.
-     * @param contentArea Area del contenuto.
-     * @param tagsField Campo dei tag.
-     * @param visibleCheckbox Checkbox di visibilità.
-     * @param RaccoltaCombo ComboBox per la selezione della raccolta.
-     * @param newRaccoltaTitleField Campo per il titolo della nuova raccolta.
-     * @param newRaccoltaDescField Campo per la descrizione della nuova raccolta.
-     * @return true se la pubblicazione è avvenuta con successo, false altrimenti.
-     */
     private boolean PubblicaPoesia(JTextField titleField, JTextArea contentArea,
                                   JTextField tagsField, JCheckBox visibleCheckbox, JComboBox<String> RaccoltaCombo,
                                   JTextField newRaccoltaTitleField, JTextField newRaccoltaDescField) {
@@ -366,15 +308,6 @@ public class PoesieFrame extends JFrame {
         }
     }
 
-    /**
-     * Reimposta il form di creazione poesia ai valori predefiniti.
-     *
-     * @param titleField Campo del titolo.
-     * @param contentArea Area del contenuto.
-     * @param tagsField Campo dei tag.
-     * @param raccoltaCombo ComboBox per la selezione della raccolta.
-     * @param newRaccoltaPanel Pannello per la creazione di una nuova raccolta.
-     */
     private void resetPoesiaForm(JTextField titleField, JTextArea contentArea,
                                JTextField tagsField, JComboBox<String> raccoltaCombo, JPanel newRaccoltaPanel) {
         titleField.setText("");
@@ -384,10 +317,6 @@ public class PoesieFrame extends JFrame {
         newRaccoltaPanel.setVisible(false);
     }
 
-    /**
-     * Configura il pannello per la visualizzazione di tutte le poesie dell'utente.
-     * Recupera le poesie dal controller e le mostra in una lista scorrevole.
-     */
     private void setupPoesiaViewPanel() {
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());

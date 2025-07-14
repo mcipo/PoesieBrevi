@@ -8,9 +8,7 @@ import java.util.List;
 
 public class RaccoltaController {
 
-    private RaccoltaController(){
-
-    }
+    private RaccoltaController(){}
 
     /**
      * Crea una nuova raccolta di poesie.
@@ -26,14 +24,13 @@ public class RaccoltaController {
             return -1;
         }
 
-
         Raccolta nuovaRaccolta = new Raccolta(0, titolo, descrizione, autoreId);
         return nuovaRaccolta.salvaRaccolta();
     }
 
 
     /**
-     * Recupera tutte le raccolte create da un determinato utente.
+     * Recupera tutte le raccolte create da un determinato utente tramite il suo ID.
      *
      * @param autoreId ID dell'utente autore delle raccolte.
      * @return Lista delle raccolte dell'utente.

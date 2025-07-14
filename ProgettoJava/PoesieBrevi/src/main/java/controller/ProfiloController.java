@@ -18,9 +18,7 @@ import java.util.UUID;
  */
 public class ProfiloController {
 
-    private ProfiloController(){
-
-    }
+    private ProfiloController(){}
     
     /**
      * Directory dove vengono salvate le immagini dei profili.
@@ -103,11 +101,8 @@ public class ProfiloController {
             }
 
             Profilo profilo = new Profilo(username, bio, percorsoImmagine ,dataNascita);
-
             
             user.setProfilo(profilo);
-
-            
 
             Profilo existingProfile = Profilo.getProfiloAtID(user.getId());
             if (existingProfile != null) {
@@ -116,8 +111,6 @@ public class ProfiloController {
             } else {
                 profilo.createProfilo(user.getId());
             }
-            
-
             
             return true;
         } catch (Exception e) {
@@ -164,6 +157,13 @@ public class ProfiloController {
         return null;
     }
 
+    /**
+     * Carica il profilo di un utente dato il suo ID.
+     * Se l'ID è negativo, restituisce null.
+     *
+     * @param userId ID dell'utente di cui caricare il profilo.
+     * @return Il profilo dell'utente come ProfiloDTO, o null se non esiste o si verifica un errore.
+     */
     public static ProfiloDTO caricaProfilo(int userId) {
 
         if (userId < 0) {

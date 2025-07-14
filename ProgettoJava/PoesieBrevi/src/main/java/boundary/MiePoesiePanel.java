@@ -8,20 +8,10 @@ import DTO.PoesiaDTO;
 import controller.PiattaformaController;
 import controller.PoesiaController;
 
-/**
- * Panel che visualizza le poesie create dall'utente corrente.
- * Permette anche di accedere alle funzionalità di creazione di nuove poesie
- * e di visualizzare tutte le poesie dell'utente.
- */
 public class MiePoesiePanel extends JPanel {
 
     private PiattaformaController piattaformaController = PiattaformaController.getInstance();
-    /**
-     * Costruttore che crea e configura il pannello con le poesie dell'utente.
-     * Recupera le poesie dal controller e le visualizza in un layout verticale.
-     * Include pulsanti per creare nuove poesie e visualizzare tutte le poesie.
-     *
-     */
+    
     public MiePoesiePanel() {
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
