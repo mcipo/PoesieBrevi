@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"boundary"},{"l":"controller"},{"l":"database"},{"l":"database.DAO"},{"l":"entity"}];updateSearchResults();
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"boundary"},{"l":"controller"},{"l":"database"},{"l":"database.DAO"},{"l":"DTO"},{"l":"entity"},{"l":"UnitTest"}];updateSearchResults();
