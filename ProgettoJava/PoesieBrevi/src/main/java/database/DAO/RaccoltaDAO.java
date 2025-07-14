@@ -1,9 +1,4 @@
 package database.DAO;
-/**
- * Aggiustare getRaccoltaPerAutore...
- */
-
-
 import entity.Raccolta;
 import database.DatabaseConnection;
 
@@ -24,14 +19,15 @@ public class RaccoltaDAO {
      */
     private static final Logger LOGGER = Logger.getLogger(RaccoltaDAO.class.getName());
 
-    private RaccoltaDAO() {
-
-    }
+    private RaccoltaDAO() {}
 
     /**
-     * Aggiunge una nuova raccolta al database.
+     * Aggiunge una nuova raccolta di poesie nel database.
      *
-     * @return L'ID della raccolta appena creata, o -1 in caso di errore.
+     * @param titolo Titolo della raccolta.
+     * @param descrizione Descrizione della raccolta.
+     * @param autoreId ID dell'utente autore della raccolta.
+     * @return L'ID della nuova raccolta se l'operazione è completata con successo, -1 altrimenti.
      */
     public static int addRaccolta(String titolo, String descrizione, int autoreId) {
         String query = "INSERT INTO raccolte (titolo, descrizione, autore_id) VALUES (?, ?, ?)";

@@ -75,96 +75,52 @@ public class Poesia {
         this.raccoltaID = raccoltaID;
     }
 
-    /**
-     * Restituisce l'ID univoco della poesia.
-     *
-     * @return ID della poesia.
-     */
     public int getId() {
         return id;
     }
 
-    /**
-     * Imposta l'ID della poesia.
-     *
-     * @param id Nuovo ID da assegnare alla poesia.
-     */
     public void setId(int id) {
         this.id = id;
     }
 
-    /**
-     * Restituisce il titolo della poesia.
-     *
-     * @return Titolo della poesia.
-     */
     public String getTitolo() {
         return titolo;
     }
 
-    /**
-     * Imposta un nuovo titolo per la poesia.
-     *
-     * @param titolo Nuovo titolo da assegnare alla poesia.
-     */
     public void setTitolo(String titolo) {
         this.titolo = titolo;
     }
 
-    /**
-     * Restituisce il contenuto testuale della poesia.
-     *
-     * @return Il testo della poesia.
-     */
     public String getContenuto() {
         return contenuto;
     }
 
-    /**
-     * Restituisce la lista di tag associati alla poesia.
-     *
-     * @return Lista di tag della poesia.
-     */
     public List<String> getTags() {
         return tags;
     }
 
-    /**
-     * Restituisce lo stato di visibilità della poesia.
-     *
-     * @return true se la poesia è visibile pubblicamente, false se è privata.
-     */
     public boolean getVisibile() {
         return visibile;
     }
 
-    /**
-     * Restituisce la data di creazione della poesia.
-     *
-     * @return Data di creazione della poesia.
-     */
     public Date getDataCreazione() {
         return dataCreazione;
     }
 
-    /**
-     * Restituisce l'ID dell'utente autore della poesia.
-     *
-     * @return ID dell'autore della poesia.
-     */
     public int getAutoreID() {
         return autoreID;
     }
 
-    /**
-     * Restituisce l'ID della raccolta a cui appartiene la poesia.
-     *
-     * @return ID della raccolta, o -1 se la poesia non appartiene a nessuna raccolta.
-     */
     public int getRaccoltaID() {
         return raccoltaID;
     }
 
+    /**
+     * Recupera tutte le poesie create da un determinato autore.
+     *
+     * @param autoreId ID dell'utente autore delle poesie.
+     * @return Lista delle poesie dell'utente.
+     */
     public static List<Poesia> getPoesieByAutore(int autoreId) {
         List<PoesiaDAO> poesieDAO = PoesiaDAO.getPoesieByAutore(autoreId);;
         return poesieDAO.stream()
@@ -172,6 +128,13 @@ public class Poesia {
                 .toList();
     }
 
+    /**
+     * Recupera le ultime poesie visibili per il feed dell'utente, escludendo quelle dell'utente stesso.
+     *
+     * @param userId ID dell'utente per cui recuperare le poesie.
+     * @param limit Numero massimo di poesie da recuperare.
+     * @return Lista di oggetti Poesia contenenti le poesie recenti.
+     */
     public static List<Poesia> getUltimePoesiePerFeed(int userId, int limit) {
         List<PoesiaDAO> poesieDAO = PoesiaDAO.getUltimePoesiePerFeed(userId, limit);
         return poesieDAO.stream()
@@ -179,10 +142,21 @@ public class Poesia {
                 .toList();
     }
 
+    /**
+     * Salva una nuova poesia nel database.
+     *
+     * @return true se la poesia è stata salvata correttamente, false altrimenti.
+     */
     public boolean salvaPoesia() {
         return PoesiaDAO.addPoesia(this.getTitolo(), this.contenuto, this.visibile, this.dataCreazione, this.tags, this.autoreID, this.raccoltaID);
     }
 
+    /**
+     * Recupera le poesie create negli ultimi 'giorni' giorni.
+     *
+     * @param giorni Numero di giorni per cui recuperare le poesie.
+     * @return Lista delle poesie create negli ultimi 'giorni' giorni.
+     */
     public static List<Poesia> getPoesieInIntervallo(int giorni){
         List<PoesiaDAO> poesieDAO = PoesiaDAO.getPoesieInIntervallo(giorni);
         return poesieDAO.stream()
@@ -190,11 +164,6 @@ public class Poesia {
                 .toList();
     }
 
-    /**
-     * Restituisce una rappresentazione testuale dell'oggetto Poesia.
-     *
-     * @return String contenente tutti i dettagli della poesia.
-     */
     @Override
     public String toString() {
         return "Poesia{" +

@@ -17,19 +17,56 @@ import java.util.logging.Logger;
  * come la ricerca di utenti per email e l'aggiunta di nuovi utenti.
  */
 public class UserDAO {
+    /**
+     * Controller della piattaforma per accedere alle funzionalità comuni.
+     */
     private static PiattaformaController piattaformaController = PiattaformaController.getInstance();
     /**
      * Logger per la registrazione di eventi ed errori.
      */
     private static final Logger LOGGER = Logger.getLogger(UserDAO.class.getName());
 
+    /**
+     * ID dell'utente.
+     */
     private int id;
+
+    /**
+     * Password dell'utente.
+     */
     private final String password;
+
+    /**
+     * Email dell'utente.
+     */
     private final String email;
+
+    /**
+     * Nome dell'utente.
+     */
     private final String nome;
+
+    /**
+     * Cognome dell'utente.
+     */
     private final String cognome;
+
+    /**
+     * Indica se l'utente è un amministratore.
+     */
     private final boolean isAdmin;
-    public UserDAO(String password, String email, String nome, String cognome, boolean isAdmin) {
+
+    /**
+     * Costruttore per creare un oggetto UserDAO.
+     * Utilizzato internamente per creare istanze di utenti recuperati dal database.
+     *
+     * @param password Password dell'utente.
+     * @param email Email dell'utente.
+     * @param nome Nome dell'utente.
+     * @param cognome Cognome dell'utente.
+     * @param isAdmin Indica se l'utente è un amministratore.
+     */
+    private UserDAO(String password, String email, String nome, String cognome, boolean isAdmin) {
         this.password = password;
         this.email = email;
         this.nome = nome;
@@ -57,6 +94,7 @@ public class UserDAO {
     public boolean isAdmin() {
         return isAdmin;
     }
+
     /**
      * Recupera un utente dal database tramite la sua email.
      *
@@ -86,8 +124,16 @@ public class UserDAO {
     }
 
     /**
-     * Aggiunge un nuovo utente al database e crea il profilo associato.
+     * Aggiunge un nuovo utente al database.
      *
+     * @param email Email dell'utente.
+     * @param password Password dell'utente.
+     * @param nome Nome dell'utente.
+     * @param cognome Cognome dell'utente.
+     * @param username Nome utente del profilo.
+     * @param bio Biografia del profilo.
+     * @param immagineProfilo Percorso dell'immagine del profilo.
+     * @param dataNascita Data di nascita dell'utente associato al profilo.
      * @return true se l'operazione è completata con successo, false altrimenti.
      */
     public static boolean addUser(String email, String password, String nome, String cognome, String username, String bio, String immagineProfilo, Date dataDiNascita) {
@@ -110,6 +156,12 @@ public class UserDAO {
         return false;
     }
 
+    /**
+     * Recupera tutti gli utenti che hanno scritto più poesie.
+     * Questa funzione restituisce una lista di ID degli utenti e il numero di poesie scritte da ciascuno.
+     *
+     * @return Lista di array contenenti l'ID dell'utente e il numero di poesie scritte.
+     */
     public static List<int[]> getUserConPiuPoesie() {
         String query = "SELECT autore_id, COUNT(*) AS numero_poesie FROM poesie GROUP BY autore_id ORDER BY numero_poesie DESC LIMIT 10";
         try{

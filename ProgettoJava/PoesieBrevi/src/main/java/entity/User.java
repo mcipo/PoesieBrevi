@@ -66,65 +66,30 @@ public class User {
         this.profilo = profilo;
     }
 
-    /**
-     * Restituisce il profilo dell'utente.
-     *
-     * @return Oggetto Profilo associato all'utente.
-     */
     public Profilo getProfilo() {
         return profilo;
     }
-    
-    /**
-     * Restituisce l'ID dell'utente.
-     *
-     * @return ID dell'utente.
-     */
+
     public int getId() {
         return id;
     }
 
-    /**
-     * Imposta l'ID dell'utente.
-     *
-     * @param id Nuovo ID da assegnare all'utente.
-     */
     public void setId(int id) {
         this.id = id;
     }
 
-    /**
-     * Restituisce la password dell'utente.
-     *
-     * @return Password dell'utente.
-     */
     public String getPassword() {
         return password;
     }
 
-    /**
-     * Restituisce l'email dell'utente.
-     *
-     * @return Email dell'utente.
-     */
     public String getEmail() {
         return email;
     }
 
-    /**
-     * Restituisce il nome dell'utente.
-     *
-     * @return Nome dell'utente.
-     */
     public String getNome() {
         return nome;
     }
 
-    /**
-     * Restituisce il cognome dell'utente.
-     *
-     * @return Cognome dell'utente.
-     */
     public String getCognome() {
         return cognome;
     }
@@ -132,7 +97,6 @@ public class User {
     public boolean isAdmin() {
         return isAdmin;
     }
-
 
     /**
      * Imposta un nuovo profilo per l'utente.
@@ -168,6 +132,13 @@ public class User {
         return null;
     }
 
+    /**
+     * Salva un nuovo utente nel database.
+     * Se l'utente esiste già, non verrà salvato e il metodo restituirà false.
+     *
+     * @param user L'oggetto User da salvare.
+     * @return true se l'utente è stato salvato con successo, false altrimenti.
+     */
     public static boolean salvaUtente(User user) {
         if (user == null) {
             return false;
@@ -189,15 +160,15 @@ public class User {
         return UserDAO.addUser(email, password, nome, cognome, username, bio, immagineProfilo, dataDiNascita);
     }
 
+    /**
+     * Restituisce l'utente con più poesie.
+     *
+     * @return L'oggetto User che rappresenta l'utente attualmente autenticato.
+     */
     public static List<int[]> getUserConPiuPoesie(){
         return UserDAO.getUserConPiuPoesie();
     }
 
-    /**
-     * Restituisce una rappresentazione testuale dell'oggetto User.
-     *
-     * @return String contenente i dettagli principali dell'utente.
-     */
     @Override
     public String toString() {
         return "User{" +

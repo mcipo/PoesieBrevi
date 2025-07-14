@@ -45,59 +45,51 @@ public class Profilo {
         this.dataNascita = dataNascita;
     }
 
-    /**
-     * Restituisce l'username dell'utente.
-     *
-     * @return Username dell'utente.
-     */
     public String getUsername() {
         return username;
     }
 
-    /**
-     * Restituisce la biografia dell'utente.
-     *
-     * @return Biografia dell'utente.
-     */
     public String getBio() {
         return bio;
     }
 
-    /**
-     * Restituisce il percorso dell'immagine del profilo.
-     *
-     * @return Percorso dell'immagine del profilo.
-     */
     public String getImmagineProfilo() {
         return immagineProfilo;
     }
 
-    /**
-     * Imposta una nuova immagine del profilo.
-     *
-     * @param immagineProfilo Nuovo percorso dell'immagine del profilo.
-     */
     public void setImmagineProfilo(String immagineProfilo) {
         this.immagineProfilo = immagineProfilo;
     }
 
-    /**
-     * Restituisce la data di nascita dell'utente.
-     *
-     * @return Data di nascita dell'utente.
-     */
     public Date getDataNascita() {
         return dataNascita;
     }
 
+    /**
+     * Aggiorna le informazioni del profilo nel database.
+     *
+     * @param userId ID dell'utente il cui profilo deve essere aggiornato.
+     */
     public void updateProfilo(int userId) {
         ProfiloDAO.updateProfilo(this.username, this.bio, this.immagineProfilo, this.dataNascita, userId);
     }
 
+    /**
+     * Crea un nuovo profilo nel database per l'utente specificato.
+     *
+     * @param userId ID dell'utente per cui creare il profilo.
+     */
     public void createProfilo(int userId) {
         ProfiloDAO.createProfilo(this.username, this.bio, this.immagineProfilo, this.dataNascita, userId);
     }
 
+    /**
+     * Aggiorna il profilo di un utente.
+     *
+     * @param user L'utente il cui profilo deve essere aggiornato.
+     * @param profiloDTO Oggetto contenente i nuovi dati del profilo.
+     * @return true se l'aggiornamento è riuscito, false altrimenti.
+     */
     public static Profilo getProfiloAtID(int userId){
         try{
             ProfiloDAO profiloDAO = ProfiloDAO.getProfiloAtID(userId);
@@ -108,11 +100,6 @@ public class Profilo {
         return null;
     }
 
-    /**
-     * Restituisce una rappresentazione testuale dell'oggetto Profilo.
-     *
-     * @return String contenente tutti i dettagli del profilo.
-     */
     @Override
     public String toString() {
         return "Profilo{" +

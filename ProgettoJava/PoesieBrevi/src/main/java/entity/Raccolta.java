@@ -45,73 +45,50 @@ public class Raccolta {
         this.autoreID = autoreID;
     }
 
-    /**
-     * Restituisce l'ID univoco della raccolta.
-     *
-     * @return ID della raccolta.
-     */
     public int getId() {
         return id;
     }
 
-    /**
-     * Imposta l'ID della raccolta.
-     *
-     * @param id Nuovo ID da assegnare alla raccolta.
-     */
     public void setId(int id) {
         this.id = id;
     }
 
-    /**
-     * Restituisce il titolo della raccolta.
-     *
-     * @return Titolo della raccolta.
-     */
     public String getTitolo() {
         return titolo;
     }
 
-    /**
-     * Imposta un nuovo titolo per la raccolta.
-     *
-     * @param titolo Nuovo titolo da assegnare alla raccolta.
-     */
     public void setTitolo(String titolo) {
         this.titolo = titolo;
     }
 
-    /**
-     * Restituisce la descrizione della raccolta.
-     *
-     * @return Descrizione della raccolta.
-     */
     public String getDescrizione() {
         return descrizione;
     }
 
-    /**
-     * Restituisce l'ID dell'autore della raccolta.
-     *
-     * @return ID dell'autore che ha creato la raccolta.
-     */
     public int getAutoreID() {
         return autoreID;
     }
 
+    /**
+     * Salva la raccolta nel database.
+     * Questo metodo viene utilizzato per aggiungere una nuova raccolta o aggiornare una esistente.
+     *
+     * @return ID della raccolta salvata nel database.
+     */
     public int salvaRaccolta() {
         return RaccoltaDAO.addRaccolta(this.titolo, this.descrizione, this.autoreID);
     }
 
+    /**
+     * Recupera tutte le raccolte create da un determinato utente tramite il suo ID.
+     *
+     * @param autoreId ID dell'utente autore delle raccolte.
+     * @return Lista di oggetti Raccolta associati all'utente.
+     */
     public static List<Raccolta> getRaccoltaByAutore(int autoreId) {
         return RaccoltaDAO.getRaccoltaPerAutore(autoreId);
     }
 
-    /**
-     * Restituisce una rappresentazione testuale dell'oggetto Raccolta.
-     *
-     * @return String contenente tutti i dettagli della raccolta.
-     */
     @Override
     public String toString() {
         return "Raccolta{" +

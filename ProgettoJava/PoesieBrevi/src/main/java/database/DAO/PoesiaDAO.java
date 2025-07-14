@@ -18,13 +18,44 @@ import java.util.logging.Logger;
  */
 public class PoesiaDAO {
 
+    /**
+     * ID della poesia.
+     */
     int id;
+
+    /**
+     * Titolo della poesia.
+     */
     String titolo;
+
+    /**
+     * Contenuto della poesia.
+     */
     String contenuto;
+
+    /**
+     * Lista dei tag associati alla poesia.
+     */
     List<String> tags;
+
+    /**
+     * Indica se la poesia è visibile pubblicamente.
+     */
     boolean visibile;
+
+    /**
+     * Data di creazione della poesia.
+     */
     Date dataCreazione;
+
+    /**
+     * ID dell'autore della poesia.
+     */
     int autoreID;
+    
+    /**
+     * ID della raccolta a cui appartiene la poesia, 0 se non appartiene a nessuna raccolta.
+     */
     int raccoltaID;
 
 
@@ -33,7 +64,19 @@ public class PoesiaDAO {
      */
     private  static final Logger LOGGER = Logger.getLogger(PoesiaDAO.class.getName());
 
-    public PoesiaDAO(int id, String titolo, String contenuto, List<String> tags, boolean visibile, Date dataCreazione, int autoreID, int raccoltaID) {
+    /**
+     * Costruttore per creare un oggetto PoesiaDAO.
+     *
+     * @param id ID della poesia.
+     * @param titolo Titolo della poesia.
+     * @param contenuto Contenuto della poesia.
+     * @param tags Lista dei tag associati alla poesia.
+     * @param visibile Indica se la poesia è visibile pubblicamente.
+     * @param dataCreazione Data di creazione della poesia.
+     * @param autoreID ID dell'autore della poesia.
+     * @param raccoltaID ID della raccolta a cui appartiene la poesia, 0 se non appartiene a nessuna raccolta.
+     */
+    private PoesiaDAO(int id, String titolo, String contenuto, List<String> tags, boolean visibile, Date dataCreazione, int autoreID, int raccoltaID) {
         this.id = id;
         this.titolo = titolo;
         this.contenuto = contenuto;
@@ -44,7 +87,14 @@ public class PoesiaDAO {
         this.raccoltaID = raccoltaID;
     }
 
-    public PoesiaDAO(int id, String titolo, int autoreID) {
+    /**
+     * Costruttore per creare un oggetto PoesiaDAO con ID, titolo e autoreID.
+     *
+     * @param id ID della poesia.
+     * @param titolo Titolo della poesia.
+     * @param autoreID ID dell'autore della poesia.
+     */
+    private PoesiaDAO(int id, String titolo, int autoreID) {
         this.id = id;
         this.titolo = titolo;
         this.autoreID = autoreID;
@@ -76,11 +126,11 @@ public class PoesiaDAO {
     }
 
     /**
-     * Recupera le poesie più recenti per il feed di un utente, escludendo le proprie poesie.
+     * Recupera le ultime poesie visibili per il feed dell'utente, escludendo quelle dell'utente stesso.
      *
-     * @param userId L'ID dell'utente che visualizza il feed.
-     * @param limite Il numero massimo di poesie da recuperare.
-     * @return Lista di oggetti Poesia ordinate per data di creazione decrescente.
+     * @param userId ID dell'utente per cui recuperare le poesie.
+     * @param limite Numero massimo di poesie da recuperare.
+     * @return Lista di oggetti PoesiaDAO contenenti le poesie recenti.
      */
     public static List<PoesiaDAO> getUltimePoesiePerFeed(int userId, int limite) {
         List<PoesiaDAO> poesie = new ArrayList<>();
@@ -155,6 +205,13 @@ public class PoesiaDAO {
     /**
      * Aggiunge una nuova poesia al database.
      *
+     * @param titolo Titolo della poesia.
+     * @param contenuto Contenuto della poesia.
+     * @param visibile Indica se la poesia è visibile pubblicamente.
+     * @param dataCreazione Data di creazione della poesia.
+     * @param tags Lista dei tag associati alla poesia.
+     * @param autoreId ID dell'autore della poesia.
+     * @param raccoltaId ID della raccolta a cui appartiene la poesia, 0 se non appartiene a nessuna raccolta.
      * @return true se l'operazione è completata con successo, false altrimenti.
      */
     public static boolean addPoesia(String titolo, String contenuto, boolean visibile, Date dataCreazione, List<String> tags, int autoreId, int raccoltaId) {
@@ -174,6 +231,12 @@ public class PoesiaDAO {
         return false;
     }
 
+    /**
+     * Recupera le poesie create negli ultimi x giorni.
+     *
+     * @param giorni Numero di giorni da considerare per il recupero delle poesie.
+     * @return Lista di oggetti PoesiaDAO contenenti le poesie create negli ultimi 'giorni' giorni.
+     */
     public static List<PoesiaDAO> getPoesieInIntervallo(int giorni){
         String query = "SELECT * FROM poesie WHERE data_creazione >= DATE_SUB(CURRENT_DATE, INTERVAL ? DAY);";
         List<PoesiaDAO> poesie = new ArrayList<>();

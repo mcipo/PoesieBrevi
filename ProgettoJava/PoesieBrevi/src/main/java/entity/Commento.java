@@ -52,60 +52,36 @@ public class Commento {
         this.dataCreazione = dataCreazione;
     }
 
-    /**
-     * Restituisce l'ID del commento.
-     *
-     * @return ID del commento.
-     */
     public int getId() {
         return id;
     }
 
-    /**
-     * Imposta l'ID del commento.
-     *
-     * @param id Nuovo ID da assegnare al commento.
-     */
     public void setId(int id) {
         this.id = id;
     }
 
-    /**
-     * Restituisce l'ID della poesia a cui si riferisce il commento.
-     *
-     * @return ID della poesia commentata.
-     */
     public int getPoesiaID() {
         return poesiaID;
     }
 
-    /**
-     * Restituisce l'ID dell'autore del commento.
-     *
-     * @return ID dell'autore del commento.
-     */
     public int getAutoreID() {
         return autoreID;
     }
 
-    /**
-     * Restituisce il testo del commento.
-     *
-     * @return Contenuto testuale del commento.
-     */
     public String getTesto() {
         return testo;
     }
 
-    /**
-     * Restituisce la data di creazione del commento.
-     *
-     * @return Data di creazione del commento.
-     */
     public Date getDataCreazione() {
         return dataCreazione;
     }
 
+    /**
+     * Recupera tutti i commenti associati a una poesia specifica.
+     *
+     * @param poesiaId ID della poesia per cui si vogliono recuperare i commenti.
+     * @return Lista di oggetti Commento associati alla poesia.
+     */
     public static List<Commento> getCommentiByPoesiaId(int poesiaId) {
 
         List<CommentoDAO> commentiDAO = CommentoDAO.getCommentiByPoesiaId(poesiaId);
@@ -115,6 +91,12 @@ public class Commento {
 
     }
 
+    /**
+     * Salva un nuovo commento nel database.
+     *
+     * @param nuovoCommento Oggetto Commento da salvare.
+     * @return true se il commento è stato salvato correttamente, false altrimenti.
+     */
     public static boolean salvaCommento(Commento nuovoCommento) {
         try {
             int poesiaID = nuovoCommento.getPoesiaID();
@@ -128,11 +110,6 @@ public class Commento {
         }
     }
 
-    /**
-     * Restituisce una rappresentazione testuale dell'oggetto Commento.
-     *
-     * @return String contenente tutti i dettagli del commento.
-     */
     @Override
     public String toString() {
         return "Commento{" +

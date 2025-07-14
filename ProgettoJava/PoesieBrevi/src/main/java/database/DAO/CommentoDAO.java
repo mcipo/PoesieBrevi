@@ -16,10 +16,29 @@ import java.util.logging.Logger;
  */
 public class CommentoDAO {
 
+    /**
+     * ID del commento.
+     */
     private int id;
+
+    /**
+     * ID della poesia a cui il commento è associato.
+     */
     private int poesiaId;
+
+    /**
+     * ID dell'autore del commento.
+     */
     private int autoreId;
+
+    /**
+     * Testo del commento.
+     */
     private String testo;
+
+    /**
+     * Data di creazione del commento.
+     */
     private Date dataCreazione;
 
 
@@ -28,6 +47,16 @@ public class CommentoDAO {
      */
     private static final Logger LOGGER = Logger.getLogger(CommentoDAO.class.getName());
 
+    /**
+     * Costruttore privato per creare un oggetto CommentoDAO.
+     * Utilizzato internamente per creare istanze di commenti recuperati dal database.
+     *
+     * @param id ID del commento.
+     * @param poesiaId ID della poesia associata al commento.
+     * @param autoreId ID dell'autore del commento.
+     * @param testo Testo del commento.
+     * @param dataCreazione Data di creazione del commento.
+     */
     private CommentoDAO(int id, int poesiaId, int autoreId, String testo, Date dataCreazione) {
         this.id = id;
         this.poesiaId = poesiaId;
@@ -39,24 +68,30 @@ public class CommentoDAO {
     public int getId() {
         return id;
     }
+
     public int getPoesiaId() {
         return poesiaId;
     }
+
     public int getAutoreId() {
         return autoreId;
     }
+
     public String getTesto() {
         return testo;
     }
+
     public Date getDataCreazione() {
         return dataCreazione;
     }
 
-
     /**
-     * Aggiunge un nuovo commento al database.
+     * Aggiunge un nuovo commento a una poesia nel database.
      *
-     *
+     * @param poesiaId ID della poesia a cui aggiungere il commento.
+     * @param autoreId ID dell'autore del commento.
+     * @param testo Testo del commento.
+     * @param dataCreazione Data di creazione del commento.
      * @throws SQLException Se si verifica un errore durante l'operazione di inserimento.
      */
     public static void addCommento(int poesiaId, int autoreId, String testo, Date dataCreazione) throws SQLException {

@@ -17,9 +17,11 @@ public class CuoreDAO {
      */
     private static final Logger LOGGER = Logger.getLogger(CuoreDAO.class.getName());
 
-    private CuoreDAO() {
-
-    }
+    /**
+     * Costruttore privato per creare un oggetto CuoreDAO.
+     * Utilizzato internamente per creare istanze di cuori recuperati dal database.
+     */
+    private CuoreDAO() {}
 
     /**
      * Aggiunge un nuovo "cuore" (mi piace) a una poesia da parte di un utente.

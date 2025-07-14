@@ -18,15 +18,35 @@ public class ProfiloDAO {
      */
     private static final Logger LOGGER = Logger.getLogger(ProfiloDAO.class.getName());
 
+    /**
+     * Nome utente del profilo.
+     */
     private final String username;
 
+    /**
+     * Biografia del profilo.
+     */
     private final String bio;
 
+    /**
+     * Percorso dell'immagine del profilo.
+     */
     private String immagineProfilo;
 
+    /**
+     * Data di nascita dell'utente associato al profilo.
+     */
     private final Date dataNascita;
 
-
+    /**
+     * Costruttore per creare un oggetto ProfiloDAO.
+     * Utilizzato internamente per creare istanze di profili recuperati dal database.
+     *
+     * @param username Nome utente del profilo.
+     * @param bio Biografia del profilo.
+     * @param immagineProfilo Percorso dell'immagine del profilo.
+     * @param dataNascita Data di nascita dell'utente associato al profilo.
+     */
     public ProfiloDAO(String username, String bio, String immagineProfilo, Date dataNascita) {
         this.username = username;
         this.bio = bio;
@@ -72,9 +92,13 @@ public class ProfiloDAO {
     }
 
     /**
-     * Aggiorna un profilo esistente nel database.
+     * Aggiorna il profilo di un utente nel database.
      *
-     * @param userId L'ID dell'utente proprietario del profilo.
+     * @param username Nome utente del profilo.
+     * @param bio Biografia del profilo.
+     * @param immagineProfilo Percorso dell'immagine del profilo.
+     * @param dataDiNascita Data di nascita dell'utente associato al profilo.
+     * @param userId ID dell'utente di cui aggiornare il profilo.
      */
     public static void updateProfilo(String username, String bio, String immagineProfilo, Date dataDiNascita, int userId) {
         String query = "UPDATE user_profiles SET username = ?, bio = ?, foto_profilo_path = ?, data_nascita = ? WHERE user_id = ?";
@@ -89,11 +113,14 @@ public class ProfiloDAO {
     }
 
     /**
-     * Crea un nuovo profilo nel database.
-     * Se viene rilevato un profilo esistente con lo stesso ID utente,
-     * chiama il metodo updateProfilo per aggiornarlo invece.
+     * Crea un nuovo profilo per un utente nel database.
+     * Se il profilo esiste già, viene aggiornato.
      *
-     * @param userId L'ID dell'utente proprietario del profilo.
+     * @param username Nome utente del profilo.
+     * @param bio Biografia del profilo.
+     * @param immagineProfilo Percorso dell'immagine del profilo.
+     * @param dataDiNascita Data di nascita dell'utente associato al profilo.
+     * @param userId ID dell'utente di cui creare il profilo.
      */
     public static void createProfilo(String username, String bio, String immagineProfilo, Date dataDiNascita, int userId) {
         String query = "INSERT INTO user_profiles (user_id, username, bio, foto_profilo_path, data_nascita) VALUES (?, ?, ?, ?, ?)";
