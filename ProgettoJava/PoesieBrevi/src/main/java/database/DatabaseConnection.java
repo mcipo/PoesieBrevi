@@ -16,12 +16,12 @@ public class DatabaseConnection {
     /**
      * Nome utente per la connessione al database.
      */
-    private static final String USER = "root";
+    private static final String USER = "claudia";
     
     /**
      * Password per la connessione al database.
      */
-    private static final String PASSWORD = "password";
+    private static final String PASSWORD = "passwordSicura";
 
     private DatabaseConnection(){}
 

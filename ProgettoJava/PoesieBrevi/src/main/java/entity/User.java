@@ -156,8 +156,9 @@ public class User {
         String bio = profilo.getBio();
         String immagineProfilo = profilo.getImmagineProfilo();
         Date dataDiNascita = profilo.getDataNascita();
+        boolean isAdmin = user.isAdmin();
 
-        return UserDAO.addUser(email, password, nome, cognome, username, bio, immagineProfilo, dataDiNascita);
+        return UserDAO.addUser(email, password, nome, cognome, username, bio, immagineProfilo, dataDiNascita, isAdmin);
     }
 
     /**

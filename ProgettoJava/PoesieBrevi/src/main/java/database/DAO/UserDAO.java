@@ -136,10 +136,10 @@ public class UserDAO {
      * @param dataDiNascita Data di nascita dell'utente associato al profilo.
      * @return true se l'operazione è completata con successo, false altrimenti.
      */
-    public static boolean addUser(String email, String password, String nome, String cognome, String username, String bio, String immagineProfilo, Date dataDiNascita) {
+    public static boolean addUser(String email, String password, String nome, String cognome, String username, String bio, String immagineProfilo, Date dataDiNascita, boolean isAdmin) {
         String query = "INSERT INTO users (email, password, nome, cognome, amministratore) VALUES (?, ?, ?, ?, ?)";
         try{
-            int result = DatabaseConnection.executeUpdate(query,email, password, nome, cognome, false);
+            int result = DatabaseConnection.executeUpdate(query,email, password, nome, cognome, isAdmin);
             if (result > 0) {
                 String queryID = "SELECT id FROM users WHERE email = ?";
                 ResultSet resultSet = DatabaseConnection.executeQuery(queryID, email);

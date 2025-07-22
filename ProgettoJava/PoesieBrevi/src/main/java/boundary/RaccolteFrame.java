@@ -166,9 +166,9 @@ public class RaccolteFrame extends JFrame {
         panel.add(titleLabel, BorderLayout.NORTH);
 
 
-        JPanel collectionsContainer = new JPanel();
-        collectionsContainer.setLayout(new BoxLayout(collectionsContainer, BoxLayout.Y_AXIS));
-        collectionsContainer.setBackground(Color.WHITE);
+        JPanel raccolteContainer = new JPanel();
+        raccolteContainer.setLayout(new BoxLayout(raccolteContainer, BoxLayout.Y_AXIS));
+        raccolteContainer.setBackground(Color.WHITE);
 
 
         JButton createNewButton = UIUtils.bottone("Crea Nuova Raccolta", Font.PLAIN, 14);
@@ -178,33 +178,33 @@ public class RaccolteFrame extends JFrame {
         });
         
         panel.add(createNewButton, BorderLayout.SOUTH );
-        collectionsContainer.add(Box.createVerticalStrut(20));
+        raccolteContainer.add(Box.createVerticalStrut(20));
 
         try {
 
             List<RaccoltaDTO> raccolte = RaccoltaController.getRaccolteUtente(piattaformaController.getCurrentUser().getId());
 
             if (raccolte.isEmpty()) {
-                JLabel noCollections = new JLabel("Non hai ancora creato raccolte");
-                noCollections.setFont(new Font(UIUtils.FONT, Font.ITALIC, 14));
-                noCollections.setAlignmentX(Component.CENTER_ALIGNMENT);
-                collectionsContainer.add(Box.createVerticalStrut(20));
-                collectionsContainer.add(noCollections);
+                JLabel noRaccolte = new JLabel("Non hai ancora creato raccolte");
+                noRaccolte.setFont(new Font(UIUtils.FONT, Font.ITALIC, 14));
+                noRaccolte.setAlignmentX(Component.CENTER_ALIGNMENT);
+                raccolteContainer.add(Box.createVerticalStrut(20));
+                raccolteContainer.add(noRaccolte);
             } else {
                 for (RaccoltaDTO raccolta : raccolte) {
                     RaccoltaDisplayPanel collectionPanel = new RaccoltaDisplayPanel(raccolta);
-                    collectionsContainer.add(collectionPanel);
-                    collectionsContainer.add(Box.createVerticalStrut(15));
+                    raccolteContainer.add(collectionPanel);
+                    raccolteContainer.add(Box.createVerticalStrut(15));
                 }
             }
         } catch (Exception e) {
             JLabel errorLabel = new JLabel("Errore nel caricamento delle raccolte");
             errorLabel.setFont(new Font(UIUtils.FONT, Font.ITALIC, 14));
             errorLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-            collectionsContainer.add(errorLabel);
+            raccolteContainer.add(errorLabel);
         }
 
-        JScrollPane scrollPane = new JScrollPane(collectionsContainer);
+        JScrollPane scrollPane = new JScrollPane(raccolteContainer);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         scrollPane.setBorder(null);

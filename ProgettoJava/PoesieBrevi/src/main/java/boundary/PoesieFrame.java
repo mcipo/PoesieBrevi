@@ -144,8 +144,8 @@ public class PoesieFrame extends JFrame {
         newRaccoltaPanel.setVisible(false);
         panel.add(newRaccoltaPanel);
 
-        JTextField newCollectionTitleField = (JTextField) findComponentByName(newRaccoltaPanel, "nuovaRaccoltaTitle");
-        JTextField newCollectionDescField = (JTextField) findComponentByName(newRaccoltaPanel, "nuovaRaccoltaDesc");
+        JTextField newRaccoltaTitleField = (JTextField) findComponentByName(newRaccoltaPanel, "nuovaRaccoltaTitle");
+        JTextField newRaccoltanDescField = (JTextField) findComponentByName(newRaccoltaPanel, "nuovaRaccoltaDesc");
 
         JCheckBox visibleCheckbox = new JCheckBox("Poesia pubblica");
         visibleCheckbox.setSelected(true);
@@ -183,8 +183,16 @@ public class PoesieFrame extends JFrame {
         });
 
         pubblicaButton.addActionListener(_ -> {
+            if (raccoltaCombo.getSelectedItem().equals("-- Crea nuova raccolta --")) {
+                JOptionPane.showMessageDialog(PoesieFrame.this,
+                        "Inserire una raccolta!",
+                        "Errore",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
             if (PubblicaPoesia(titleField, contentArea, tagsField, visibleCheckbox,
-                    raccoltaCombo, newCollectionTitleField, newCollectionDescField)) {
+                    raccoltaCombo, newRaccoltaTitleField, newRaccoltanDescField)) {
                 resetPoesiaForm(titleField, contentArea, tagsField, raccoltaCombo, newRaccoltaPanel);
                 dispose();
                 new HomeFrame().setVisible(true);
